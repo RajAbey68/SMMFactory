@@ -1,0 +1,47 @@
+{
+  "campaign_theme": "The Great Easter Gathering",
+  "season": "Easter / April Spring Break 2026",
+  "target_booking_window": "March 24 – April 30, 2026",
+  "segment": "group_celebration",
+  "visual_keywords": [
+    "Long-table seafood BBQ",
+    "Infinity pool at sunset",
+    "7 luxury ensuite rooms",
+    "Koggala Lake boat safari",
+    "Tropical garden gathering",
+    "Chef plating fresh crab"
+  ],
+  "color_palette": {
+    "primary": "#1B5E20",
+    "primary_name": "Tropical Green",
+    "secondary": "#1565C0",
+    "secondary_name": "Lake Blue",
+    "accent": "#FFD600",
+    "accent_name": "Gold",
+    "vibe": "Luxury Retreat"
+  },
+  "core_usp": "Space for up to 24 guests with full villa staff",
+  "ad_sets": [
+    {
+      "id": "easter_group_01",
+      "name": "The Great Easter Gathering",
+      "hero_scene": "Long table set for 24 under string lights by the infinity pool at golden hour",
+      "supporting_scenes": [
+        "Chef preparing festive seafood BBQ",
+        "Family group on the private jetty at sunrise",
+        "Kids in the 60ft pool with lake backdrop"
+      ],
+      "headline": "Your Private 7-Bedroom Easter Sanctuary 🌴",
+      "body": "Gather your entire tribe at Ko Lake Villa",
+      "cta": "Book Now"
+    }
+  ],
+  "pomelli_instructions": {
+    "style": "Editorial luxury photography, warm golden hour lighting",
+    "aspect_ratios": ["1:1", "4:5", "16:9"],
+    "output_format": "PNG + WebP",
+    "storage": "gs://marketing-studio-assets/ko-lake-villa/easter-2026/",
+    "local_thumbnails": "./creative/thumbnails/"
+  },
+  "generated_at": "2026-03-18T19:39:00Z"
+}

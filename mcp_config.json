@@ -1,0 +1,31 @@
+{
+  "mcpServers": {
+    "google-drive": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-google-drive"],
+      "env": {
+        "GOOGLE_DRIVE_ROOT_DIR": "Antigravity_Studio_Project"
+      }
+    },
+    "google-cloud-storage": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-gcs"],
+      "env": {
+        "GCS_BUCKET_NAME": "marketing-studio-assets"
+      }
+    },
+    "spyder-agent": {
+      "command": "spyder-mcp-server",
+      "args": ["--auto-index", "--cloud-sync"]
+    },
+    "adspyder": {
+      "command": "npx",
+      "args": ["-y", "adspyder-mcp-server"],
+      "env": {
+        "ADSPYDER_API_KEY": "${ADSPYDER_API_KEY}",
+        "ADSPYDER_TRACKED_DOMAINS": "kolakevilla.com",
+        "ADSPYDER_NETWORKS": "google,meta,youtube,tiktok"
+      }
+    }
+  }
+}

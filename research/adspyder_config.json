@@ -1,0 +1,48 @@
+{
+  "tool": "adspyder",
+  "version": "1.0.0",
+  "description": "AdSpyder competitive intelligence integration for SMMFactory",
+  "tracked_competitors": [
+    {
+      "name": "Ko Lake Villa Direct Competitors",
+      "keywords": [
+        "Luxury group villa Sri Lanka",
+        "Easter villa rentals Sri Lanka",
+        "Large family holiday Ahangama",
+        "Yoga retreat venue Sri Lanka",
+        "Surf stay Ahangama",
+        "Digital nomad Koggala",
+        "Private pool villa Koggala",
+        "Luxury villa Galle coast"
+      ],
+      "networks": ["google", "meta", "youtube", "tiktok"],
+      "geo_targets": ["UK", "EU", "UAE", "US", "AU"]
+    }
+  ],
+  "competitor_domains": [
+    "booking.com",
+    "airbnb.com",
+    "villasinsrilanka.com",
+    "boutiquehotelsrilanka.com"
+  ],
+  "tracking_config": {
+    "refresh_interval_hours": 24,
+    "alert_on_new_competitor_ads": true,
+    "alert_on_keyword_bid_changes": true,
+    "export_format": "json",
+    "export_path": "./research/competitor_intel/"
+  },
+  "pipeline": {
+    "step_1": "AdSpyder scans tracked keywords across all networks",
+    "step_2": "Export competitor ad creatives, headlines, and estimated spend",
+    "step_3": "Merge into market_dna.json competitor_insights array",
+    "step_4": "Feed to Pomelli for differentiated creative generation",
+    "step_5": "Feed to OpenClaw for keyword bid optimization"
+  },
+  "api_endpoints_used": [
+    "GET /api/v1/keywords/tracked — tracked keyword performance",
+    "GET /api/v1/competitors/ads — competitor ad creatives",
+    "GET /api/v1/competitors/spend — estimated competitor spend",
+    "GET /api/v1/ads/search — search ad database (1B+ ads)"
+  ]
+}

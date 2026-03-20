@@ -1,0 +1,28 @@
+#!/bin/bash
+set -e
+cd "$(git rev-parse --show-toplevel)"
+
+echo ""
+echo "🔒 Pre-commit: config validation + structure check"
+echo ""
+
+echo "📋 Checking JSON configs..."
+for f in package.json storage.config.json; do
+  if ! python3 -m json.tool "$f" > /dev/null 2>&1; then
+    echo "❌ $f is invalid JSON — commit blocked"
+    exit 1
+  fi
+done
+echo "   ✅ Configs OK"
+
+echo "📂 Checking directory structure..."
+for dir in research creative landing-page campaigns; do
+  if [ ! -d "$dir" ]; then
+    echo "❌ Required directory '$dir' missing — commit blocked"
+    exit 1
+  fi
+done
+echo "   ✅ Structure OK"
+
+echo ""
+echo "✅ Pre-commit passed"

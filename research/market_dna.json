@@ -1,0 +1,65 @@
+{
+  "property": "Ko Lake Villa",
+  "url": "https://kolakevilla.com",
+  "location": "Koggala / Ahangama, Sri Lanka",
+  "brand": {
+    "colors": {
+      "primary": "#1B5E20",
+      "secondary": "#1565C0",
+      "accent": "#FFD600"
+    },
+    "palette_names": ["Tropical Green", "Lake Blue", "Gold"],
+    "tone": "luxury"
+  },
+  "property_details": {
+    "bedrooms": 7,
+    "all_ensuite": true,
+    "max_guests": 24,
+    "pool": "60ft infinity pool",
+    "wifi": "300 Mbps fiber",
+    "jetty": "Private lake jetty",
+    "beach_access": "350-yard beach access",
+    "staff": "Full villa staff included",
+    "chef": "Dedicated chef on-site"
+  },
+  "rooms": [
+    { "id": "r1", "name": "Room 1", "type": "Double/Poolside" },
+    { "id": "r2", "name": "Room 2", "type": "Standard Ensuite" },
+    { "id": "r3", "name": "Room 3", "type": "Standard Ensuite" },
+    { "id": "r4", "name": "Room 4", "type": "Standard Ensuite" },
+    { "id": "r5", "name": "Eagle Nest", "type": "Premium Suite", "capacity": 2 },
+    { "id": "r6", "name": "Room 6", "type": "Standard Ensuite" },
+    { "id": "r7", "name": "Group Room", "type": "Large Group", "capacity": 5 }
+  ],
+  "usps": [
+    "7 ensuite AC bedrooms sleeping up to 24",
+    "60ft infinity pool overlooking Koggala Lake",
+    "300 Mbps high-speed fiber Wi-Fi",
+    "Private lake jetty with boat safari access",
+    "350-yard beach access to Ahangama surf",
+    "Full villa staff with dedicated chef",
+    "Chef-led fresh seafood BBQs and crab lunches"
+  ],
+  "pricing": {
+    "currency": "USD",
+    "note": "Per-room and entire-villa rates available"
+  },
+  "hooks": [
+    "Luxury group villa Sri Lanka",
+    "Easter villa rentals",
+    "Large family holiday Ahangama",
+    "Yoga retreat venue Sri Lanka",
+    "Surf stay Ahangama",
+    "Digital nomad Koggala"
+  ],
+  "competitor_insights": [],
+  "performance_data": {
+    "source": "DiiB Dashboard",
+    "active_users": 383,
+    "facebook_followers": 135,
+    "industry_avg_followers": 823,
+    "follower_gap": -688,
+    "action": "Prioritize Meta Page Likes + Engagement campaign"
+  },
+  "generated_at": "2026-03-18T19:39:00Z"
+}

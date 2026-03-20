@@ -1,0 +1,55 @@
+{
+  "$schema": "https://antigravity.dev/schemas/storage-config.json",
+  "version": "1.0.0",
+  "strategy": "cloud-hybrid",
+  "description": "Keep code & metadata local. Offload heavy media to GCS. Sync configs to Google Drive.",
+  "tiers": {
+    "local": {
+      "description": "Code, JSON metadata, agent configs — stays in the workspace",
+      "includes": [
+        "**/*.ts",
+        "**/*.tsx",
+        "**/*.js",
+        "**/*.json",
+        "**/*.md",
+        "**/*.agy",
+        ".agent/**",
+        ".githooks/**"
+      ]
+    },
+    "gcs": {
+      "description": "Heavy media artifacts — videos, high-res images, audio",
+      "bucket": "gs://marketing-studio-assets",
+      "region": "us-central1",
+      "includes": [
+        "**/*.mp4",
+        "**/*.mov",
+        "**/*.png",
+        "**/*.jpg",
+        "**/*.jpeg",
+        "**/*.webp",
+        "**/*.webm",
+        "**/*.svg",
+        "**/*.ai",
+        "**/*.psd"
+      ],
+      "lifecycle": {
+        "archive_after_days": 90,
+        "delete_after_days": 365
+      }
+    },
+    "gdrive": {
+      "description": "Conversation logs, workspace configs — synced via Antigravity Storage Manager",
+      "sync_folder": "AntigravitySync",
+      "includes": [
+        ".gemini/**",
+        "conversations/**"
+      ]
+    }
+  },
+  "agent_instructions": {
+    "pomelli": "Save all generated high-res assets directly to the GCS bucket. Keep only thumbnail references (<200KB) locally.",
+    "spyder": "Save all crawl output to ./research/ as JSON. Do not store raw HTML locally.",
+    "openclaw": "Export campaign summaries as Markdown to ./campaigns/. Upload creative assets to GCS."
+  }
+}

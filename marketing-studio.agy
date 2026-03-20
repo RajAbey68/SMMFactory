@@ -1,0 +1,114 @@
+---
+name: Marketing Studio Blueprint
+version: 1.0.0
+description: Self-optimizing Marketing Studio — orchestrates Spyder, Pomelli, and OpenClaw
+author: SMMFactory
+storage: cloud-hybrid
+params:
+  PROPERTY_NAME: ""
+  URL: ""
+  LOCATION: ""
+  TARGET_MARKETS: ["US", "UK"]
+agents:
+  - spyder
+  - pomelli
+  - stitch
+  - openclaw
+---
+
+# ROLE: Lead Growth Engineer & SMM Orchestrator
+# GOAL: Initialize a self-optimizing Marketing Studio for {{PROPERTY_NAME}}
+
+---
+
+## STEP 1: RECONNAISSANCE (SPYDER)
+
+> **Agent:** Spyder | **Output:** `./research/market_dna.json`
+
+- Invoke 'Add Spyder' to crawl {{URL}}.
+- Extract: Brand colors (hex values), unique selling points (USPs), and current pricing tiers.
+- Search Meta Ad Library and Google Search for "Luxury STR {{LOCATION}}" to identify top-performing hooks.
+- Cross-reference competitor ad creative for visual patterns, CTA language, and offer framing.
+- Save all findings to `./research/market_dna.json`.
+- Save raw competitor analysis to `./research/competitor_intel.json`.
+
+### Expected Output Schema (market_dna.json)
+```json
+{
+  "property": "{{PROPERTY_NAME}}",
+  "url": "{{URL}}",
+  "brand": {
+    "colors": { "primary": "#hex", "secondary": "#hex", "accent": "#hex" },
+    "fonts": [],
+    "tone": "luxury | boutique | adventure"
+  },
+  "usps": [],
+  "pricing": { "low": 0, "high": 0, "currency": "USD" },
+  "hooks": [],
+  "competitor_insights": []
+}
+```
+
+---
+
+## STEP 2: CREATIVE GENESIS (POMELLI & STITCH)
+
+> **Agents:** Pomelli (creative), Stitch (landing page) | **Storage:** GCS for media, local for code
+
+- Inject `market_dna.json` into the Pomelli Creative Engine.
+- Generate **3 Ad Sets**, each containing hero image, supporting visuals, headline, body copy, and CTA:
+  1. **"The Romantic Getaway"** — Couples-focused, golden hour aesthetic
+  2. **"The Remote Work Sanctuary"** — Digital nomad angle, desk-with-a-view
+  3. **"The Family Adventure"** — Family-friendly, activity-rich lifestyle
+- Save all high-res creative assets to `gs://marketing-studio-assets/{{PROPERTY_NAME}}/`.
+- Keep only metadata and thumbnail references in `./creative/ad_sets.json`.
+
+### Landing Page (Stitch)
+- Use Stitch to build a React-based high-conversion landing page in `./landing-page/`.
+- Ensure the landing page colors match the Pomelli DNA **exactly** (pull from `market_dna.json.brand.colors`).
+- Include: Hero section, USP grid, pricing CTA, social proof strip, and booking widget placeholder.
+- Mobile-first responsive design. Target Lighthouse score > 90.
+
+---
+
+## STEP 3: AGENTIC DEPLOYMENT (OPENCLAW / GRAVITYCLAW)
+
+> **Agent:** OpenClaw with `gws` skill | **Output:** `./campaigns/Campaign_Summary.md`
+
+- Initialize an OpenClaw instance with 'Google Workspace Skill' (gws).
+- **Meta Advantage+ Campaign:**
+  - Draft campaign structure using Pomelli ad set assets.
+  - Configure audience: Broad targeting with interest signals from `market_dna.json.hooks`.
+  - Set daily budget placeholder: $50/day per ad set.
+- **Google Performance Max Campaign:**
+  - Configure for target markets: {{TARGET_MARKETS}}.
+  - Use Pomelli hero images + headlines as asset groups.
+  - Set conversion goal: Booking inquiry / lead form submission.
+- **Reporting:**
+  - Use `gws` to create a Google Sheet: "{{PROPERTY_NAME}} — Campaign Tracker".
+  - Auto-populate with campaign IDs, budgets, and KPI targets.
+- Output `./campaigns/Campaign_Summary.md` for **Four-Eyes review** before going live.
+
+---
+
+## STORAGE INSTRUCTIONS
+
+| Asset Type | Destination | Rationale |
+|---|---|---|
+| Code (React, TS, configs) | Local workspace | Version-controlled, lean |
+| JSON metadata | Local workspace | Small, needs git history |
+| High-res images/video | `gs://marketing-studio-assets` | Heavy, doesn't belong in git |
+| Campaign reports | Local + Google Sheets (via gws) | Dual: local archive + live tracking |
+| Conversations & agent logs | Google Drive (`AntigravitySync/`) | Offload via Storage Manager |
+
+---
+
+## FOUR-EYES GATE
+
+Before any campaign goes live, the following must pass:
+
+- [ ] `Campaign_Summary.md` reviewed and approved
+- [ ] Landing page Lighthouse audit > 90
+- [ ] Ad creative matches brand DNA colors exactly
+- [ ] Budget caps confirmed
+- [ ] Tracking pixels / UTM parameters verified
