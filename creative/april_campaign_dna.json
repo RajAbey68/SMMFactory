@@ -1,0 +1,98 @@
+{
+  "campaign_name": "Ko Lake Villa — April 2026 Push",
+  "mode": "14-day urgency push",
+  "window": "March 30 – April 17, 2026",
+  "sellable_blocks": [
+    {
+      "id": "A",
+      "name": "Easter / School Holiday Escape",
+      "dates": "March 30 – April 6",
+      "theme": "easter_family_group",
+      "urgency": "high",
+      "key_dates": { "Good Friday": "April 3", "Easter Sunday": "April 5" }
+    },
+    {
+      "id": "B",
+      "name": "Post-Easter Value Gap-Fill",
+      "dates": "April 7 – 12",
+      "theme": "last_minute_escape",
+      "urgency": "medium",
+      "messaging": "last-minute, school holiday tail, book before Avurudu rush"
+    },
+    {
+      "id": "C",
+      "name": "Avurudu / Family Gathering",
+      "dates": "April 13 – 17",
+      "theme": "avurudu_family_reunion",
+      "urgency": "high",
+      "key_dates": { "Avurudu Eve": "April 13", "Sinhala Tamil New Year": "April 14" }
+    }
+  ],
+  "product": "Private 7-room lakefront villa for families and groups in Ahangama/Koggala",
+  "direct_booking_incentive": "Free airport pickup for stays of 3+ nights",
+  "booking_paths": [
+    { "primary": "WhatsApp", "url": "wa.me/947XXXXXXXX" },
+    { "secondary": "Landing page form", "url": "TBD" }
+  ],
+  "campaign_messages": {
+    "A_easter": {
+      "headline": "Easter Escape at Ko Lake Villa",
+      "body": "Escape for Easter at Ko Lake Villa. Private pool, lake views, family space. Free airport pickup when you book direct.",
+      "cta": "WhatsApp now for best direct rate"
+    },
+    "B_lastminute": {
+      "headline": "Private Villa in Ahangama for Families & Groups",
+      "body": "Still planning Easter? Secure a private villa in Ahangama for your group. WhatsApp us for the direct-booking rate.",
+      "cta": "Check availability for your dates"
+    },
+    "C_avurudu": {
+      "headline": "Celebrate Avurudu by the Lake",
+      "body": "Celebrate Avurudu by the lake. Space for the whole family, private villa comfort. Free airport transfer for 3+ nights.",
+      "cta": "Message us before dates go"
+    }
+  },
+  "color_palette": {
+    "primary": "#1B5E20",
+    "primary_name": "Tropical Green",
+    "secondary": "#1565C0",
+    "secondary_name": "Lake Blue",
+    "accent": "#FFD600",
+    "accent_name": "Gold",
+    "vibe": "Luxury Retreat"
+  },
+  "visual_keywords": [
+    "Infinity pool at sunset",
+    "Family group by the pool",
+    "Chef preparing breakfast/BBQ",
+    "Koggala Lake morning mist",
+    "Long-table outdoor dinner under string lights",
+    "Children playing in villa grounds"
+  ],
+  "content_assets_required": [
+    { "id": 1, "type": "image", "description": "Hero: pool/lake/villa best shot", "priority": "critical" },
+    { "id": 2, "type": "image", "description": "Family/group enjoying the space", "priority": "high" },
+    { "id": 3, "type": "image", "description": "Dining/breakfast/BBQ experience", "priority": "high" },
+    { "id": 4, "type": "video", "description": "15-20 sec villa walkthrough", "priority": "optional" }
+  ],
+  "meta_ad_sets": [
+    {
+      "name": "Sri Lanka Residents",
+      "geo": ["Colombo", "Galle", "Matara"],
+      "budget_share": "60%",
+      "audience": "Families, higher-income, group-travel interest"
+    },
+    {
+      "name": "Sri Lankan Expats / Returning Home",
+      "geo": ["UK", "UAE", "AU", "India", "US"],
+      "budget_share": "25%",
+      "audience": "Sri Lankan diaspora, interest in Sri Lanka travel"
+    },
+    {
+      "name": "Retargeting",
+      "geo": "all",
+      "budget_share": "15%",
+      "audience": "Site visitors, page engagers, past WA contacts"
+    }
+  ],
+  "generated_at": "2026-03-24T12:13:00Z"
+}
