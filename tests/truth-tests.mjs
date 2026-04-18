@@ -204,6 +204,92 @@ await test('Landing page CSS exists', async () => {
   assert(content.includes('#FFD600'), 'CSS missing brand accent color #FFD600');
 });
 
+// ─── PHASE 3: RATE LIMITER ──────────────────────────────────────
+
+await test('Rate limiter module exists with correct exports', async () => {
+  const path = 'scripts/rate-limiter.mjs';
+  assert(existsSync(path), 'scripts/rate-limiter.mjs missing');
+  const content = readFileSync(path, 'utf-8');
+  assert(content.includes('export class RateLimiter'), 'Missing RateLimiter class export');
+  assert(content.includes('export function getLimiter'), 'Missing getLimiter singleton export');
+  assert(content.includes('async acquire'), 'Missing acquire() method');
+  assert(content.includes('windowMs'), 'Missing sliding window implementation');
+});
+
+await test('Rate limiter enforces call limit (functional)', async () => {
+  const { RateLimiter } = await import('../scripts/rate-limiter.mjs');
+  const limiter = new RateLimiter('test', 3, 5000);
+
+  // First 3 calls should resolve immediately
+  const start = Date.now();
+  await limiter.acquire();
+  await limiter.acquire();
+  await limiter.acquire();
+  const elapsed = Date.now() - start;
+  assert(elapsed < 200, `First 3 calls should be immediate, took ${elapsed}ms`);
+  assert(limiter.stats().active === 3, `Expected 3 active, got ${limiter.stats().active}`);
+});
+
+// ─── PHASE 3: SPYDER RECOVERY ───────────────────────────────────
+
+await test('Spyder recovery module exists with correct exports', async () => {
+  const path = 'scripts/spyder-recovery.mjs';
+  assert(existsSync(path), 'scripts/spyder-recovery.mjs missing');
+  const content = readFileSync(path, 'utf-8');
+  assert(content.includes('export async function spyderWithRecovery'), 'Missing spyderWithRecovery export');
+  assert(content.includes('export class SpyderRecoveryError'), 'Missing SpyderRecoveryError export');
+  assert(content.includes('generateManualChecklist'), 'Missing manual checklist generator');
+  assert(content.includes('logFailure'), 'Missing failure logging');
+});
+
+// ─── PHASE 3: REVIEW ENGINE ─────────────────────────────────────
+
+await test('Review Engine server exists', async () => {
+  assert(existsSync('review-engine/server.mjs'), 'review-engine/server.mjs missing');
+  const content = readFileSync('review-engine/server.mjs', 'utf-8');
+  assert(content.includes('/api/guests'), 'Missing /api/guests endpoint');
+  assert(content.includes('/api/due-requests'), 'Missing /api/due-requests endpoint');
+  assert(content.includes('/api/reviews'), 'Missing /api/reviews endpoint');
+  assert(content.includes('/api/stats'), 'Missing /api/stats endpoint');
+});
+
+await test('Review Engine UI exists', async () => {
+  assert(existsSync('review-engine/public/index.html'), 'review-engine/public/index.html missing');
+  const content = readFileSync('review-engine/public/index.html', 'utf-8');
+  assert(content.includes('Review Engine'), 'UI missing product name');
+  assert(content.includes('guestForm'), 'UI missing guest checkout form');
+  assert(content.includes('reviewForm'), 'UI missing review logging form');
+  assert(content.includes('wa.me'), 'UI missing WhatsApp deep-link integration');
+});
+
+// ─── PHASE 3: DOCUMENTATION ─────────────────────────────────────
+
+await test('TESTING.md exists and covers all 3 tiers', async () => {
+  assert(existsSync('TESTING.md'), 'TESTING.md missing');
+  const content = readFileSync('TESTING.md', 'utf-8');
+  assert(content.includes('Tier 1'), 'TESTING.md missing Tier 1 description');
+  assert(content.includes('Tier 2'), 'TESTING.md missing Tier 2 description');
+  assert(content.includes('Tier 3'), 'TESTING.md missing Tier 3 description');
+  assert(content.includes('npm test'), 'TESTING.md missing npm test command');
+});
+
+await test('SECURITY.md exists with key management guidance', async () => {
+  assert(existsSync('SECURITY.md'), 'SECURITY.md missing');
+  const content = readFileSync('SECURITY.md', 'utf-8');
+  assert(content.includes('OPENAI_API_KEY'), 'SECURITY.md missing API key reference');
+  assert(content.includes('NEVER commit'), 'SECURITY.md missing golden rule');
+  assert(content.includes('rotate'), 'SECURITY.md missing rotation policy');
+});
+
+await test('.env.example exists with all required keys', async () => {
+  assert(existsSync('.env.example'), '.env.example missing');
+  const content = readFileSync('.env.example', 'utf-8');
+  assert(content.includes('OPENAI_API_KEY'), '.env.example missing OPENAI_API_KEY');
+  assert(content.includes('GCS_BUCKET_NAME'), '.env.example missing GCS_BUCKET_NAME');
+  assert(content.includes('META_API_TOKEN'), '.env.example missing META_API_TOKEN');
+  assert(content.includes('SLACK_WEBHOOK_URL'), '.env.example missing SLACK_WEBHOOK_URL');
+});
+
 // ─── REPORT ──────────────────────────────────────────────────────
 
 console.log('\n' + '═'.repeat(60));
