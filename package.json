@@ -6,7 +6,9 @@
   "scripts": {
     "test": "tsx tests/truth-tests.ts 2>/dev/null || node tests/truth-tests.mjs",
     "test:node": "node tests/truth-tests.mjs",
-    "quality": "bash scripts/quality-gate.sh"
+    "quality": "bash scripts/quality-gate.sh",
+    "reviews": "bash review-engine/start.sh",
+    "hooks": "bash creative/hook-studio/start.sh"
   },
   "keywords": [
     "marketing",
