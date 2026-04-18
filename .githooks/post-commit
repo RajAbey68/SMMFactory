@@ -1,0 +1,19 @@
+#!/bin/bash
+# post-commit: auto-push to GitHub after every successful commit
+# Runs in the user's terminal — has full network access
+
+REPO_ROOT="$(git rev-parse --show-toplevel)"
+BRANCH="$(git rev-parse --abbrev-ref HEAD)"
+
+echo ""
+echo "🚀 Auto-pushing to GitHub (origin/$BRANCH)..."
+
+if git push origin "$BRANCH" 2>&1; then
+  echo "✅ GitHub synced — $(git log -1 --pretty=format:'%h %s')"
+else
+  echo ""
+  echo "⚠️  Push failed — your commit is safe locally."
+  echo "    Run: git push   to retry manually."
+fi
+
+echo ""

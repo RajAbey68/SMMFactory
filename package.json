@@ -8,9 +8,22 @@
     "test:node": "node tests/truth-tests.mjs",
     "quality": "bash scripts/quality-gate.sh"
   },
-  "keywords": ["marketing", "smm", "antigravity", "cloud-hybrid"],
+  "keywords": [
+    "marketing",
+    "smm",
+    "antigravity",
+    "cloud-hybrid"
+  ],
   "devDependencies": {
+    "@types/node": "^25.6.0",
+    "@typescript-eslint/eslint-plugin": "^8.58.2",
+    "eslint": "^10.2.1",
+    "prettier": "^3.8.3",
     "tsx": "^4.19.0",
-    "typescript": "^5.7.0"
+    "typescript": "^5.7.0",
+    "vitest": "^4.1.4"
+  },
+  "dependencies": {
+    "dotenv": "^17.4.2"
   }
 }
