@@ -1,0 +1,194 @@
+{
+  "analysis_date": "2026-04-05T13:55:00Z",
+  "model_used": "antigravity-direct",
+  "property": "Ko Lake Villa",
+
+  "competitor_swot": [
+    {
+      "name": "7BR Luxury Villa, Koggala Lake",
+      "strengths": ["Newly renovated", "Saltwater pool", "Gym and massage facilities", "Same 7-bedroom capacity"],
+      "weaknesses": ["No dedicated website", "OTA-dependent (Airbnb only)", "No direct booking incentive", "No WhatsApp channel"],
+      "opportunities": ["Steal their traffic with direct booking offers", "Target their audience with free airport pickup differentiator"],
+      "threats": ["Closest size match at 7 bedrooms", "Could launch direct booking any time", "Renovation newness appeals to premium guests"]
+    },
+    {
+      "name": "Villa Ahangama",
+      "strengths": ["WelcomeBeyond premium positioning", "Private chef", "Paddy field views aesthetic"],
+      "weaknesses": ["Only 5 bedrooms (10-12 pax vs your 24)", "Premium platform = higher guest cost", "Smaller capacity limits group bookings"],
+      "opportunities": ["Position Ko Lake as double the space at direct pricing", "Family reunion and large group angle they cannot serve"],
+      "threats": ["WelcomeBeyond curation gives them trust signals", "Paddy field views are Instagram-worthy differentiator"]
+    },
+    {
+      "name": "Lakeview Villa, Ahangama",
+      "strengths": ["Infinity pool", "Koggala Lake location match", "Exceptional cook reputation"],
+      "weaknesses": ["Only 4 bedrooms (8 guests max)", "Vrbo-only distribution", "Cannot compete on capacity"],
+      "opportunities": ["Not a real competitor at scale", "Could collaborate for overflow referrals"],
+      "threats": ["Low threat due to size mismatch"]
+    },
+    {
+      "name": "Casa Soulei / Kuki Beach",
+      "strengths": ["Beachfront location", "Boutique feel", "Multi-platform distribution"],
+      "weaknesses": ["Beach only no lake access", "No dual-access USP", "Cannot match Ko Lake capacity"],
+      "opportunities": ["Emphasize dual-access (lake + beach + pool) as category differentiator"],
+      "threats": ["Beachfront is a strong emotional pull for some segments"]
+    }
+  ],
+
+  "gap_analysis": {
+    "uncontested_opportunities": [
+      "NO competitor runs urgency-based seasonal campaigns (Easter/Avurudu) — first-mover advantage",
+      "NO competitor uses WhatsApp-first CTA in paid ads — own this channel",
+      "NO competitor offers free airport pickup — strong risk-reversal incentive",
+      "Very few private villas running direct Meta campaigns in Sri Lanka market",
+      "Digital nomad angle (300 Mbps WiFi) is completely uncontested in area"
+    ],
+    "high_competition_zones": [
+      "Generic luxury villa Sri Lanka keyword — dominated by OTA spend",
+      "Google Search for location terms — OTAs outbid on Koggala villa and Ahangama stay",
+      "Instagram lifestyle content — saturated with villa imagery globally"
+    ],
+    "blue_ocean_moves": [
+      "WhatsApp-first booking funnel — bypasses OTA fees entirely (15-20% savings)",
+      "Group/family reunion positioning — 24 guests under one roof is unchallengeable in area",
+      "Remote work retreat packages — 300 Mbps + private chef + lake views is unique combo",
+      "OpenAI Ads (ChatGPT placements) — zero hospitality competitors on platform, first-mover in Sri Lanka travel"
+    ]
+  },
+
+  "hook_scores": [
+    {
+      "hook": "Private chef. Private pool. Private paradise.",
+      "hormozi_score": 8,
+      "rationale": "High dream outcome (exclusive experience), high perceived likelihood (specific named amenities), low effort (everything private = no planning). Alliteration aids memorability.",
+      "improvement": "Add proof: Private chef. 60ft infinity pool. 24-guest paradise. Message us on WhatsApp."
+    },
+    {
+      "hook": "Why 24 guests chose this villa over a 5-star hotel",
+      "hormozi_score": 9,
+      "rationale": "Curiosity gap + social proof + implicit comparison. Addresses the hotel vs villa objection directly. High perceived likelihood via specificity (24 guests = real number).",
+      "improvement": "Test with urgency: Why 24 guests chose this villa over a 5-star hotel — Easter 2026"
+    },
+    {
+      "hook": "Your family deserves more than a hotel room",
+      "hormozi_score": 6,
+      "rationale": "Emotional appeal but vague. Deserves is a superlative-adjacent word. Low specificity reduces perceived likelihood.",
+      "improvement": "Replace with proof: Your family of 12 deserves 7 rooms, a private chef, and a 60ft pool — not a hotel corridor."
+    },
+    {
+      "hook": "Experience, don't just visit — [X] days at Ko Lake Villa",
+      "hormozi_score": 5,
+      "rationale": "Generic travel platitude. Experience dont visit is overused. Low differentiation.",
+      "improvement": "Kill it. Replace with: 7 rooms. Private chef. Lake, pool, and beach — all yours for [X] days."
+    },
+    {
+      "hook": "[X] families have already booked Easter. Have you?",
+      "hormozi_score": 8,
+      "rationale": "Social proof + urgency + direct challenge. Time delay is compressed (Easter is coming). High FOMO factor.",
+      "improvement": "Make the number specific and real: 4 families have booked Easter week. 3 rooms left."
+    },
+    {
+      "hook": "The villa your group has been looking for",
+      "hormozi_score": 4,
+      "rationale": "Weak. Assumes intent without proving anything. No proof points, no specificity.",
+      "improvement": "Replace entirely: 24 guests. 7 rooms. Private chef. 300 Mbps WiFi. Direct book on WhatsApp — no OTA fees."
+    }
+  ],
+
+  "ad_copy_variants": [
+    {
+      "theme": "The Romantic Getaway",
+      "headline": "Lakefront Villa for 2 — Private Chef, Infinity Pool, Zero Hotel Crowds",
+      "body": "Ko Lake Villa sits on Koggala Lake with a 60ft infinity pool, 350m beach access, and a dedicated chef preparing every meal. 7 rooms means your retreat stays private, not shared. Direct book via WhatsApp — no OTA markup.",
+      "cta": "Message us on WhatsApp",
+      "target_platform": "meta",
+      "proof_points": ["60ft infinity pool", "350m beach access", "Dedicated private chef", "7 rooms / 24 guest capacity"]
+    },
+    {
+      "theme": "The Remote Work Sanctuary",
+      "headline": "Work From a Lakefront Villa — 300 Mbps Fiber, Private Chef, Infinity Pool",
+      "body": "Ko Lake Villa: 300 Mbps fiber WiFi (verified), dedicated workspace, private chef for every meal, and a 60ft infinity pool for after-hours. 7 bedrooms accommodate your team or family. Koggala, Sri Lanka.",
+      "cta": "Check availability on WhatsApp",
+      "target_platform": "meta",
+      "proof_points": ["300 Mbps fiber WiFi", "7 bedrooms / 24 guests", "60ft infinity pool", "Private chef included"]
+    },
+    {
+      "theme": "The Family Adventure",
+      "headline": "24 Guests, 7 Rooms, 1 Private Villa — Easter in Sri Lanka",
+      "body": "Ko Lake Villa fits your entire extended family: 7 bedrooms, 24 guests, private chef, 60ft infinity pool, lake jetty, and 350m to the beach. Free airport pickup for 3+ night direct bookings. No hotel corridors. No OTA fees.",
+      "cta": "Book direct on WhatsApp — save 15% vs Airbnb",
+      "target_platform": "meta",
+      "proof_points": ["24 guest capacity", "Free airport pickup", "Save 15% vs OTA booking", "Easter availability confirmed"]
+    },
+    {
+      "theme": "Google Search — Direct Booking",
+      "headline": "Ko Lake Villa | 7 Rooms | Private Chef | Book Direct and Save",
+      "body": "Lakefront villa in Koggala, Sri Lanka. 24 guests, infinity pool, private chef, 300 Mbps WiFi. Free airport pickup for 3+ nights. WhatsApp booking — no OTA fees.",
+      "cta": "Message on WhatsApp",
+      "target_platform": "google",
+      "proof_points": ["7 rooms / 24 guests", "Free airport pickup", "Direct booking saves 15-20%", "300 Mbps WiFi"]
+    },
+    {
+      "theme": "ChatGPT Recommendation Card",
+      "headline": "Ko Lake Villa — Koggala, Sri Lanka",
+      "body": "7-room lakefront villa accommodating 24 guests. Includes private chef, 60ft infinity pool, lake jetty, and 350m beach access. 300 Mbps fiber WiFi. Free airport pickup for bookings of 3+ nights. Book direct via WhatsApp to save 15-20% vs OTA platforms.",
+      "cta": "Check availability on WhatsApp",
+      "target_platform": "chatgpt",
+      "proof_points": ["24 guest capacity — largest in Koggala/Ahangama area", "300 Mbps fiber WiFi — verified", "15-20% savings vs OTA booking", "Free airport pickup included"]
+    }
+  ],
+
+  "chatgpt_ad_cards": [
+    {
+      "card_title": "Ko Lake Villa — 7 Rooms, 24 Guests, Private Chef",
+      "card_body": "Lakefront villa in Koggala, Sri Lanka with 60ft infinity pool, 350m beach access, and dedicated chef. 300 Mbps fiber WiFi. Free airport pickup for 3+ night stays. Book direct via WhatsApp — save 15-20% compared to OTA platforms.",
+      "card_cta": "Check availability on WhatsApp",
+      "target_intent": "luxury villa Sri Lanka for families or groups",
+      "proof_points": ["24 guests — largest private villa in Koggala area", "300 Mbps fiber WiFi verified", "15-20% cheaper than Airbnb/Booking.com direct"],
+      "estimated_daily_budget": 15
+    },
+    {
+      "card_title": "Remote Work Villa — 300 Mbps WiFi, Lakefront, Private Chef",
+      "card_body": "Ko Lake Villa in southern Sri Lanka: 300 Mbps fiber internet, 7 private rooms, dedicated chef, infinity pool. Designed for remote workers and digital nomad teams. Direct booking via WhatsApp.",
+      "card_cta": "Message us on WhatsApp",
+      "target_intent": "remote work retreat Sri Lanka or coworking villa",
+      "proof_points": ["300 Mbps fiber WiFi — fastest in Ahangama/Koggala area", "7 rooms for team retreats up to 24 people"],
+      "estimated_daily_budget": 10
+    }
+  ],
+
+  "budget_recommendations": {
+    "total_daily": 75,
+    "allocation": {
+      "meta": 40,
+      "google": 20,
+      "chatgpt_ads": 15
+    },
+    "rationale": "Meta gets the largest share because visual-first villa content performs strongest on Instagram/Facebook. Google captures high-intent search traffic (villa Sri Lanka Easter). ChatGPT Ads at $15/day gets approximately 250 impressions at $60 CPM — small but targets high-intent researchers during planning phase. All budget assumes Easter/Avurudu campaign window (25 days = approximately $1,875 total).",
+    "chatgpt_cpm_note": "At $60 CPM, the 250 daily impressions target users actively asking ChatGPT about Sri Lanka travel, family villas, or Easter holiday accommodation — peak intent moments."
+  },
+
+  "chatgpt_ads_assessment": {
+    "relevance_score": 6,
+    "recommendation": "Pilot at $10-15/day during Easter window",
+    "rationale": "Ko Lake Villa target audience (affluent families/groups planning Sri Lanka holidays) partially overlaps with ChatGPT Free/Go tier users researching travel. The platform is strongest for the digital nomad/remote work angle where ChatGPT users skew heavily. Limited to US/Canada/Australia/NZ initially — but these are Ko Lake Villa key source markets. First-mover advantage in Sri Lanka hospitality vertical is real.",
+    "suggested_entry_budget": "$10-15/day for 25-day Easter campaign = $250-375 test budget"
+  },
+
+  "strategic_summary": "Ko Lake Villa holds a commanding position in the Koggala/Ahangama competitive landscape with two unchallengeable advantages: capacity (24 guests vs competitors max 12) and direct booking infrastructure (WhatsApp-first, no OTA dependency). The biggest strategic gap is that NO competitor is running urgency-based seasonal campaigns or using WhatsApp CTAs in paid ads — this is a wide-open lane.\n\nThe Hormozi Value Equation analysis reveals that hooks with specific proof points (numbers, amenities, savings percentages) consistently outscore emotional/aspirational copy. The strongest hooks combine social proof with urgency: 4 families booked Easter. 3 rooms left beats Experience, dont just visit every time. All ad copy should lead with facts — especially critical for OpenAI Ads where the moderation layer rejects superlatives.\n\nRecommended budget split: $40/day Meta (visual storytelling), $20/day Google (intent capture), $15/day ChatGPT Ads (high-intent research moments). Total $75/day for 25-day Easter push = approximately $1,875. The WhatsApp-first funnel eliminates OTA commission (15-20%), so even modest conversion rates make this budget highly efficient.",
+
+  "_metadata": {
+    "generated_at": "2026-04-05T13:55:00Z",
+    "provider": "antigravity-direct",
+    "model": "antigravity-analysis",
+    "elapsed_seconds": 0,
+    "tokens_used": {
+      "prompt": 0,
+      "completion": 0,
+      "total": 0
+    },
+    "input_files": {
+      "market_dna": null,
+      "competitor_scan": "ko-lake-easter-competitive-scan.json"
+    }
+  }
+}

@@ -51,6 +51,28 @@ agents:
 
 ---
 
+## STEP 1.5: AI INTELLIGENCE ANALYST (OpenAI API)
+
+> **Tool:** OpenAI API (GPT-4o) | **Input:** `market_dna.json` + `latest_scan.json`
+> **Output:** `./research/ai_analysis.json`
+
+- Run: `node scripts/ai-intelligence-analyst.mjs`
+- Ingest raw AdSpyder scan data from `./research/competitor_intel/latest_scan.json`.
+- Combine with `./research/market_dna.json` for full context.
+- Generate:
+  1. **Competitor SWOT matrix** (per competitor)
+  2. **Gap analysis** (uncontested opportunities competitors are missing)
+  3. **Hook scoring** (rate each hook 1-10 against Hormozi Value Equation)
+  4. **Proof-based ad copy variants** — 3 per ad set theme, enforcing:
+     - 2+ verifiable proof points per variant
+     - 0 superlatives (OpenAI Ads moderation requirement)
+  5. **ChatGPT Ad Recommendation Cards** — draft cards for OpenAI Ads placement ($60 CPM)
+  6. **Cross-platform budget allocation** (Meta / Google / ChatGPT Ads)
+- Save to `./research/ai_analysis.json`.
+- Enrich `market_dna.json` with AI strategic summary.
+
+---
+
 ## STEP 2: CREATIVE GENESIS (POMELLI & STITCH)
 
 > **Agents:** Pomelli (creative), Stitch (landing page) | **Storage:** GCS for media, local for code
@@ -87,6 +109,11 @@ agents:
 - **Reporting:**
   - Use `gws` to create a Google Sheet: "{{PROPERTY_NAME}} — Campaign Tracker".
   - Auto-populate with campaign IDs, budgets, and KPI targets.
+- **OpenAI Ads (ChatGPT Placements):**
+  - Use `chatgpt_ad_cards` from `./research/ai_analysis.json` as draft Recommendation Cards.
+  - Submit via OpenAI self-serve dashboard (or SDK when available).
+  - Budget: per `ai_analysis.json` allocation — note $60 CPM requires high-intent targeting.
+  - Copy MUST pass proof-based validation: 2+ verifiable proof points, 0 superlatives.
 - Output `./campaigns/Campaign_Summary.md` for **Four-Eyes review** before going live.
 
 ---

@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hook Studio — SMMFactory</title>
+  <meta name="description" content="Turn images into cinematic Meta ad hook videos with Ken Burns effects, transitions, and color grading">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- ─── Header ─── -->
+  <header id="app-header">
+    <div class="header-left">
+      <div class="logo">
+        <span class="logo-icon">🎬</span>
+        <span class="logo-text">Hook Studio</span>
+      </div>
+      <span class="header-badge">SMMFactory</span>
+    </div>
+    <div class="header-right">
+      <div class="status-dot" id="statusDot"></div>
+      <span class="status-text" id="statusText">Ready</span>
+    </div>
+  </header>
+
+  <main id="app-main">
+    <!-- ─── Left Panel: Image Upload & Ordering ─── -->
+    <section class="panel panel-images" id="panelImages">
+      <div class="panel-header">
+        <h2>📸 Images</h2>
+        <div class="panel-actions">
+          <button class="btn btn-ghost" id="btnClearAll" title="Clear all images">Clear</button>
+          <label class="btn btn-primary" for="fileInput">
+            <span>+ Add</span>
+          </label>
+          <input type="file" id="fileInput" multiple accept="image/*" hidden>
+        </div>
+      </div>
+
+      <!-- Drop zone -->
+      <div class="drop-zone" id="dropZone">
+        <div class="drop-zone-content">
+          <div class="drop-icon">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/>
+            </svg>
+          </div>
+          <p class="drop-text">Drop images here</p>
+          <p class="drop-sub">or click Add — supports JPG, PNG, WebP</p>
+        </div>
+      </div>
+
+      <!-- Image strip (sortable) -->
+      <div class="image-strip" id="imageStrip"></div>
+
+      <div class="image-count" id="imageCount">0 images loaded</div>
+    </section>
+
+    <!-- ─── Center Panel: Preview & Controls ─── -->
+    <section class="panel panel-preview" id="panelPreview">
+      <div class="panel-header">
+        <h2>🎥 Preview</h2>
+      </div>
+
+      <!-- Video preview area -->
+      <div class="preview-frame" id="previewFrame">
+        <div class="preview-placeholder" id="previewPlaceholder">
+          <div class="preview-aspect" id="previewAspect">
+            <span class="preview-label">9:16</span>
+          </div>
+          <p>Upload images and generate to preview</p>
+        </div>
+        <video id="videoPreview" controls loop hidden></video>
+      </div>
+
+      <!-- Generate button -->
+      <button class="btn btn-generate" id="btnGenerate" disabled>
+        <span class="btn-generate-icon">⚡</span>
+        <span class="btn-generate-text">Generate Hook Video</span>
+      </button>
+
+      <!-- Progress bar -->
+      <div class="progress-container" id="progressContainer" hidden>
+        <div class="progress-bar">
+          <div class="progress-fill" id="progressFill"></div>
+        </div>
+        <p class="progress-text" id="progressText">Rendering...</p>
+      </div>
+    </section>
+
+    <!-- ─── Right Panel: Settings ─── -->
+    <section class="panel panel-settings" id="panelSettings">
+      <div class="panel-header">
+        <h2>⚙️ Settings</h2>
+      </div>
+
+      <div class="settings-scroll">
+        <!-- Style -->
+        <div class="setting-group">
+          <label class="setting-label">Style</label>
+          <div class="style-grid" id="styleGrid">
+            <button class="style-card active" data-style="cinematic">
+              <span class="style-icon">🎬</span>
+              <span class="style-name">Cinematic</span>
+              <span class="style-desc">Slow, dramatic, moody</span>
+            </button>
+            <button class="style-card" data-style="artisan">
+              <span class="style-icon">🎨</span>
+              <span class="style-name">Artisan</span>
+              <span class="style-desc">Warm, handcrafted feel</span>
+            </button>
+            <button class="style-card" data-style="energetic">
+              <span class="style-icon">⚡</span>
+              <span class="style-name">Energetic</span>
+              <span class="style-desc">Fast cuts, bold</span>
+            </button>
+            <button class="style-card" data-style="minimal">
+              <span class="style-icon">◻️</span>
+              <span class="style-name">Minimal</span>
+              <span class="style-desc">Clean, subtle, slow</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Aspect Ratio -->
+        <div class="setting-group">
+          <label class="setting-label">Aspect Ratio</label>
+          <div class="aspect-grid" id="aspectGrid">
+            <button class="aspect-btn active" data-aspect="9:16">
+              <div class="aspect-visual v916"></div>
+              <span>9:16</span>
+              <span class="aspect-tag">Reels</span>
+            </button>
+            <button class="aspect-btn" data-aspect="1:1">
+              <div class="aspect-visual v11"></div>
+              <span>1:1</span>
+              <span class="aspect-tag">Feed</span>
+            </button>
+            <button class="aspect-btn" data-aspect="16:9">
+              <div class="aspect-visual v169"></div>
+              <span>16:9</span>
+              <span class="aspect-tag">YouTube</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Transition -->
+        <div class="setting-group">
+          <label class="setting-label">Transition</label>
+          <div class="select-group">
+            <select id="transitionSelect" class="select-styled">
+              <option value="crossfade">Crossfade</option>
+              <option value="slide">Slide</option>
+              <option value="zoom">Circle Zoom</option>
+              <option value="cut">Hard Cut</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Speed -->
+        <div class="setting-group">
+          <label class="setting-label">Speed</label>
+          <div class="speed-group" id="speedGroup">
+            <button class="speed-btn" data-speed="slow">Slow</button>
+            <button class="speed-btn active" data-speed="medium">Medium</button>
+            <button class="speed-btn" data-speed="fast">Fast</button>
+          </div>
+        </div>
+
+        <!-- Color Grade -->
+        <div class="setting-group">
+          <label class="setting-label">Color Grade</label>
+          <div class="grade-grid" id="gradeGrid">
+            <button class="grade-btn active" data-grade="cinematic" title="Cinematic">
+              <div class="grade-swatch" style="background: linear-gradient(135deg, #1a1a2e, #16213e, #0f3460)"></div>
+              <span>Cinematic</span>
+            </button>
+            <button class="grade-btn" data-grade="warm" title="Warm">
+              <div class="grade-swatch" style="background: linear-gradient(135deg, #e07c3e, #d4a574, #c9956b)"></div>
+              <span>Warm</span>
+            </button>
+            <button class="grade-btn" data-grade="cool" title="Cool">
+              <div class="grade-swatch" style="background: linear-gradient(135deg, #2d6187, #4a90b8, #7bb8d9)"></div>
+              <span>Cool</span>
+            </button>
+            <button class="grade-btn" data-grade="vibrant" title="Vibrant">
+              <div class="grade-swatch" style="background: linear-gradient(135deg, #e74c3c, #f39c12, #2ecc71)"></div>
+              <span>Vibrant</span>
+            </button>
+            <button class="grade-btn" data-grade="none" title="None">
+              <div class="grade-swatch" style="background: linear-gradient(135deg, #666, #999, #ccc)"></div>
+              <span>None</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Hook Text -->
+        <div class="setting-group">
+          <label class="setting-label">Hook Text <span class="optional">(optional)</span></label>
+          <input type="text" id="hookTextInput" class="input-styled" placeholder="e.g. Your dream villa awaits..." maxlength="60">
+          <div class="text-position-group" id="textPositionGroup">
+            <button class="position-btn" data-pos="top">Top</button>
+            <button class="position-btn active" data-pos="center">Center</button>
+            <button class="position-btn" data-pos="bottom">Bottom</button>
+          </div>
+        </div>
+
+        <!-- Output info -->
+        <div class="setting-group setting-info">
+          <div class="info-row">
+            <span class="info-label">Resolution</span>
+            <span class="info-value" id="infoRes">1080×1920</span>
+          </div>
+          <div class="info-row">
+            <span class="info-label">Est. Duration</span>
+            <span class="info-value" id="infoDur">—</span>
+          </div>
+          <div class="info-row">
+            <span class="info-label">Format</span>
+            <span class="info-value">MP4 (H.264)</span>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ─── Generated Videos Gallery ─── -->
+  <section class="gallery-section" id="gallerySection" hidden>
+    <div class="gallery-header">
+      <h2>🎞️ Generated Videos</h2>
+    </div>
+    <div class="gallery-grid" id="galleryGrid"></div>
+  </section>
+
+  <!-- ─── Toast notifications ─── -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>

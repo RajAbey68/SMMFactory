@@ -1,0 +1,81 @@
+{
+  "campaign": "AI Adoption Advisor — Career Push",
+  "type": "personal_brand",
+  "window": {
+    "start": "2026-03-25",
+    "end": "2026-04-07",
+    "duration_days": 14
+  },
+  "positioning": {
+    "title": "AI Adoption & Transformation Advisor",
+    "level": "Customer Success / Evangelist (Strategic / Enterprise)",
+    "core_message": "I help organisations move from AI curiosity to safe, scalable adoption — combining governance, delivery, and real-world implementation experience.",
+    "edge": "Unlike most AI evangelists, I've spent 20+ years delivering complex systems, so I understand where AI actually works — and where it breaks.",
+    "differentiators": [
+      "Delivery — 20+ years shipping complex systems",
+      "Governance — regulated environments, risk frameworks",
+      "Architecture — systems thinking, not surface-level",
+      "Global programmes — cross-border, multi-stakeholder"
+    ]
+  },
+  "targets": {
+    "tier_1": [
+      { "company": "OpenAI", "angle": "Enterprise Customer Success" },
+      { "company": "Google Cloud", "angle": "AI Solutions / Customer Engineering" },
+      { "company": "Anthropic", "angle": "Customer Success / AI Safety Adoption" },
+      { "company": "AWS", "angle": "AI Specialist Solutions Architect" },
+      { "company": "Microsoft", "angle": "AI Customer Success Manager" }
+    ],
+    "tier_2": [
+      { "company": "Databricks", "angle": "Enterprise Customer Success" },
+      { "company": "Snowflake", "angle": "Strategic CSM" },
+      { "company": "Hugging Face", "angle": "Enterprise Adoption" },
+      { "company": "Scale AI", "angle": "Customer Success / Evangelist" },
+      { "company": "Palantir", "angle": "Forward Deployed / CS" },
+      { "company": "Accenture", "angle": "AI Advisory / Transformation Lead" },
+      { "company": "Capgemini", "angle": "AI Advisory / Transformation Lead" }
+    ]
+  },
+  "channels": {
+    "linkedin": {
+      "effort_pct": 60,
+      "cadence": "3 posts per week (Mon/Wed/Fri or Tue/Thu/Sat)",
+      "style": "Short, sharp, experience-led. No generic AI hype."
+    },
+    "direct_outreach": {
+      "effort_pct": 30,
+      "cadence": "2 batches per week, 5 messages each",
+      "targets": "Hiring managers, Product leaders, GTM / CS heads"
+    },
+    "expert_networks": {
+      "effort_pct": 10,
+      "platforms": ["GLG", "AlphaSights", "Guidepoint"],
+      "purpose": "Credibility + income while searching"
+    }
+  },
+  "content_themes": [
+    "AI adoption vs AI capability",
+    "Governance as accelerator, not blocker",
+    "Delivery experience applied to AI",
+    "Organisational change > model selection",
+    "Customer success in AI platforms",
+    "Regulated environments + AI integration"
+  ],
+  "agent_usage": {
+    "spyder": "Potential — competitive research on job postings and hiring managers",
+    "pomelli": "Not used — posts must be authentic, in your own voice",
+    "stitch": "Not used — LinkedIn profile IS the landing page",
+    "openclaw": "Not used — LinkedIn automation violates ToS, high risk",
+    "note": "This is a human-driven campaign. Agents support research only."
+  },
+  "success_metrics": {
+    "posts_published": 6,
+    "impressions_target": 5000,
+    "connections_sent": 40,
+    "outreach_messages": 20,
+    "conversations_started": 5,
+    "expert_network_signups": 3,
+    "interviews_target": 2
+  },
+  "generated_at": "2026-03-24T19:05:00Z"
+}

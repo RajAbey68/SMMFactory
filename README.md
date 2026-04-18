@@ -20,6 +20,44 @@
 └──────────┴──────────┴──────────┴────────────────────────┘
 ```
 
+## Multi-Campaign Architecture
+
+Every campaign follows an 8-phase lifecycle and is managed through a central registry:
+
+```
+campaigns/
+├── registry.json              ← Master index (single source of truth)
+├── ko-lake-easter/            ← KLEst — Paid media campaign
+│   ├── Campaign_Summary.md
+│   ├── action_calendar.md
+│   ├── creative/
+│   └── research/
+└── ai-career/                 ← AICar — Personal brand campaign
+    ├── Campaign_Summary.md
+    ├── action_calendar.md
+    └── creative/
+```
+
+### Campaign Lifecycle (8 Phases)
+
+```
+💡 Ideation → 🔍 Research → 📋 Planning → 🎨 Creative → ✅ Review → 🚀 Launch → 📈 Optimize → 🏁 Close
+```
+
+### Campaign Reference Codes
+
+| Ref | Campaign | Type |
+|---|---|---|
+| `KLEst` | Ko Lake Villa — Easter/Avurudu Push | Paid Media |
+| `AICar` | AI Adoption Advisor — Career Push | Personal Brand |
+
+## Dashboard
+
+Open `dashboard/index.html` for the Campaign Command Center:
+- Real-time phase timeline per campaign
+- Metrics grid (Meta Ads, LinkedIn, WhatsApp, Google Ads)
+- Embedded AG Prompt with campaign targeting
+
 ## Cloud-Hybrid Strategy
 
 | Asset Type | Where | Why |
@@ -34,13 +72,16 @@
 # 1. Install dependencies
 npm install
 
-# 2. Run truth tests (validates scaffold)
+# 2. Run truth tests (validates scaffold + campaigns)
 npm test
 
 # 3. Run full quality gate
 npm run quality
 
-# 4. Copy MCP config to Antigravity global
+# 4. Open dashboard
+open dashboard/index.html
+
+# 5. Copy MCP config to Antigravity global
 cp mcp_config.json ~/.antigravity/mcp_config.json
 ```
 
@@ -48,10 +89,11 @@ cp mcp_config.json ~/.antigravity/mcp_config.json
 
 | Command | What it does |
 |---|---|
-| `/truth-test` | Validates configs, structure, and cross-references |
+| `/truth-test` | Validates configs, structure, registry, and cross-references |
 | `/verify` | Full pre-deploy quality gate |
 | `/quality` | Quick quality check |
 | `/status` | Workspace health snapshot |
+| `/adspyder-scan` | Run competitive intelligence scan |
 
 ## Blueprint
 

@@ -1,0 +1,141 @@
+{
+  "$schema": "https://smmfactory.dev/schemas/campaign-registry.json",
+  "version": "2.0.0",
+  "description": "Master index of all SMMFactory campaigns. Each campaign follows a standard lifecycle.",
+
+  "lifecycle": {
+    "description": "Best-practice campaign phases from ideation to completion. Every campaign must progress through these in order.",
+    "phases": [
+      {
+        "id": "ideation",
+        "name": "💡 Ideation",
+        "description": "Define the brief, concept, target audience, and success criteria. Answer: What are we doing and why?",
+        "deliverables": ["campaign_brief.md"],
+        "gate": "Brief approved by stakeholder"
+      },
+      {
+        "id": "research",
+        "name": "🔍 Research",
+        "description": "Market intelligence, competitor analysis, audience insights, keyword/hook discovery.",
+        "deliverables": ["market_dna.json", "competitor_intel/"],
+        "gate": "Research reviewed, insights actionable",
+        "agents": ["spyder"]
+      },
+      {
+        "id": "planning",
+        "name": "📋 Planning",
+        "description": "Strategy document, budget allocation, channel mix, timeline, and action calendar.",
+        "deliverables": ["Campaign_Summary.md", "action_calendar.md"],
+        "gate": "Strategy and budget approved"
+      },
+      {
+        "id": "creative",
+        "name": "🎨 Creative",
+        "description": "Asset production — ad copy, visuals, landing pages, video, content calendar.",
+        "deliverables": ["creative/*_dna.json", "landing-page/", "ad_sets/"],
+        "gate": "All assets produced and match brand DNA",
+        "agents": ["pomelli", "stitch"]
+      },
+      {
+        "id": "review",
+        "name": "✅ Review",
+        "description": "Four-eyes gate — human + automated verification before anything goes live.",
+        "deliverables": ["four_eyes_checklist.md"],
+        "gate": "All checklist items passed, stakeholder sign-off"
+      },
+      {
+        "id": "launch",
+        "name": "🚀 Launch",
+        "description": "Activate channels — deploy ads, publish content, send broadcasts, go live.",
+        "deliverables": ["launch_log.md"],
+        "gate": "All channels live, tracking confirmed",
+        "agents": ["openclaw"]
+      },
+      {
+        "id": "optimize",
+        "name": "📈 Optimize",
+        "description": "Monitor performance, A/B test, reallocate budget, pause underperformers, double down on winners.",
+        "deliverables": ["performance_log.md"],
+        "gate": "Campaign hitting KPI targets or adjusted"
+      },
+      {
+        "id": "close",
+        "name": "🏁 Close",
+        "description": "Wind down spend, compile results, write retrospective, extract learnings for next campaign.",
+        "deliverables": ["retrospective.md", "final_report.md"],
+        "gate": "Retrospective completed, learnings documented"
+      }
+    ]
+  },
+
+  "campaigns": [
+    {
+      "slug": "ko-lake-retreats",
+      "ref": "KLRtr",
+      "name": "Ko Lake Villa — Retreats & Events",
+      "type": "paid_media",
+      "status": "active",
+      "current_phase": "optimize",
+      "phase_progress": {
+        "ideation": "✅ complete",
+        "research": "✅ complete — market_dna.json + competitive scan (emulated AdSpyder)",
+        "planning": "✅ complete — Campaign_Summary.md + action_calendar.md",
+        "creative": "🟡 ad copy ready (Meta 6 ads + Google PMax assets) — images not selected",
+        "review": "✅ complete — four-eyes checklist approved",
+        "launch": "✅ complete — launch_log.md generated, assets deployed",
+        "optimize": "🔴 in progress — monitoring initial traction",
+        "close": "⬜ not started — target April 17"
+      },
+      "window": { "start": "2026-04-18", "end": "2026-06-30" },
+      "property": "Ko Lake Villa",
+      "agents": ["spyder", "pomelli", "stitch", "openclaw"],
+      "path": "./campaigns/ko-lake-retreats/"
+    },
+    {
+      "slug": "ai-career",
+      "ref": "AICar",
+      "name": "AI Adoption Advisor — Career Push",
+      "type": "personal_brand",
+      "status": "active",
+      "current_phase": "optimize",
+      "phase_progress": {
+        "ideation": "✅ complete — positioning and targets defined",
+        "research": "⬜ skipped — no property to crawl, targets identified manually",
+        "planning": "✅ complete — Campaign_Summary.md + action_calendar.md",
+        "creative": "✅ complete — 6 LinkedIn posts drafted, profile copy ready",
+        "review": "✅ complete — four-eyes checklist approved",
+        "launch": "✅ complete — launch_log.md generated, posts and outreach started",
+        "optimize": "🔴 in progress — tracking connections and engagement",
+        "close": "⬜ not started — target April 7"
+      },
+      "window": { "start": "2026-03-25", "end": "2026-04-07" },
+      "property": null,
+      "agents": [],
+      "path": "./campaigns/ai-career/"
+    },
+    {
+      "slug": "sky-high-villas",
+      "ref": "SKYHV",
+      "name": "Sky High Villas — Heli-Tours Push",
+      "type": "paid-media",
+      "status": "active",
+      "current_phase": "research",
+      "window": {
+        "start": "2026-05-01",
+        "end": "2026-06-15"
+      },
+      "path": "./campaigns/sky-high-villas/",
+      "progress": 15,
+      "owner": "Spyder",
+      "tags": ["luxury", "heli-tours", "adventure"]
+    }
+  ],
+
+  "conventions": {
+    "addressing": "Use the campaign slug or ref code when giving instructions. Example: 'for KLEst: update the ad copy'",
+    "structure": "Each campaign folder contains: Campaign_Summary.md, action_calendar.md, creative/, research/ (if applicable)",
+    "ambiguity": "If no slug is specified and context is unclear, the agent MUST ask which campaign before proceeding.",
+    "new_campaign": "Every new campaign starts at 'ideation' phase. Create a campaign_brief.md using the template from strategy_foundations.md.",
+    "strategy_foundations": "./research/strategy_foundations.md — Hormozi (Value Equation, Grand Slam Offer, Core Four) + Priestley (5 Ps, Oversubscribed, 7-11-4, Scorecard). Every campaign MUST be evaluated against these frameworks."
+  }
+}

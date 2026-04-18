@@ -1,0 +1,94 @@
+{
+  "$schema": "emulated-adspyder-scan",
+  "scan_date": "2026-03-27T14:35:00Z",
+  "scan_type": "competitive_intelligence",
+  "note": "Generated via web research — AdSpyder MCP unavailable",
+  
+  "property": "Ko Lake Villa",
+  "campaign_ref": "KLEst",
+  
+  "competitive_landscape": {
+    "direct_competitors": [
+      {
+        "name": "7BR Luxury Villa, Koggala Lake",
+        "platform": "Airbnb",
+        "positioning": "Newly renovated, gated oasis, saltwater pool",
+        "bedrooms": 7,
+        "usps": ["saltwater pool", "three buildings", "gym", "massage"],
+        "weakness": "No dedicated website, OTA-dependent, no direct booking incentive",
+        "threat_level": "high"
+      },
+      {
+        "name": "Villa Ahangama",
+        "platform": "WelcomeBeyond",
+        "positioning": "5-bed family & group villa, paddy field views",
+        "bedrooms": 5,
+        "usps": ["private chef", "paddy field views", "10-12 pax"],
+        "weakness": "Smaller capacity (12 vs 24), premium platform = price premium",
+        "threat_level": "medium"
+      },
+      {
+        "name": "Lakeview Villa, Ahangama",
+        "platform": "Vrbo",
+        "positioning": "4-bed lakefront, infinity pool",
+        "bedrooms": 4,
+        "usps": ["infinity pool", "koggala lake location", "exceptional cook"],
+        "weakness": "Only 8 guests max, much smaller than Ko Lake",
+        "threat_level": "low"
+      },
+      {
+        "name": "Casa Soulei / Kuki Beach",
+        "platform": "Booking.com / Villa Finder",
+        "positioning": "Beachfront villas in Ahangama",
+        "bedrooms": "varies",
+        "usps": ["beachfront", "boutique feel"],
+        "weakness": "Beach only — no lake access, no dual-access USP",
+        "threat_level": "medium"
+      }
+    ],
+    
+    "competitive_advantages_ko_lake": [
+      "LARGEST capacity in area: 7 rooms, 24 guests (competitors max 12)",
+      "DUAL access: 60ft infinity pool + lake jetty + 350m beach",
+      "FULL staff including dedicated chef (not just 'cook')",
+      "300 Mbps fiber wifi (unmatched in area for digital nomads)",
+      "Direct booking channel (WhatsApp-first) — competitors OTA-dependent",
+      "FREE airport pickup incentive (no competitor offers this)"
+    ]
+  },
+  
+  "ad_landscape_insights": {
+    "meta_trends_2026": {
+      "format": "Advantage+ campaigns with broad targeting + strong creative",
+      "creative_style": "Lo-fi / authentic content outperforms polished studio shots",
+      "top_format": "Short-form vertical video (Reels) — 15-20 seconds",
+      "targeting": "Broad targeting with AI optimization, NOT hyper-specific interests",
+      "campaign_structure": "Fewer campaigns, more creative variations within each",
+      "cta_style": "Direct conversational CTAs: 'Message Us' > 'Learn More'"
+    },
+    "google_trends_2026": {
+      "format": "Performance Max with maximum asset diversity",
+      "headlines_max": 15,
+      "descriptions_max": 5,
+      "best_practice": "Upload maximum assets, let Google AI combine them",
+      "title_case": true,
+      "include_numbers": true,
+      "landing_page_congruence": "Critical — ad promise MUST match landing page"
+    },
+    "competitor_ad_patterns": [
+      "Heavy OTA presence (Booking.com, Airbnb) dominates paid search",
+      "Very few private villas running direct Meta campaigns in Sri Lanka",
+      "Most competitor ads are generic 'beautiful villa' without specific proof",
+      "Gap: NO competitor is running urgency-based seasonal campaigns (Easter/Avurudu)",
+      "Gap: NO competitor is using WhatsApp-first CTA in paid ads"
+    ],
+    "winning_hooks_in_market": [
+      "Experience, don't just visit — [X] days at [property]",
+      "Your family deserves more than a hotel room",
+      "Why 24 guests chose this villa over a 5-star hotel",
+      "Private chef. Private pool. Private paradise.",
+      "[X] families have already booked Easter. Have you?",
+      "The villa your group has been looking for"
+    ]
+  }
+}

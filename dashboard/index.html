@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SMMFactory — Campaign Command Center</title>
+  <meta name="description" content="Real-time campaign dashboard with lifecycle tracking, metrics, and AG prompt integration.">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="dashboard.css">
+</head>
+<body>
+  <!-- Top Bar -->
+  <header class="top-bar">
+    <div class="top-bar__left">
+      <div class="logo">
+        <span class="logo__icon">⚡</span>
+        <span class="logo__text">SMMFactory</span>
+      </div>
+      <span class="top-bar__separator">|</span>
+      <span class="top-bar__title">Campaign Command Center</span>
+    </div>
+    <div class="top-bar__right">
+      <span class="top-bar__time" id="currentTime"></span>
+      <button class="btn btn--ghost" id="refreshBtn" title="Refresh data">↻</button>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="main">
+    <!-- Summary Strip -->
+    <section class="summary-strip" id="summaryStrip">
+      <!-- Populated by JS -->
+    </section>
+
+    <!-- Campaign Cards Grid -->
+    <section class="campaigns-grid" id="campaignsGrid">
+      <!-- Populated by JS -->
+    </section>
+
+    <!-- Metrics Panel -->
+    <section class="metrics-section">
+      <h2 class="section-title">📊 Live Metrics</h2>
+      <div class="metrics-grid" id="metricsGrid">
+        <!-- Populated by JS -->
+      </div>
+      <p class="metrics-note">Metrics auto-refresh from AdSpyder, Meta Ads API, and Google Ads API when connected.</p>
+    </section>
+  </main>
+
+  <!-- AG Prompt (fixed bottom) -->
+  <div class="ag-prompt" id="agPrompt">
+    <div class="ag-prompt__header">
+      <span class="ag-prompt__label">🤖 AG Prompt</span>
+      <span class="ag-prompt__hint">Use ref codes: <kbd>KLEst</kbd> <kbd>AICar</kbd> — e.g. "for KLEst: update ad copy"</span>
+      <button class="ag-prompt__toggle" id="promptToggle" title="Expand/collapse">▲</button>
+    </div>
+    <div class="ag-prompt__body" id="promptBody">
+      <div class="ag-prompt__history" id="promptHistory">
+        <div class="ag-prompt__welcome">
+          <p>Welcome to the Campaign Command Center.</p>
+          <p>Type a campaign instruction below. Use <kbd>KLEst</kbd> or <kbd>AICar</kbd> to target a specific campaign.</p>
+        </div>
+      </div>
+      <form class="ag-prompt__input-row" id="promptForm">
+        <select class="ag-prompt__select" id="campaignSelect">
+          <option value="">All campaigns</option>
+        </select>
+        <input
+          type="text"
+          class="ag-prompt__input"
+          id="promptInput"
+          placeholder='e.g. "for KLEst: select hero image" or "show ai-career status"'
+          autocomplete="off"
+          spellcheck="false"
+        >
+        <button type="submit" class="btn btn--primary ag-prompt__send">Send ➤</button>
+      </form>
+    </div>
+  </div>
+
+  <script src="dashboard.js"></script>
+</body>
+</html>

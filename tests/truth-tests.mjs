@@ -3,7 +3,7 @@
 // Fallback runner: node tests/truth-tests.mjs
 // Primary runner:  npx tsx tests/truth-tests.ts
 
-import { readFileSync, existsSync } from 'fs';
+import { readFileSync, existsSync, readdirSync } from 'fs';
 import { join } from 'path';
 
 const results = [];
@@ -58,22 +58,100 @@ await test('marketing-studio.agy blueprint exists', async () => {
 
 // ─── DIRECTORY STRUCTURE ─────────────────────────────────────────
 
-const requiredDirs = ['research', 'creative', 'landing-page', 'campaigns'];
+const requiredDirs = ['research', 'creative', 'landing-page', 'campaigns', 'dashboard'];
 for (const dir of requiredDirs) {
   await test(`Directory exists: ${dir}/`, async () => {
     assert(existsSync(dir), `Required directory "${dir}" is missing`);
   });
 }
 
+// ─── CAMPAIGN REGISTRY ──────────────────────────────────────────
+
+await test('Campaign registry exists and is valid JSON', async () => {
+  const path = 'campaigns/registry.json';
+  assert(existsSync(path), 'campaigns/registry.json missing');
+  const raw = readFileSync(path, 'utf-8');
+  const reg = JSON.parse(raw);
+  assert(reg.version, 'Registry missing version field');
+  assert(Array.isArray(reg.campaigns), 'Registry missing campaigns array');
+  assert(reg.campaigns.length > 0, 'Registry has no campaigns');
+  assert(reg.lifecycle?.phases, 'Registry missing lifecycle phases');
+});
+
+await test('Every campaign has required fields', async () => {
+  const reg = JSON.parse(readFileSync('campaigns/registry.json', 'utf-8'));
+  const required = ['slug', 'ref', 'name', 'type', 'status', 'current_phase', 'window', 'path'];
+  for (const c of reg.campaigns) {
+    for (const field of required) {
+      assert(c[field] !== undefined, `Campaign "${c.slug || c.name || 'unknown'}" missing field: ${field}`);
+    }
+    assert(c.ref && c.ref.length <= 5, `Campaign "${c.slug}" ref "${c.ref}" must be ≤5 chars`);
+  }
+});
+
+await test('Every registered campaign has a folder with required files', async () => {
+  const reg = JSON.parse(readFileSync('campaigns/registry.json', 'utf-8'));
+  for (const c of reg.campaigns) {
+    const campaignDir = c.path.replace('./', '');
+    assert(existsSync(campaignDir), `Campaign folder missing: ${campaignDir}`);
+    assert(existsSync(join(campaignDir, 'Campaign_Summary.md')), `${c.slug}: Missing Campaign_Summary.md`);
+    assert(existsSync(join(campaignDir, 'action_calendar.md')), `${c.slug}: Missing action_calendar.md`);
+  }
+});
+
+await test('No duplicate campaign refs', async () => {
+  const reg = JSON.parse(readFileSync('campaigns/registry.json', 'utf-8'));
+  const refs = reg.campaigns.map(c => c.ref);
+  const unique = new Set(refs);
+  assert(refs.length === unique.size, `Duplicate refs found: ${refs.join(', ')}`);
+});
+
+await test('No duplicate campaign slugs', async () => {
+  const reg = JSON.parse(readFileSync('campaigns/registry.json', 'utf-8'));
+  const slugs = reg.campaigns.map(c => c.slug);
+  const unique = new Set(slugs);
+  assert(slugs.length === unique.size, `Duplicate slugs found: ${slugs.join(', ')}`);
+});
+
+await test('Campaign lifecycle has all 8 phases', async () => {
+  const reg = JSON.parse(readFileSync('campaigns/registry.json', 'utf-8'));
+  const expected = ['ideation', 'research', 'planning', 'creative', 'review', 'launch', 'optimize', 'close'];
+  const actual = reg.lifecycle.phases.map(p => p.id);
+  for (const phase of expected) {
+    assert(actual.includes(phase), `Lifecycle missing phase: ${phase}`);
+  }
+});
+
 // ─── AGENT WORKFLOWS ────────────────────────────────────────────
 
-const requiredWorkflows = ['truth-test.md', 'verify.md', 'quality.md', 'status.md'];
+const requiredWorkflows = ['truth-test.md', 'verify.md', 'quality.md', 'status.md', 'ai-analyst.md'];
 for (const wf of requiredWorkflows) {
   await test(`Workflow exists: .agent/workflows/${wf}`, async () => {
     const path = join('.agent', 'workflows', wf);
     assert(existsSync(path), `Workflow "${wf}" is missing`);
   });
 }
+
+// ─── AI INTELLIGENCE ANALYST ────────────────────────────────
+
+await test('AI Intelligence Analyst script exists', async () => {
+  assert(existsSync('scripts/ai-intelligence-analyst.mjs'), 'scripts/ai-intelligence-analyst.mjs missing');
+  const content = readFileSync('scripts/ai-intelligence-analyst.mjs', 'utf-8');
+  assert(content.includes('callAI'), 'Script missing AI provider integration (callAI)');
+  assert(content.includes('proof_points') || content.includes('proof-based'), 'Script missing proof-based copy enforcement');
+});
+
+await test('Blueprint includes AI Intelligence Analyst step', async () => {
+  const content = readFileSync('marketing-studio.agy', 'utf-8');
+  assert(content.includes('AI INTELLIGENCE ANALYST'), 'Blueprint missing STEP 1.5: AI INTELLIGENCE ANALYST');
+  assert(content.includes('ai-intelligence-analyst.mjs'), 'Blueprint missing analyst script reference');
+});
+
+await test('Blueprint includes OpenAI Ads deployment channel', async () => {
+  const content = readFileSync('marketing-studio.agy', 'utf-8');
+  assert(content.includes('OpenAI Ads'), 'Blueprint missing OpenAI Ads channel');
+  assert(content.includes('chatgpt_ad_cards'), 'Blueprint missing ChatGPT Ad Cards reference');
+});
 
 // ─── QUALITY GATE ────────────────────────────────────────────────
 
@@ -94,6 +172,19 @@ await test('GCS bucket name matches between storage.config.json and mcp_config.j
   const mcpBucket = mcp.mcpServers['google-cloud-storage'].env.GCS_BUCKET_NAME;
   assert(storageBucket === mcpBucket,
     `Bucket mismatch: storage.config says "${storageBucket}" but mcp_config says "${mcpBucket}"`);
+});
+
+// ─── DASHBOARD ──────────────────────────────────────────────────
+
+await test('Dashboard files exist', async () => {
+  assert(existsSync('dashboard/index.html'), 'dashboard/index.html missing');
+  assert(existsSync('dashboard/dashboard.css'), 'dashboard/dashboard.css missing');
+  assert(existsSync('dashboard/dashboard.js'), 'dashboard/dashboard.js missing');
+});
+
+await test('Dashboard JS references registry.json path', async () => {
+  const content = readFileSync('dashboard/dashboard.js', 'utf-8');
+  assert(content.includes('registry.json'), 'Dashboard JS does not reference registry.json');
 });
 
 // ─── LANDING PAGE ────────────────────────────────────────────────
