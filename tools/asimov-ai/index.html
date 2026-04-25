@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>ASIMOV-AI Configuration Wizard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --bg: #0a0b0f;
+    --surface: #12141a;
+    --surface2: #1a1d26;
+    --border: rgba(255,255,255,0.08);
+    --accent: #6366f1;
+    --accent2: #8b5cf6;
+    --accent-glow: rgba(99,102,241,0.25);
+    --text: #f1f5f9;
+    --muted: #64748b;
+    --success: #10b981;
+    --warning: #f59e0b;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding:2rem 1rem;}
+  .bg-orb{position:fixed;border-radius:50%;filter:blur(120px);pointer-events:none;z-index:0;}
+  .orb1{width:600px;height:600px;background:rgba(99,102,241,0.12);top:-200px;right:-100px;}
+  .orb2{width:400px;height:400px;background:rgba(139,92,246,0.08);bottom:-100px;left:-100px;}
+  .container{position:relative;z-index:1;width:100%;max-width:760px;}
+  header{text-align:center;margin-bottom:3rem;}
+  .badge{display:inline-flex;align-items:center;gap:8px;background:rgba(99,102,241,0.15);border:1px solid rgba(99,102,241,0.3);border-radius:100px;padding:6px 16px;font-size:12px;font-weight:600;letter-spacing:0.05em;color:#a5b4fc;margin-bottom:1.5rem;}
+  .badge-dot{width:6px;height:6px;border-radius:50%;background:#6366f1;animation:pulse 2s infinite;}
+  @keyframes pulse{0%,100%{opacity:1;transform:scale(1);}50%{opacity:0.5;transform:scale(0.8);}}
+  h1{font-size:clamp(2rem,5vw,3rem);font-weight:700;background:linear-gradient(135deg,#f1f5f9 0%,#a5b4fc 50%,#8b5cf6 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1.2;margin-bottom:0.75rem;}
+  .subtitle{color:var(--muted);font-size:1rem;font-weight:400;}
+  .card{background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:2.5rem;box-shadow:0 24px 80px rgba(0,0,0,0.4);}
+  .progress-bar{display:flex;gap:6px;margin-bottom:0.75rem;}
+  .seg{flex:1;height:4px;border-radius:2px;background:var(--surface2);transition:background 0.4s ease;}
+  .seg.done{background:var(--accent);}
+  .seg.active{background:linear-gradient(90deg,var(--accent),var(--accent2));}
+  .step-label{font-size:12px;color:var(--muted);margin-bottom:2rem;}
+  .question{font-size:1.35rem;font-weight:600;margin-bottom:2rem;line-height:1.4;}
+  .options{display:flex;flex-direction:column;gap:10px;margin-bottom:2rem;}
+  .option{display:flex;align-items:center;gap:14px;padding:14px 18px;background:var(--surface2);border:1.5px solid var(--border);border-radius:12px;cursor:pointer;transition:all 0.2s ease;font-size:0.95rem;color:var(--text);}
+  .option:hover{border-color:rgba(99,102,241,0.5);background:rgba(99,102,241,0.07);}
+  .option.selected{border-color:var(--accent);background:rgba(99,102,241,0.12);box-shadow:0 0 0 1px rgba(99,102,241,0.3);}
+  .check{width:20px;height:20px;border-radius:6px;border:1.5px solid var(--border);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all 0.2s;}
+  .option.selected .check{background:var(--accent);border-color:var(--accent);}
+  .check svg{display:none;}
+  .option.selected .check svg{display:block;}
+  .radio{width:20px;height:20px;border-radius:50%;border:1.5px solid var(--border);flex-shrink:0;transition:all 0.2s;position:relative;}
+  .option.selected .radio{border-color:var(--accent);background:var(--accent);}
+  .radio::after{content:'';position:absolute;width:8px;height:8px;border-radius:50%;background:#fff;top:50%;left:50%;transform:translate(-50%,-50%) scale(0);transition:transform 0.2s;}
+  .option.selected .radio::after{transform:translate(-50%,-50%) scale(1);}
+  .actions{display:flex;gap:12px;}
+  .btn{flex:1;padding:14px 24px;border-radius:12px;font-size:0.95rem;font-weight:600;cursor:pointer;transition:all 0.2s;border:none;font-family:'Inter',sans-serif;}
+  .btn-primary{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;box-shadow:0 4px 20px var(--accent-glow);}
+  .btn-primary:hover:not(:disabled){transform:translateY(-1px);box-shadow:0 8px 30px var(--accent-glow);}
+  .btn-primary:disabled{opacity:0.4;cursor:not-allowed;transform:none;}
+  .btn-ghost{background:var(--surface2);color:var(--muted);border:1px solid var(--border);}
+  .btn-ghost:hover{color:var(--text);border-color:rgba(255,255,255,0.15);}
+  /* Results */
+  .results{display:none;}
+  .result-header{margin-bottom:2rem;}
+  .result-header h2{font-size:1.5rem;font-weight:700;margin-bottom:0.5rem;}
+  .result-header p{color:var(--muted);font-size:0.9rem;}
+  .output-block{margin-bottom:1.5rem;}
+  .output-label{display:flex;align-items:center;justify-content:space-between;margin-bottom:0.75rem;}
+  .output-label span{font-size:0.85rem;font-weight:600;color:#a5b4fc;}
+  .copy-actions{display:flex;gap:8px;}
+  .btn-sm{padding:6px 14px;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;border:1px solid var(--border);background:var(--surface2);color:var(--muted);font-family:'Inter',sans-serif;transition:all 0.2s;}
+  .btn-sm:hover{color:var(--text);border-color:rgba(255,255,255,0.2);}
+  .btn-sm.accent{background:rgba(99,102,241,0.15);border-color:rgba(99,102,241,0.4);color:#a5b4fc;}
+  pre{background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:1.25rem;font-family:'JetBrains Mono',monospace;font-size:12px;line-height:1.7;overflow:auto;max-height:320px;color:#cbd5e1;white-space:pre-wrap;}
+  .compliance-tags{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:1.5rem;}
+  .tag{padding:4px 12px;border-radius:100px;font-size:11px;font-weight:600;background:rgba(99,102,241,0.15);border:1px solid rgba(99,102,241,0.3);color:#a5b4fc;}
+  .tag.warning{background:rgba(245,158,11,0.12);border-color:rgba(245,158,11,0.3);color:#fbbf24;}
+  .divider{height:1px;background:var(--border);margin:1.5rem 0;}
+  .toast{position:fixed;bottom:2rem;left:50%;transform:translateX(-50%) translateY(100px);background:#10b981;color:#fff;padding:10px 24px;border-radius:100px;font-size:14px;font-weight:600;transition:transform 0.3s ease;z-index:100;}
+  .toast.show{transform:translateX(-50%) translateY(0);}
+  .generate-script-row{display:flex;align-items:center;justify-content:space-between;background:var(--surface2);border:1px solid var(--border);border-radius:12px;padding:1rem 1.25rem;margin-bottom:1.5rem;}
+  .generate-script-row p{font-size:0.875rem;color:var(--muted);}
+  .hitl-notice{background:rgba(245,158,11,0.08);border:1px solid rgba(245,158,11,0.25);border-radius:12px;padding:1rem 1.25rem;margin-bottom:1.5rem;font-size:0.85rem;color:#fbbf24;}
+  .hitl-notice strong{display:block;margin-bottom:4px;}
+  footer{text-align:center;margin-top:2rem;font-size:12px;color:var(--muted);}
+  .step-wrapper{animation:fadeIn 0.3s ease;}
+  @keyframes fadeIn{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
+  .action-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-top:1.5rem;}
+  .btn-action{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;padding:14px 10px;border-radius:12px;font-size:12px;font-weight:600;cursor:pointer;border:1px solid var(--border);background:var(--surface2);color:var(--muted);font-family:'Inter',sans-serif;transition:all 0.2s;text-align:center;line-height:1.3;}
+  .btn-action:hover{color:var(--text);border-color:rgba(255,255,255,0.2);background:rgba(255,255,255,0.05);}
+  .btn-action.green{border-color:rgba(16,185,129,0.4);background:rgba(16,185,129,0.08);color:#34d399;}
+  .btn-action.green:hover{background:rgba(16,185,129,0.15);}
+  .btn-action.purple{border-color:rgba(99,102,241,0.4);background:rgba(99,102,241,0.1);color:#a5b4fc;}
+  .btn-action.purple:hover{background:rgba(99,102,241,0.18);}
+  .btn-action .icon{font-size:20px;}
+  .nlm-block{margin-top:1.5rem;background:rgba(16,185,129,0.05);border:1px solid rgba(16,185,129,0.2);border-radius:12px;padding:1.25rem;}
+  .nlm-block h4{font-size:0.85rem;font-weight:600;color:#34d399;margin-bottom:0.5rem;}
+  .nlm-block p{font-size:0.8rem;color:var(--muted);margin-bottom:1rem;}
+  @media print {
+    body{background:#fff!important;color:#000!important;padding:0;}
+    .bg-orb,.toast,.action-grid,.generate-script-row,#scriptBlock,.hitl-notice~.divider{display:none!important;}
+    header h1{-webkit-text-fill-color:#1e1b4b!important;}
+    .card{box-shadow:none;border:1px solid #e2e8f0;}
+    .hitl-notice{background:#fef3c7!important;border-color:#f59e0b!important;color:#92400e!important;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+    pre{max-height:none!important;font-size:10px;}
+    .badge,.subtitle,.progress-bar,.step-label{display:none;}
+    .compliance-tags .tag{background:#e0e7ff!important;color:#3730a3!important;border-color:#c7d2fe!important;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+  }
+</style>
+</head>
+<body>
+<div class="bg-orb orb1"></div>
+<div class="bg-orb orb2"></div>
+<div class="container">
+  <header>
+    <div class="badge"><span class="badge-dot"></span>BMAD · 4-Eyes Protocol · ASIMOV-AI</div>
+    <h1>Configuration Wizard</h1>
+    <p class="subtitle">Generate a governed collaboration environment for your next client engagement</p>
+  </header>
+
+  <div class="card">
+    <!-- Intake Form -->
+    <div id="wizard">
+      <div class="progress-bar" id="progressBar"></div>
+      <div class="step-label" id="stepLabel"></div>
+      <div id="stepContent" class="step-wrapper"></div>
+      <div class="actions" id="actions">
+        <button class="btn btn-ghost" id="btnBack" onclick="goBack()">Back</button>
+        <button class="btn btn-primary" id="btnNext" onclick="goNext()">Next</button>
+      </div>
+    </div>
+
+    <!-- Results -->
+    <div class="results" id="results">
+      <div class="result-header">
+        <h2>✦ Configuration Ready</h2>
+        <p>Your ASIMOV-AI governed environment — YAML skill + optional Graph API script</p>
+      </div>
+      <div id="complianceTags" class="compliance-tags"></div>
+      <div class="hitl-notice">
+        <strong>⚠ 4-Eyes Protocol Active</strong>
+        All AI outputs must pass through the HITL Register before client delivery. No exceptions.
+      </div>
+      <div class="output-block">
+        <div class="output-label">
+          <span>COWORK YAML SKILL</span>
+          <div class="copy-actions">
+            <button class="btn-sm" onclick="copyText('yamlOutput')">Copy</button>
+          </div>
+        </div>
+        <pre id="yamlOutput"></pre>
+      </div>
+      <div class="divider"></div>
+      <div class="generate-script-row">
+        <p>Optionally generate the Microsoft Graph API provisioning script (Python)</p>
+        <button class="btn-sm accent" id="btnGenScript" onclick="generateScript()">Generate Script</button>
+      </div>
+      <div class="output-block" id="scriptBlock" style="display:none">
+        <div class="output-label">
+          <span>MICROSOFT GRAPH API SCRIPT</span>
+          <div class="copy-actions">
+            <button class="btn-sm" onclick="copyText('scriptOutput')">Copy</button>
+          </div>
+        </div>
+        <pre id="scriptOutput"></pre>
+      </div>
+      <div class="action-grid">
+        <button class="btn-action" onclick="restart()"><span class="icon">↺</span>New Config</button>
+        <button class="btn-action purple" onclick="exportPDF()"><span class="icon">📄</span>Export PDF</button>
+        <button class="btn-action green" onclick="sendToNLM()"><span class="icon">📓</span>Send to NotebookLM</button>
+      </div>
+      <div class="nlm-block" id="nlmBlock" style="display:none">
+        <h4>📓 NotebookLM — Governance Notebook</h4>
+        <p>Run these commands in your terminal to auto-create a governed ASIMOV notebook with the YAML as a source:</p>
+        <pre id="nlmScript"></pre>
+        <div style="display:flex;gap:8px;margin-top:0.75rem">
+          <button class="btn-sm accent" onclick="copyText('nlmScript')">Copy Commands</button>
+          <button class="btn-sm" onclick="downloadNLMScript()">Download .sh</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <footer>Antigravity · ASIMOV-AI · BMAD Standards · 4-Eyes Protocol enforced</footer>
+</div>
+<div class="toast" id="toast">Copied to clipboard ✓</div>
+
+<script>
+const questions = [
+  {
+    id:'sector', q:'What sector is this deployment for?', type:'select',
+    opts:['Law firm (SRA regulated)','Accountancy practice (ICAEW/ACCA regulated)','Architecture firm (ARB regulated)','Financial services (FCA regulated)','Healthcare practice (CQC regulated)','Other professional services']
+  },
+  {
+    id:'teamSize', q:'What is the team size?', type:'select',
+    opts:['1–10 people','11–50 people','51–200 people','200+ people']
+  },
+  {
+    id:'commTool', q:'Which communication platform?', type:'select',
+    opts:['Microsoft Teams','Slack','Google Chat','Other']
+  },
+  {
+    id:'docTool', q:'Which document storage platform?', type:'select',
+    opts:['Google Drive','SharePoint','Dropbox','OneDrive','Other']
+  },
+  {
+    id:'hitlTool', q:'Which tool for the HITL Register?', type:'select',
+    opts:['Microsoft Lists','Google Sheets','Airtable','Excel Online','Other']
+  },
+  {
+    id:'aiTools', q:'Which AI tools will be used? (Select all that apply)', type:'multi',
+    opts:['Claude','ChatGPT','Harvey','Gemini / NotebookLM','GitHub Copilot','Other']
+  },
+  {
+    id:'complianceReqs', q:'Which compliance requirements apply? (Select all that apply)', type:'multi',
+    opts:['EU AI Act (high-risk)','GDPR','SRA Principles (UK legal)','FCA regulations','HIPAA (healthcare)','ISO 27001','AML/KYC requirements','Other']
+  }
+];
+
+let step = 0;
+let answers = { sector:'', teamSize:'', commTool:'', docTool:'', hitlTool:'', aiTools:[], complianceReqs:[] };
+
+function render() {
+  const q = questions[step];
+  const total = questions.length;
+
+  // Progress bar
+  const bar = document.getElementById('progressBar');
+  bar.innerHTML = questions.map((_,i) =>
+    `<div class="seg ${i < step ? 'done' : i === step ? 'active' : ''}"></div>`
+  ).join('');
+  document.getElementById('stepLabel').textContent = `Question ${step+1} of ${total}`;
+
+  // Question
+  const isMulti = q.type === 'multi';
+  const val = answers[q.id];
+
+  const opts = q.opts.map(o => {
+    const sel = isMulti ? val.includes(o) : val === o;
+    const indicator = isMulti
+      ? `<div class="check">${sel ? '<svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>' : ''}</div>`
+      : `<div class="radio"></div>`;
+    return `<div class="option ${sel?'selected':''}" onclick="pick(this,'${o.replace(/'/g,"\\'")}','${q.id}','${isMulti}')">${indicator}<span>${o}</span></div>`;
+  }).join('');
+
+  const content = document.getElementById('stepContent');
+  content.innerHTML = `<div class="question">${q.q}</div><div class="options">${opts}</div>`;
+  content.className = 'step-wrapper';
+
+  // Buttons
+  document.getElementById('btnBack').style.display = step === 0 ? 'none' : 'block';
+  const next = document.getElementById('btnNext');
+  next.textContent = step === total - 1 ? 'Generate Configuration' : 'Next →';
+  next.disabled = !canProceed();
+}
+
+function pick(el, val, id, isMulti) {
+  if (isMulti === 'true') {
+    const arr = answers[id];
+    const idx = arr.indexOf(val);
+    if (idx >= 0) arr.splice(idx, 1); else arr.push(val);
+  } else {
+    answers[id] = val;
+  }
+  render();
+}
+
+function canProceed() {
+  const v = answers[questions[step].id];
+  return Array.isArray(v) ? v.length > 0 : v.length > 0;
+}
+
+function goNext() {
+  if (!canProceed()) return;
+  if (step < questions.length - 1) {
+    step++;
+    render();
+  } else {
+    showResults();
+  }
+}
+
+function goBack() {
+  if (step > 0) { step--; render(); }
+}
+
+function showResults() {
+  document.getElementById('wizard').style.display = 'none';
+  document.getElementById('results').style.display = 'block';
+
+  // Compliance tags
+  const tags = document.getElementById('complianceTags');
+  const highRisk = answers.complianceReqs.includes('EU AI Act (high-risk)');
+  tags.innerHTML = answers.complianceReqs.map(r =>
+    `<span class="tag ${r.includes('EU AI Act') ? 'warning' : ''}">${r}</span>`
+  ).join('') + `<span class="tag">HITL: ${answers.hitlTool}</span>` +
+  `<span class="tag">${answers.aiTools.join(' · ')}</span>`;
+
+  document.getElementById('yamlOutput').textContent = buildYAML();
+}
+
+function buildYAML() {
+  const a = answers;
+  const sectorTag = a.sector.includes('Law') ? '#sra-compliance' :
+    a.sector.includes('Account') ? '#icaew-compliance' :
+    a.sector.includes('Financial') ? '#fca-compliance' :
+    a.sector.includes('Health') ? '#cqc-compliance' : '#governance';
+
+  const compLines = a.complianceReqs.map(r => {
+    if (r.includes('SRA')) return '    - SRA Principle 6: enforced via channel permissions';
+    if (r.includes('EU AI')) return '    - EU AI Act (Aug 2 2026): HITL register satisfies human oversight requirement';
+    if (r.includes('GDPR')) return '    - GDPR: document storage must remain UK/EU hosted';
+    if (r.includes('FCA')) return '    - FCA: full audit trail of all AI-assisted decisions required';
+    if (r.includes('HIPAA')) return '    - HIPAA: all AI tools must be BAA-compliant';
+    if (r.includes('ISO')) return '    - ISO 27001: information security controls embedded in workflow';
+    if (r.includes('AML')) return '    - AML/KYC: matter channels must log client verification status';
+    return `    - ${r}`;
+  }).join('\n');
+
+  return `# Cowork Skill: Collaboration Environment Setup
+# Generated by ASIMOV-AI Configuration Wizard
+# Sector: ${a.sector}
+# BMAD Standards + 4-Eyes Protocol enforced
+# ─────────────────────────────────────────────
+
+skill:
+  name: setup_collaboration_environment
+  description: >
+    Provisions a governed collaboration environment for
+    ${a.sector} teams using available tooling.
+  platforms: [Mac, Windows, iOS, Android, iPad]
+  ai_tools: [${a.aiTools.join(', ')}]
+  governance: BMAD + 4-Eyes Protocol
+
+steps:
+
+  - step: 1_communication
+    tool: ${a.commTool}
+    actions:
+      - Create matter/project channels (one per active engagement)
+      - Create #general channel
+      - Create #ai-outputs channel (all AI-generated content posted here pre-review)
+      - Create #governance channel (compliance notifications)
+      - Create ${sectorTag} channel
+      - Assign channel owners with named HITL roles
+
+  - step: 2_documents
+    tool: ${a.docTool}
+    actions:
+      - Create standard folder structure:
+          /Active Matters
+          /AI Outputs (pending review)
+          /AI Outputs (approved)
+          /Governance
+          /Templates
+          /Audit Logs
+      - Apply version control policy to all document libraries
+      - Set role-based permissions (Partner / Associate / Admin)
+
+  - step: 3_hitl_register
+    tool: ${a.hitlTool}
+    actions:
+      - Create HITL Register with columns:
+          Task Type | AI Tool Used | HITL Reviewer | Sign-off Date | Matter Ref
+      - Link register to #ai-outputs channel
+      - Set weekly reminder for HITL review sweep
+      - Configure monthly export for regulatory audit file
+      - 4-Eyes gate: no AI output reaches client without register entry
+
+  - step: 4_compliance_frame
+    requirements:
+${compLines || '    - Standard professional services compliance'}
+      - Data residency: confirm all tools set to UK/EU region
+
+  - step: 5_ai_integration
+    tools: [${a.aiTools.join(', ')}]
+    actions:
+      - Configure AI output workflow:
+          1. AI generates draft → posted to #ai-outputs
+          2. Named HITL reviewer signs off (4-Eyes gate)
+          3. Approved output moves to document library
+          4. HITL Register updated automatically
+          5. Audit log entry created
+      - Brief all users on Kill List and citation standards
+      - Schedule 90-day governance review checkpoint
+
+# ─────────────────────────────────────────────
+# Team size: ${a.teamSize}
+# Next: run this skill via Cowork or pass to
+# Claude Code for Microsoft Graph API automation
+`;
+}
+
+function generateScript() {
+  const a = answers;
+  document.getElementById('btnGenScript').textContent = 'Generated ✓';
+  document.getElementById('btnGenScript').disabled = true;
+  const script = `"""
+ASIMOV-AI Environment Provisioning Script
+Sector: ${a.sector}
+Stack: ${a.commTool} + ${a.docTool} + ${a.hitlTool}
+Generated by ASIMOV-AI Configuration Wizard
+"""
+
+import requests, json, time
+from datetime import datetime
+
+# ═══════════════════════════════════════════════
+# CONFIGURATION — fill in your tenant details
+# ═══════════════════════════════════════════════
+TENANT_ID     = "your-tenant-id"
+CLIENT_ID     = "your-client-id"
+CLIENT_SECRET = "your-client-secret"
+TEAM_NAME     = "${a.sector} — ASIMOV Workspace"
+
+# Required Graph API permissions:
+#   Group.ReadWrite.All, Sites.ReadWrite.All, TeamSettings.ReadWrite.All
+
+def get_token():
+    r = requests.post(
+        f"https://login.microsoftonline.com/{TENANT_ID}/oauth2/v2.0/token",
+        data={"client_id":CLIENT_ID,"client_secret":CLIENT_SECRET,
+              "scope":"https://graph.microsoft.com/.default","grant_type":"client_credentials"})
+    return r.json()["access_token"]
+
+def create_team(tok):
+    r = requests.post("https://graph.microsoft.com/v1.0/teams",
+        headers={"Authorization":f"Bearer {tok}","Content-Type":"application/json"},
+        json={"template@odata.bind":"https://graph.microsoft.com/v1.0/teamsTemplates('standard')",
+              "displayName":TEAM_NAME,
+              "description":f"ASIMOV-AI governed workspace — {a.sector}"})
+    team_id = r.headers.get("Content-Location","").split("'")[1]
+    print(f"✓ Team created: {team_id}")
+    return team_id
+
+def create_channels(tok, tid):
+    channels = [
+        {"displayName":"ai-outputs","description":"All AI content posted here pre-review (4-Eyes gate)"},
+        {"displayName":"governance","description":"Compliance notifications and HITL sweep reminders"},
+        {"displayName":"active-matters","description":"Matter-specific discussions"},
+${a.sector.includes('Law') ? '        {"displayName":"sra-compliance","description":"SRA regulatory tracking"},' : ''}
+    ]
+    for ch in channels:
+        requests.post(f"https://graph.microsoft.com/v1.0/teams/{tid}/channels",
+            headers={"Authorization":f"Bearer {tok}","Content-Type":"application/json"},json=ch)
+        print(f"  ✓ Channel: {ch['displayName']}")
+
+def create_folders(tok, tid):
+    r = requests.get(f"https://graph.microsoft.com/v1.0/groups/{tid}/sites/root",
+        headers={"Authorization":f"Bearer {tok}"})
+    site_id = r.json()["id"]
+    r = requests.get(f"https://graph.microsoft.com/v1.0/sites/{site_id}/drives",
+        headers={"Authorization":f"Bearer {tok}"})
+    drive_id = r.json()["value"][0]["id"]
+    for folder in ["Active Matters","AI Outputs (pending review)","AI Outputs (approved)",
+                   "Governance","Templates","Audit Logs"]:
+        requests.post(f"https://graph.microsoft.com/v1.0/drives/{drive_id}/root/children",
+            headers={"Authorization":f"Bearer {tok}","Content-Type":"application/json"},
+            json={"name":folder,"folder":{},"@microsoft.graph.conflictBehavior":"rename"})
+        print(f"  ✓ Folder: {folder}")
+
+def create_hitl_register(tok, tid):
+    r = requests.get(f"https://graph.microsoft.com/v1.0/groups/{tid}/sites/root",
+        headers={"Authorization":f"Bearer {tok}"})
+    site_id = r.json()["id"]
+    requests.post(f"https://graph.microsoft.com/v1.0/sites/{site_id}/lists",
+        headers={"Authorization":f"Bearer {tok}","Content-Type":"application/json"},
+        json={"displayName":"HITL Register",
+              "columns":[
+                  {"name":"Task Type","text":{}},{"name":"AI Tool Used","text":{}},
+                  {"name":"HITL Reviewer","text":{}},{"name":"Sign-off Date","dateTime":{}},
+                  {"name":"Matter Ref","text":{}},{"name":"4-Eyes Status","text":{}}
+              ],"list":{"template":"genericList"}})
+    print("  ✓ HITL Register created")
+
+def main():
+    print("\\n" + "="*60)
+    print("ASIMOV-AI Environment Provisioning")
+    print(f"Sector: ${a.sector}")
+    print("="*60 + "\\n")
+    tok = get_token()
+    tid = create_team(tok)
+    print("\\nWaiting 30s for team provisioning...")
+    time.sleep(30)
+    print("\\nCreating channels...")
+    create_channels(tok, tid)
+    print("\\nCreating SharePoint folders...")
+    create_folders(tok, tid)
+    print("\\nCreating HITL Register...")
+    create_hitl_register(tok, tid)
+    print("\\n" + "="*60)
+    print("✓ Provisioning complete")
+    print(f"Team ID: {tid}")
+    print("\\nNext steps:")
+    print("  1. Assign HITL reviewers to #ai-outputs channel")
+    print("  2. Configure weekly HITL Register sweep reminder")
+    print("  3. Brief team on AI output 4-Eyes workflow")
+    print("  4. Schedule 90-day governance review")
+    print("="*60)
+
+if __name__ == "__main__":
+    main()
+`;
+  document.getElementById('scriptOutput').textContent = script;
+  document.getElementById('scriptBlock').style.display = 'block';
+}
+
+function copyText(id) {
+  const text = document.getElementById(id).textContent;
+  navigator.clipboard.writeText(text).then(() => {
+    const t = document.getElementById('toast');
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 2000);
+  });
+}
+
+function exportPDF() {
+  window.print();
+}
+
+function buildNLMScript() {
+  const a = answers;
+  const yaml = buildYAML();
+  const escaped = yaml.replace(/"/g,'\\"').replace(/`/g,'\\`').replace(/\$/g,'\\$');
+  const title = `ASIMOV — ${a.sector.split('(')[0].trim()} Governance Notebook`;
+  return `#!/bin/bash
+# ASIMOV-AI: Auto-create NotebookLM Governance Notebook
+# Generated by ASIMOV-AI Configuration Wizard
+# Run: bash asimov_nlm_setup.sh
+
+set -e
+
+echo "Creating NotebookLM notebook: ${title}"
+NB_ID=$(nlm notebook create "${title}" --quiet)
+echo "Notebook ID: $NB_ID"
+
+echo "Adding ASIMOV YAML as source..."
+nlm source add "$NB_ID" --text "${escaped}" --title "ASIMOV Config — ${a.sector}"
+
+echo "Adding HITL governance context..."
+nlm source add "$NB_ID" --text "4-Eyes Protocol: All AI outputs must be logged in the HITL Register (${a.hitlTool}) before client delivery. Compliance: ${a.complianceReqs.join(', ')}. AI tools in use: ${a.aiTools.join(', ')}." --title "HITL Protocol & Compliance"
+
+echo "Generating governance briefing report..."
+nlm report create "$NB_ID" --format "Briefing Doc" --confirm
+
+echo "Generating study guide for team onboarding..."
+nlm report create "$NB_ID" --format "Study Guide" --confirm
+
+echo ""
+echo "✓ NotebookLM Governance Notebook ready!"
+echo "  Notebook ID: $NB_ID"
+echo "  Run: nlm studio status $NB_ID  (check generation progress)"
+echo "  Run: nlm notebook query $NB_ID \"What are the HITL requirements?\""
+`;
+}
+
+function sendToNLM() {
+  const script = buildNLMScript();
+  document.getElementById('nlmScript').textContent = script;
+  const block = document.getElementById('nlmBlock');
+  block.style.display = block.style.display === 'none' ? 'block' : 'none';
+}
+
+function downloadNLMScript() {
+  const script = buildNLMScript();
+  const blob = new Blob([script], {type:'text/plain'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'asimov_nlm_setup.sh';
+  a.click();
+  URL.revokeObjectURL(a.href);
+}
+
+function restart() {
+  step = 0;
+  answers = { sector:'', teamSize:'', commTool:'', docTool:'', hitlTool:'', aiTools:[], complianceReqs:[] };
+  document.getElementById('results').style.display = 'none';
+  document.getElementById('wizard').style.display = 'block';
+  document.getElementById('btnGenScript').textContent = 'Generate Script';
+  document.getElementById('btnGenScript').disabled = false;
+  document.getElementById('scriptBlock').style.display = 'none';
+  render();
+}
+
+render();
+</script>
+</body>
+</html>
