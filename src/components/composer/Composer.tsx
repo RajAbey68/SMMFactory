@@ -7,6 +7,7 @@ import { PostActions } from './PostActions'
 
 interface ComposerProps {
   communities: Community[]
+  campaignTag: string
   composer: {
     state: ComposerState
     setCommunity: (c: Community | null) => void
@@ -17,7 +18,7 @@ interface ComposerProps {
   }
 }
 
-export function Composer({ communities, composer }: ComposerProps) {
+export function Composer({ communities, campaignTag, composer }: ComposerProps) {
   const { state, setCommunity, setContent, setTitle, setStatus, reset } = composer
 
   const handleRedditPost = async () => {
@@ -25,14 +26,15 @@ export function Composer({ communities, composer }: ComposerProps) {
     setStatus('posting')
     try {
       const token = await getRedditToken()
-      await submitRedditPost(token, 'LegalAdviceUK', state.title, state.content)
+      const subreddit = state.community.url.match(/reddit\.com\/r\/([^/]+)/)?.[1] ?? 'LegalAdviceUK'
+      await submitRedditPost(token, subreddit, state.title, state.content)
       await supabase.from('posts').insert({
         community_id: state.community.id,
         content: state.content,
         status: 'posted',
         post_method: 'reddit_api',
         posted_at: new Date().toISOString(),
-        campaign_tag: 'brampton-k34yx552',
+        campaign_tag: campaignTag,
       })
       setStatus('success')
       setTimeout(reset, 2000)
@@ -50,7 +52,7 @@ export function Composer({ communities, composer }: ComposerProps) {
       content: state.content,
       status: 'approved',
       post_method: 'manual_clipboard',
-      campaign_tag: 'brampton-k34yx552',
+      campaign_tag: campaignTag,
     })
     window.open(state.community.url, '_blank')
   }

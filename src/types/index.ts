@@ -1,3 +1,13 @@
+export interface Campaign {
+  id: string
+  name: string
+  tag: string
+  description: string | null
+  color: string
+  active: boolean
+  created_at: string
+}
+
 export type CommunityType = 'reddit' | 'rss' | 'firecrawl' | 'email'
 export type ThreadStatus = 'active' | 'resolved' | 'archived'
 export type PostStatus = 'draft' | 'approved' | 'posted' | 'scheduled'

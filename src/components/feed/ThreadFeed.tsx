@@ -4,9 +4,10 @@ import { ReplyCard } from './ReplyCard'
 interface ThreadFeedProps {
   replies: Reply[]
   loading: boolean
+  campaignName?: string
 }
 
-export function ThreadFeed({ replies, loading }: ThreadFeedProps) {
+export function ThreadFeed({ replies, loading, campaignName }: ThreadFeedProps) {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-48 text-gray-500 text-sm">
@@ -28,7 +29,7 @@ export function ThreadFeed({ replies, loading }: ThreadFeedProps) {
   return (
     <div>
       <div className="px-5 py-3 border-b border-gray-800 flex items-center justify-between sticky top-0 bg-gray-950/95 backdrop-blur-sm z-10">
-        <h2 className="text-sm font-semibold text-gray-300">Activity Feed</h2>
+        <h2 className="text-sm font-semibold text-gray-300">{campaignName ?? 'Activity Feed'}</h2>
         <span className="text-xs text-gray-500">{replies.length} replies</span>
       </div>
       {replies.map(reply => (

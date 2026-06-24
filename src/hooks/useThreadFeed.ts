@@ -8,6 +8,13 @@ export function useThreadFeed(campaignTag: string) {
   const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
+    if (!campaignTag) {
+      setLoading(false)
+      return
+    }
+
+    let active = true
+
     const fetchReplies = async () => {
       const { data, error } = await supabase
         .from('replies')
@@ -15,6 +22,7 @@ export function useThreadFeed(campaignTag: string) {
         .order('created_at', { ascending: false })
         .limit(100)
 
+      if (!active) return
       if (error) setError(error.message)
       else setReplies((data ?? []).filter((r: Reply) => r.thread?.campaign_tag === campaignTag))
       setLoading(false)
@@ -23,13 +31,16 @@ export function useThreadFeed(campaignTag: string) {
     fetchReplies()
 
     const channel = supabase
-      .channel('replies-feed')
+      .channel(`replies-feed-${campaignTag}`)
       .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'replies' }, (payload) => {
-        setReplies(prev => [payload.new as Reply, ...prev])
+        if (active) setReplies(prev => [payload.new as Reply, ...prev])
       })
       .subscribe()
 
-    return () => { supabase.removeChannel(channel) }
+    return () => {
+      active = false
+      supabase.removeChannel(channel)
+    }
   }, [campaignTag])
 
   return { replies, loading, error }
