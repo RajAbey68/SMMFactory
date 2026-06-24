@@ -5,9 +5,11 @@ interface ThreadFeedProps {
   replies: Reply[]
   loading: boolean
   campaignName?: string
+  onSelectReply?: (reply: Reply) => void
+  selectedReplyId?: string | null
 }
 
-export function ThreadFeed({ replies, loading, campaignName }: ThreadFeedProps) {
+export function ThreadFeed({ replies, loading, campaignName, onSelectReply, selectedReplyId }: ThreadFeedProps) {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-48 text-gray-500 text-sm">
@@ -33,7 +35,12 @@ export function ThreadFeed({ replies, loading, campaignName }: ThreadFeedProps) 
         <span className="text-xs text-gray-500">{replies.length} replies</span>
       </div>
       {replies.map(reply => (
-        <ReplyCard key={reply.id} reply={reply} />
+        <ReplyCard
+          key={reply.id}
+          reply={reply}
+          onSelect={onSelectReply}
+          isSelected={reply.id === selectedReplyId}
+        />
       ))}
     </div>
   )

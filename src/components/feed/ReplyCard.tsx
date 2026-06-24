@@ -3,16 +3,24 @@ import type { Reply } from '../../types'
 
 interface ReplyCardProps {
   reply: Reply
+  onSelect?: (reply: Reply) => void
+  isSelected?: boolean
 }
 
-export function ReplyCard({ reply }: ReplyCardProps) {
+export function ReplyCard({ reply, onSelect, isSelected = false }: ReplyCardProps) {
   const community = reply.thread?.community
   const communityColor = community?.color ?? '#6366f1'
   const communityName = community?.name ?? 'Unknown'
   const threadTitle = reply.thread?.title ?? 'Thread'
 
   return (
-    <article className="px-5 py-4 border-b border-gray-800 hover:bg-gray-900/50 transition-colors">
+    <article
+      className={`px-5 py-4 border-b border-gray-800 cursor-pointer transition-colors border-l-2 ${
+        isSelected ? 'bg-gray-800/40' : 'hover:bg-gray-900/50 border-l-transparent'
+      }`}
+      style={isSelected ? { borderLeftColor: communityColor } : undefined}
+      onClick={() => onSelect?.(reply)}
+    >
       <div className="flex items-center gap-2 mb-2">
         <span
           className="inline-block px-2 py-0.5 rounded text-xs font-medium"
