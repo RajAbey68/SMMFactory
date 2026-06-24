@@ -2,16 +2,17 @@ import { useState, useEffect } from 'react'
 import { AppLayout } from './components/layout/AppLayout'
 import { Sidebar } from './components/layout/Sidebar'
 import { ThreadFeed } from './components/feed/ThreadFeed'
-import { Composer } from './components/composer/Composer'
+import { PostingPane } from './components/composer/PostingPane'
 import { useCampaigns } from './hooks/useCampaigns'
 import { useCommunities } from './hooks/useCommunities'
 import { useThreadFeed } from './hooks/useThreadFeed'
 import { useComposer } from './hooks/useComposer'
-import type { Campaign } from './types'
+import type { Campaign, Reply } from './types'
 
 export default function App() {
   const [activeCampaign, setActiveCampaign] = useState<Campaign | null>(null)
   const [selectedCommunityId, setSelectedCommunityId] = useState<string | null>(null)
+  const [selectedReply, setSelectedReply] = useState<Reply | null>(null)
 
   const { campaigns, addCampaign } = useCampaigns()
   const { communities, addCommunity } = useCommunities(activeCampaign?.tag ?? '')
@@ -25,10 +26,23 @@ export default function App() {
     }
   }, [campaigns, activeCampaign])
 
-  // Reset community selection when campaign changes
   const handleCampaignChange = (campaign: Campaign) => {
     setActiveCampaign(campaign)
     setSelectedCommunityId(null)
+    setSelectedReply(null)
+    composer.reset()
+  }
+
+  const handleSelectReply = (reply: Reply) => {
+    setSelectedReply(reply)
+    if (reply.thread?.community) {
+      composer.setCommunity(reply.thread.community)
+    }
+  }
+
+  const handleDiscard = () => {
+    setSelectedReply(null)
+    composer.reset()
   }
 
   const filtered = selectedCommunityId
@@ -50,11 +64,22 @@ export default function App() {
             onAddCommunity={addCommunity}
           />
         }
-        feed={<ThreadFeed replies={filtered} loading={loading} campaignName={activeCampaign?.name} />}
+        feed={
+          <ThreadFeed
+            replies={filtered}
+            loading={loading}
+            campaignName={activeCampaign?.name}
+            onSelectReply={handleSelectReply}
+            selectedReplyId={selectedReply?.id}
+          />
+        }
         composer={
-          <Composer
+          <PostingPane
+            campaign={activeCampaign}
             communities={communities}
             campaignTag={activeCampaign?.tag ?? ''}
+            selectedReply={selectedReply}
+            onDiscard={handleDiscard}
             composer={composer}
           />
         }
