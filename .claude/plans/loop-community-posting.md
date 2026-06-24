@@ -52,7 +52,8 @@ A complete community posting capability front end that shows:
 - [x] P0 fix: ApprovalQueue clipboard-before-DB; surface clipboard errors to user
 - [x] FALSE POSITIVE verified: both DraftCard buttons already guarded by `state !== 'idle'`
 - [x] Build: ✓ 335 modules · 0 tsc errors post-fixes
-- [x] PR created on feat/community-posting-v2
+- [x] All code changes committed to feat/community-posting-v2
+- [ ] PR ⏸ BLOCKED — no GitHub remote configured; needs `gh repo create RajAbey68/NexCamp` then `git push -u origin feat/community-posting-v2`
 
 ## Stop Conditions
 - All iteration checkboxes green
