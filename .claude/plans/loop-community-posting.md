@@ -53,7 +53,7 @@ A complete community posting capability front end that shows:
 - [x] FALSE POSITIVE verified: both DraftCard buttons already guarded by `state !== 'idle'`
 - [x] Build: ✓ 335 modules · 0 tsc errors post-fixes
 - [x] All code changes committed to feat/community-posting-v2
-- [ ] PR ⏸ BLOCKED — no GitHub remote configured; needs `gh repo create RajAbey68/NexCamp` then `git push -u origin feat/community-posting-v2`
+- [x] PR opened: https://github.com/RajAbey68/SMMFactory/pull/1 (base: nexcamp-main in SMMFactory repo)
 
 ## Stop Conditions
 - All iteration checkboxes green
