@@ -1,9 +1,12 @@
+import { useState, useEffect } from 'react'
 import { formatDistanceToNow } from 'date-fns'
 import { supabase } from '../../lib/supabase'
 import { getRedditToken, submitRedditPost } from '../../lib/reddit'
 import type { Campaign, Community, Reply } from '../../types'
 import type { ComposerState } from '../../hooks/useComposer'
 import { CommunityPicker } from './CommunityPicker'
+import { ApprovalQueue } from '../approval/ApprovalQueue'
+import { useDraftPosts } from '../../hooks/useDraftPosts'
 
 const CHAR_LIMITS: Record<string, number> = {
   reddit: 40000,
@@ -37,6 +40,13 @@ export function PostingPane({
   composer,
 }: PostingPaneProps) {
   const { state, setCommunity, setContent, setTitle, setStatus, reset } = composer
+  const [activeTab, setActiveTab] = useState<'compose' | 'drafts'>('compose')
+  const { drafts, loading: draftsLoading } = useDraftPosts(campaignTag)
+
+  // Auto-switch to Compose when a reply is selected from the feed
+  useEffect(() => {
+    if (selectedReply) setActiveTab('compose')
+  }, [selectedReply])
 
   // Community from selected reply takes precedence over composer picker
   const activeCommunity = selectedReply?.thread?.community ?? state.community
@@ -117,6 +127,36 @@ export function PostingPane({
 
   return (
     <div className="flex flex-col h-full overflow-hidden">
+      {/* Tab header */}
+      <div className="flex border-b border-gray-800 flex-shrink-0">
+        {(['compose', 'drafts'] as const).map(tab => (
+          <button
+            key={tab}
+            onClick={() => setActiveTab(tab)}
+            className={`flex-1 py-2.5 text-[10px] font-bold uppercase tracking-widest transition-colors flex items-center justify-center gap-1.5 ${
+              activeTab === tab
+                ? 'text-gray-200 border-b-2 border-gray-200'
+                : 'text-gray-500 hover:text-gray-300'
+            }`}
+          >
+            {tab === 'compose' ? 'Compose' : 'Drafts'}
+            {tab === 'drafts' && drafts.length > 0 && (
+              <span className="inline-flex items-center justify-center w-4 h-4 rounded-full bg-gray-700 text-[9px] font-bold text-gray-300">
+                {drafts.length}
+              </span>
+            )}
+          </button>
+        ))}
+      </div>
+
+      {/* Drafts tab */}
+      {activeTab === 'drafts' && (
+        <ApprovalQueue drafts={drafts} loading={draftsLoading} />
+      )}
+
+      {/* Compose tab */}
+      {activeTab === 'compose' && <>
+
       {/* Section 1 — Campaign theme strip */}
       {campaign && (
         <div
@@ -265,6 +305,8 @@ export function PostingPane({
           {isPosting ? 'Posting…' : isReddit ? 'Post to Reddit →' : 'Copy & Open →'}
         </button>
       </div>
+
+      </>}
     </div>
   )
 }

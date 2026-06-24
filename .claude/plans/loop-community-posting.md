@@ -34,10 +34,12 @@ A complete community posting capability front end that shows:
 - [x] `ThreadFeed.tsx` — wires `onSelectReply` + `selectedReplyId` to feed cards
 - [x] TypeScript: 0 errors · Build: ✓ 333 modules · No console errors
 
-### Iteration 2 — In-App Approval Queue
-- [ ] Add `drafts` table to migration 0004
-- [ ] Build `ApprovalQueue.tsx` component
-- [ ] Wire Hermes agent → drafts table → approval UI
+### Iteration 2 — In-App Approval Queue ✅ DONE (2026-06-24)
+- [x] Migration 0004: `anon_delete_posts` RLS policy (soft-delete without needing a status workaround)
+- [x] `useDraftPosts.ts` hook — fetches posts where status=draft, Realtime subscription
+- [x] `ApprovalQueue.tsx` — per-draft cards: community badge, content preview, Approve (copy+open) / Delete
+- [x] `PostingPane.tsx` — COMPOSE / DRAFTS tab switcher; auto-switch to Compose on reply select
+- [x] Build: ✓ 335 modules · 0 tsc errors · 0 runtime errors
 
 ### Iteration 3 — Reddit OAuth2 Authorization Code Flow
 - [ ] Build Reddit OAuth callback Edge Function
