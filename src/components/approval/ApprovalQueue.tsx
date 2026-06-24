@@ -42,16 +42,26 @@ function DraftCard({ draft }: { draft: Post }) {
   const communityName = draft.community?.name ?? 'Unknown community'
   const isReddit = draft.community?.type === 'reddit'
 
+  const [approveError, setApproveError] = useState<string | null>(null)
+
   const handleApprove = async () => {
     setState('approving')
+    setApproveError(null)
     try {
+      if (!isReddit && draft.community) {
+        try {
+          await navigator.clipboard.writeText(draft.content)
+        } catch {
+          throw new Error('Clipboard blocked — grant clipboard permission and retry')
+        }
+      }
       await supabase.from('posts').update({ status: 'approved', posted_at: new Date().toISOString() }).eq('id', draft.id)
       if (!isReddit && draft.community) {
-        await navigator.clipboard.writeText(draft.content).catch(() => {})
         window.open(draft.community.url, '_blank')
       }
       setState('done')
-    } catch {
+    } catch (err) {
+      setApproveError(err instanceof Error ? err.message : 'Approve failed')
       setState('idle')
     }
   }
@@ -84,6 +94,12 @@ function DraftCard({ draft }: { draft: Post }) {
 
       {/* Content preview */}
       <p className="text-xs text-gray-300 line-clamp-4 mb-3 leading-relaxed">{draft.content}</p>
+
+      {approveError && (
+        <p className="text-[10px] text-red-400 bg-red-950/30 border border-red-900/50 px-2 py-1 mb-2">
+          {approveError}
+        </p>
+      )}
 
       {/* Action bar */}
       <div className="flex items-center gap-2">

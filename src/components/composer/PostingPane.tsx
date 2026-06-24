@@ -70,7 +70,8 @@ export function PostingPane({
     try {
       if (isReddit) {
         const token = await getRedditToken()
-        const subreddit = activeCommunity.url.match(/reddit\.com\/r\/([^/]+)/)?.[1] ?? 'LegalAdviceUK'
+        const subreddit = activeCommunity.url.match(/reddit\.com\/r\/([^/]+)/)?.[1]
+        if (!subreddit) throw new Error(`Cannot parse subreddit from URL: ${activeCommunity.url}`)
         await submitRedditPost(token, subreddit, state.title, state.content)
         await supabase.from('posts').insert({
           community_id: activeCommunity.id,
