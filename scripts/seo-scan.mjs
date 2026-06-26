@@ -17,7 +17,7 @@
 import { readFileSync, writeFileSync, existsSync } from 'fs';
 import { join } from 'path';
 import { getProvider, SUPPORTED_PROVIDERS } from './seo-providers.mjs';
-import { buildSeoIntel } from './seo-schema.mjs';
+import { buildSeoIntel, sanitizeDomain, sanitizeKeyword } from './seo-schema.mjs';
 
 const C = { reset: '\x1b[0m', green: '\x1b[32m', yellow: '\x1b[33m', red: '\x1b[31m', cyan: '\x1b[36m', dim: '\x1b[2m' };
 const log = (icon, msg) => console.log(`  ${icon}  ${msg}`);
@@ -60,7 +60,11 @@ function resolveConfig(args) {
   if (args.domain) cfg.target_domain = args.domain;
   if (args.region || args.database) cfg.region = args.region || args.database;
   cfg.region = cfg.region || cfg.database || process.env.SEMRUSH_DATABASE || process.env.SERANKING_SOURCE || 'us';
-  cfg.tracked_keywords = cfg.tracked_keywords || [];
+  // Sanitize untrusted inputs before they reach URL builders (fail fast on bad domain).
+  if (cfg.target_domain) cfg.target_domain = sanitizeDomain(cfg.target_domain);
+  cfg.tracked_keywords = (cfg.tracked_keywords || [])
+    .map((k) => { try { return sanitizeKeyword(k); } catch { return null; } })
+    .filter(Boolean);
   return { researchDir, cfg };
 }
 

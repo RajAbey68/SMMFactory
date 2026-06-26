@@ -22,12 +22,14 @@ import { normalizeRows, normalizeRow } from './seo-schema.mjs';
 // native field name -> canonical field name
 const MAPS = {
   semrush: {
-    keyword: { keyword: 'keyword', position: 'position', search_volume: 'volume', cpc: 'cpc', competition: 'competition', difficulty: 'difficulty', url: 'url', traffic_pct: 'traffic_pct', traffic: 'traffic_pct' },
+    keyword: { keyword: 'keyword', position: 'position', search_volume: 'volume', cpc: 'cpc', competition: 'competition', difficulty: 'difficulty', url: 'url', traffic: 'traffic_pct' },
     competitor: { domain: 'domain', relevance: 'relevance', common_keywords: 'common_keywords', organic_keywords: 'organic_keywords', organic_traffic: 'organic_traffic' },
+    overview: { domain: 'domain', rank: 'rank', organic_keywords: 'organic_keywords', organic_traffic: 'organic_traffic', organic_cost: 'organic_cost', paid_keywords: 'paid_keywords' },
   },
   seranking: {
     keyword: { keyword: 'keyword', position: 'position', volume: 'volume', cpc: 'cpc', competition: 'competition', difficulty: 'difficulty', url: 'url', intents: 'intents', relevance: 'relevance' },
     competitor: { domain: 'domain', relevance: 'relevance', common_keywords: 'common_keywords', organic_keywords: 'organic_keywords', organic_traffic: 'organic_traffic' },
+    overview: { domain: 'domain', rank: 'rank', organic_keywords: 'organic_keywords', organic_traffic: 'organic_traffic', organic_cost: 'organic_cost', paid_keywords: 'paid_keywords' },
   },
 };
 
@@ -36,7 +38,10 @@ function makeProvider(name, client, map) {
     name,
     async domainOverview(domain) {
       const r = await client.domainOverview(domain);
-      return Array.isArray(r) ? (r[0] || null) : (r || null);
+      const row = Array.isArray(r) ? r[0] : r;
+      if (!row || typeof row !== 'object') return null;
+      const norm = normalizeRow(row, map.overview);
+      return Object.keys(norm).length ? norm : null;
     },
     async organicKeywords(domain) {
       return normalizeRows(await client.organicKeywords(domain), map.keyword);

@@ -69,4 +69,16 @@ describe('getProvider', () => {
     expect(sem[0].domain).toBe('airbnb.com');
     expect(ser[0].domain).toBe('booking.com');
   });
+
+  it('domainOverview is normalized + numerically coerced (not raw native)', async () => {
+    const client = {
+      domainOverview: async () => [{ organic_keywords: '120', organic_traffic: '3,400', junk: 'drop-me' }],
+      organicKeywords: async () => [], paidKeywords: async () => [],
+      organicCompetitors: async () => [], keywordOverview: async () => null,
+    };
+    const ov = await getProvider('semrush', { client }).domainOverview('kolakevilla.com');
+    expect(ov.organic_keywords).toBe(120);      // coerced string -> number
+    expect(ov.organic_traffic).toBe(3400);      // comma string -> number
+    expect(ov.junk).toBeUndefined();            // unmapped native field dropped
+  });
 });
