@@ -116,6 +116,12 @@ export function deriveScanStatus({ domainOverview, organicKeywords = [], paidKey
   return 'ok';
 }
 
+/** Mask an API key for logs — last 4 chars only, never any prefix. */
+export function maskKey(k) {
+  const s = String(k ?? '');
+  return s.length > 4 ? `***${s.slice(-4)}` : '****';
+}
+
 /** Clean a freeform keyword: strip control chars, collapse whitespace, cap length. */
 export function sanitizeKeyword(input) {
   const k = cleanValue(String(input ?? '')).slice(0, MAX_KEYWORD_LEN);

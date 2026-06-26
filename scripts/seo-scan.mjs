@@ -17,7 +17,7 @@
 import { readFileSync, writeFileSync, existsSync } from 'fs';
 import { join } from 'path';
 import { getProvider, SUPPORTED_PROVIDERS } from './seo-providers.mjs';
-import { buildSeoIntel, sanitizeDomain, sanitizeKeyword, deriveScanStatus } from './seo-schema.mjs';
+import { buildSeoIntel, sanitizeDomain, sanitizeKeyword, deriveScanStatus, maskKey } from './seo-schema.mjs';
 import { withRetry, classifyError } from './seo-retry.mjs';
 
 // SE Ranking's Data API is organic-only (paidKeywords is a stub) — be honest about it.
@@ -103,7 +103,7 @@ async function main() {
     log('  ', `${C.dim}${keyEnv}=xxx node scripts/seo-scan.mjs --provider ${provider} --campaign <slug>${C.reset}`);
     process.exit(1);
   }
-  log('🔑', `${keyEnv}: ${key.slice(0, 5)}...${key.slice(-4)}`);
+  log('🔑', `${keyEnv}: ${maskKey(key)}`);
 
   let researchDir, cfg;
   try { ({ researchDir, cfg } = resolveConfig(args)); }
@@ -165,6 +165,17 @@ async function main() {
   log('🏷️', `Keyword intel rows: ${intel.keyword_intel.length}`);
   console.log('');
   log('💡', `${C.dim}Canonical schema — swap --provider without changing downstream consumers.${C.reset}`);
+
+  // Optional machine-parseable summary line (zero-dep observability hook for CI/jobs).
+  if (process.env.SEO_LOG_JSON) {
+    console.log(JSON.stringify({
+      event: 'seo_scan', provider, status, domain: cfg.target_domain, region: cfg.region,
+      organic_keywords: intel.organic_keywords.length, paid_keywords: intel.paid_keywords.length,
+      organic_competitors: intel.organic_competitors.length, keyword_intel: intel.keyword_intel.length,
+      paid_data_available: intel._metadata.paid_data_available,
+      elapsed_seconds: parseFloat(elapsed), generated_at: intel._metadata.generated_at,
+    }));
+  }
 
   // Honest exit: a scan where every call failed must not look successful to CI/callers.
   if (status === 'failed') process.exit(1);
