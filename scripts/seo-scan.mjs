@@ -17,7 +17,11 @@
 import { readFileSync, writeFileSync, existsSync } from 'fs';
 import { join } from 'path';
 import { getProvider, SUPPORTED_PROVIDERS } from './seo-providers.mjs';
-import { buildSeoIntel, sanitizeDomain, sanitizeKeyword } from './seo-schema.mjs';
+import { buildSeoIntel, sanitizeDomain, sanitizeKeyword, deriveScanStatus } from './seo-schema.mjs';
+import { withRetry, classifyError } from './seo-retry.mjs';
+
+// SE Ranking's Data API is organic-only (paidKeywords is a stub) — be honest about it.
+const PAID_DATA_PROVIDERS = new Set(['semrush']);
 
 const C = { reset: '\x1b[0m', green: '\x1b[32m', yellow: '\x1b[33m', red: '\x1b[31m', cyan: '\x1b[36m', dim: '\x1b[2m' };
 const log = (icon, msg) => console.log(`  ${icon}  ${msg}`);
@@ -68,9 +72,15 @@ function resolveConfig(args) {
   return { researchDir, cfg };
 }
 
-async function safe(label, p) {
-  try { return await p; }
-  catch (e) { log('⚠️', `${C.yellow}${label} failed: ${e.message}${C.reset}`); return { _error: e.message }; }
+// Run a provider call with transient-failure retry; on terminal failure, tag the
+// error with its taxonomy code so the artifact records WHY data is missing.
+async function safe(label, thunk) {
+  try { return await withRetry(thunk); }
+  catch (e) {
+    const code = classifyError(e);
+    log('⚠️', `${C.yellow}${label} failed [${code}]: ${e.message}${C.reset}`);
+    return { _error: e.message, _code: code };
+  }
 }
 
 async function main() {
@@ -115,18 +125,19 @@ async function main() {
   log('⏳', `Querying ${provider} (consumes API credits/units)...`);
   const start = Date.now();
 
-  const domainOverview = await safe('Domain overview', prov.domainOverview(cfg.target_domain));
-  const organicKeywords = await safe('Organic keywords', prov.organicKeywords(cfg.target_domain));
-  const paidKeywords = await safe('Paid keywords', prov.paidKeywords(cfg.target_domain));
-  const organicCompetitors = await safe('Organic competitors', prov.organicCompetitors(cfg.target_domain));
+  const domainOverview = await safe('Domain overview', () => prov.domainOverview(cfg.target_domain));
+  const organicKeywords = await safe('Organic keywords', () => prov.organicKeywords(cfg.target_domain));
+  const paidKeywords = await safe('Paid keywords', () => prov.paidKeywords(cfg.target_domain));
+  const organicCompetitors = await safe('Organic competitors', () => prov.organicCompetitors(cfg.target_domain));
 
   const keywordIntel = [];
   for (const kw of cfg.tracked_keywords.slice(0, 10)) {
-    const r = await safe(`Keyword overview "${kw}"`, prov.keywordOverview(kw));
+    const r = await safe(`Keyword overview "${kw}"`, () => prov.keywordOverview(kw));
     keywordIntel.push({ keyword: kw, data: r && !r._error ? r : null });
   }
 
   const elapsed = ((Date.now() - start) / 1000).toFixed(1);
+  const status = deriveScanStatus({ domainOverview, organicKeywords, paidKeywords, organicCompetitors, keywordIntel });
   const intel = buildSeoIntel({
     provider,
     target: cfg.target_domain,
@@ -136,21 +147,27 @@ async function main() {
     paidKeywords: Array.isArray(paidKeywords) ? paidKeywords : [],
     organicCompetitors: Array.isArray(organicCompetitors) ? organicCompetitors : [],
     keywordIntel,
-    meta: { generated_at: new Date().toISOString(), elapsed_seconds: parseFloat(elapsed) },
+    paidDataAvailable: PAID_DATA_PROVIDERS.has(provider),
+    meta: { generated_at: new Date().toISOString(), elapsed_seconds: parseFloat(elapsed), status },
   });
 
   const outPath = join(researchDir, 'seo_intel.json');
   writeFileSync(outPath, JSON.stringify(intel, null, 2), 'utf-8');
 
   logSection('Results');
-  log('✅', `${C.green}Scan complete in ${elapsed}s via ${provider}${C.reset}`);
+  const statusIcon = status === 'ok' ? '✅' : status === 'partial' ? '🟡' : '❌';
+  const statusColor = status === 'failed' ? C.red : status === 'partial' ? C.yellow : C.green;
+  log(statusIcon, `${statusColor}Scan ${status} in ${elapsed}s via ${provider}${C.reset}`);
   log('📄', `Output: ${outPath}`);
   log('📈', `Organic keywords: ${intel.organic_keywords.length}`);
-  log('💰', `Paid keywords: ${intel.paid_keywords.length}`);
+  log('💰', `Paid keywords: ${intel.paid_keywords.length}${PAID_DATA_PROVIDERS.has(provider) ? '' : ' (provider has no paid API)'}`);
   log('🥊', `Organic competitors: ${intel.organic_competitors.length}`);
   log('🏷️', `Keyword intel rows: ${intel.keyword_intel.length}`);
   console.log('');
   log('💡', `${C.dim}Canonical schema — swap --provider without changing downstream consumers.${C.reset}`);
+
+  // Honest exit: a scan where every call failed must not look successful to CI/callers.
+  if (status === 'failed') process.exit(1);
 }
 
 main();

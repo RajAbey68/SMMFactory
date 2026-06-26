@@ -448,6 +448,23 @@ await test('.env.example includes SE Ranking + provider selector', async () => {
   assert(c.includes('SEO_PROVIDER'), '.env.example missing SEO_PROVIDER');
 });
 
+await test('SEO retry/taxonomy module exists and retries transient errors (functional)', async () => {
+  const path = 'scripts/seo-retry.mjs';
+  assert(existsSync(path), 'scripts/seo-retry.mjs missing');
+  const { withRetry, classifyError, ERROR_CODES } = await import('../scripts/seo-retry.mjs');
+  assert(classifyError(new Error('rate limit')) === ERROR_CODES.RATE_LIMITED, 'rate-limit not classified');
+  assert(classifyError(new Error('WRONG KEY')) === ERROR_CODES.INVALID_KEY, 'invalid-key not classified');
+  let n = 0;
+  const out = await withRetry(async () => { n++; if (n < 2) throw new Error('ECONNRESET'); return 'ok'; }, { sleep: () => Promise.resolve() });
+  assert(out === 'ok' && n === 2, `retry did not recover: out=${out} n=${n}`);
+  // non-retryable fails fast
+  let m = 0;
+  let threw = false;
+  try { await withRetry(async () => { m++; throw new Error('WRONG KEY'); }, { sleep: () => Promise.resolve() }); }
+  catch { threw = true; }
+  assert(threw && m === 1, `non-retryable should fail fast: m=${m}`);
+});
+
 // ─── REPORT ──────────────────────────────────────────────────────
 
 console.log('\n' + '═'.repeat(60));

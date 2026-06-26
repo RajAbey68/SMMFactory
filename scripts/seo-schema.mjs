@@ -93,6 +93,29 @@ export function sanitizeDomain(input) {
   return raw;
 }
 
+/**
+ * Derive an honest run status from the raw section results, so a scan where
+ * every call failed is reported as 'failed' (and the runner can exit non-zero)
+ * rather than silently writing an empty artifact that looks successful.
+ * Sections may be arrays (success) or {_error} sentinels (failure).
+ */
+export function deriveScanStatus({ domainOverview, organicKeywords = [], paidKeywords = [], organicCompetitors = [], keywordIntel = [] } = {}) {
+  const listErrored = (s) => s && typeof s === 'object' && s._error;
+  const len = (s) => (Array.isArray(s) ? s.length : 0);
+  const kwFailed = keywordIntel.filter((k) => k && k.data == null).length;
+  const kwOk = keywordIntel.filter((k) => k && k.data != null).length;
+
+  const errored =
+    [domainOverview, organicKeywords, paidKeywords, organicCompetitors].some(listErrored) || kwFailed > 0;
+  const dataCount =
+    (domainOverview && !domainOverview._error ? Object.keys(domainOverview).length : 0) +
+    len(organicKeywords) + len(paidKeywords) + len(organicCompetitors) + kwOk;
+
+  if (dataCount === 0 && errored) return 'failed';
+  if (errored) return 'partial';
+  return 'ok';
+}
+
 /** Clean a freeform keyword: strip control chars, collapse whitespace, cap length. */
 export function sanitizeKeyword(input) {
   const k = cleanValue(String(input ?? '')).slice(0, MAX_KEYWORD_LEN);
@@ -120,6 +143,7 @@ export function buildSeoIntel({
   paidKeywords = [],
   organicCompetitors = [],
   keywordIntel = [],
+  paidDataAvailable = null,
   meta = {},
 }) {
   return {
@@ -133,6 +157,8 @@ export function buildSeoIntel({
     paid_keywords: paidKeywords,
     organic_competitors: organicCompetitors,
     keyword_intel: keywordIntel,
-    _metadata: { generated_at: null, ...meta },
+    // paid_data_available distinguishes "[] because the provider has no paid API"
+    // from "[] because there is genuinely no paid competition".
+    _metadata: { generated_at: null, paid_data_available: paidDataAvailable, ...meta },
   };
 }
