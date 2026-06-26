@@ -135,7 +135,7 @@ async function main() {
     log('  ', `${C.dim}Or switch provider: AI_PROVIDER=anthropic ANTHROPIC_API_KEY=xxx ...${C.reset}`);
     process.exit(1);
   }
-  log('🔑', `${P.name} key: ${P.key.slice(0, 7)}...${P.key.slice(-4)}`);
+  log('🔑', `${P.name} key loaded`); // never log key material (CodeQL js/clear-text-logging)
 
   // ── Load market DNA ──
   logSection('Loading Inputs');

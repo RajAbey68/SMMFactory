@@ -25,7 +25,6 @@
 import { readFileSync, writeFileSync, existsSync } from 'fs';
 import { join } from 'path';
 import { SemrushClient } from './semrush-client.mjs';
-import { maskKey } from './seo-schema.mjs';
 
 const C = {
   reset: '\x1b[0m', green: '\x1b[32m', yellow: '\x1b[33m',
@@ -108,7 +107,7 @@ async function main() {
     log('  ', `${C.dim}Requires a SEMrush subscription with the API-units add-on. See SECURITY.md.${C.reset}`);
     process.exit(1);
   }
-  log('🔑', `SEMrush key: ${maskKey(key)}`);
+  log('🔑', 'SEMRUSH_API_KEY loaded'); // never log key material (CodeQL js/clear-text-logging)
 
   let researchDir, cfg;
   try { ({ researchDir, cfg } = resolveConfig(args)); }

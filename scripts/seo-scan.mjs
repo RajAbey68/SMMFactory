@@ -17,7 +17,7 @@
 import { readFileSync, writeFileSync, existsSync } from 'fs';
 import { join } from 'path';
 import { getProvider, SUPPORTED_PROVIDERS } from './seo-providers.mjs';
-import { buildSeoIntel, sanitizeDomain, sanitizeKeyword, deriveScanStatus, maskKey } from './seo-schema.mjs';
+import { buildSeoIntel, sanitizeDomain, sanitizeKeyword, deriveScanStatus } from './seo-schema.mjs';
 import { withRetry, classifyError } from './seo-retry.mjs';
 
 // SE Ranking's Data API is organic-only (paidKeywords is a stub) — be honest about it.
@@ -103,7 +103,7 @@ async function main() {
     log('  ', `${C.dim}${keyEnv}=xxx node scripts/seo-scan.mjs --provider ${provider} --campaign <slug>${C.reset}`);
     process.exit(1);
   }
-  log('🔑', `${keyEnv}: ${maskKey(key)}`);
+  log('🔑', `${keyEnv} loaded`); // never log key material (CodeQL js/clear-text-logging)
 
   let researchDir, cfg;
   try { ({ researchDir, cfg } = resolveConfig(args)); }
