@@ -80,3 +80,14 @@ export function getProvider(name, opts = {}) {
 
 /** Providers registered behind the adapter (for docs / validation). */
 export const SUPPORTED_PROVIDERS = ['semrush', 'seranking'];
+
+/**
+ * Canonical sections whose underlying provider endpoints are NOT yet confirmed
+ * against a live response (best-guess paths/field-maps). Consumers should discount
+ * these until a live key-run verifies them. SEMrush + SE Ranking *keyword* endpoints
+ * are doc-verified; SE Ranking *domain-analysis* endpoints are not.
+ */
+export const UNVERIFIED_SECTIONS = {
+  semrush: [],
+  seranking: ['domain_overview', 'organic_keywords', 'organic_competitors'],
+};

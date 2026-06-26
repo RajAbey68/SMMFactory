@@ -6,7 +6,7 @@
 // `volume` field through the provider interface.
 
 import { describe, it, expect } from 'vitest';
-import { getProvider } from '../scripts/seo-providers.mjs';
+import { getProvider, UNVERIFIED_SECTIONS } from '../scripts/seo-providers.mjs';
 
 // Minimal fake clients matching each native client's method surface.
 const fakeSemrush = {
@@ -23,6 +23,17 @@ const fakeSeRanking = {
   organicCompetitors: async () => [{ domain: 'booking.com', relevance: 0.7, common_keywords: 33 }],
   keywordOverview: async () => ({ keyword: 'surf stay', volume: 860, cpc: 1.15 }),
 };
+
+describe('UNVERIFIED_SECTIONS', () => {
+  it('flags SE Ranking domain-analysis sections as unverified (best-guess endpoints)', () => {
+    expect(UNVERIFIED_SECTIONS.seranking).toContain('domain_overview');
+    expect(UNVERIFIED_SECTIONS.seranking).toContain('organic_keywords');
+    expect(UNVERIFIED_SECTIONS.seranking).toContain('organic_competitors');
+  });
+  it('marks SEMrush as fully verified (no unverified sections)', () => {
+    expect(UNVERIFIED_SECTIONS.semrush).toEqual([]);
+  });
+});
 
 describe('getProvider', () => {
   it('throws on an unknown provider name', () => {

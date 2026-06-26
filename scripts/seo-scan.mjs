@@ -16,7 +16,7 @@
 
 import { readFileSync, writeFileSync, existsSync } from 'fs';
 import { join } from 'path';
-import { getProvider, SUPPORTED_PROVIDERS } from './seo-providers.mjs';
+import { getProvider, SUPPORTED_PROVIDERS, UNVERIFIED_SECTIONS } from './seo-providers.mjs';
 import { buildSeoIntel, sanitizeDomain, sanitizeKeyword, deriveScanStatus } from './seo-schema.mjs';
 import { withRetry, classifyError } from './seo-retry.mjs';
 
@@ -121,6 +121,11 @@ async function main() {
 
   const prov = getProvider(provider, { key, region: cfg.region, displayLimit: cfg.display_limit || 50 });
 
+  const unverified = UNVERIFIED_SECTIONS[provider] || [];
+  if (unverified.length) {
+    log('⚠️', `${C.yellow}UNVERIFIED endpoints for ${provider}: ${unverified.join(', ')} — best-guess paths, NOT confirmed against a live response. Treat these sections as provisional until a live key-run verifies them.${C.reset}`);
+  }
+
   logSection('Pulling Reports');
   log('⏳', `Querying ${provider} (consumes API credits/units)...`);
   const start = Date.now();
@@ -148,6 +153,7 @@ async function main() {
     organicCompetitors: Array.isArray(organicCompetitors) ? organicCompetitors : [],
     keywordIntel,
     paidDataAvailable: PAID_DATA_PROVIDERS.has(provider),
+    unverifiedSections: unverified,
     meta: { generated_at: new Date().toISOString(), elapsed_seconds: parseFloat(elapsed), status },
   });
 

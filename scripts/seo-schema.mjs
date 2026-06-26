@@ -145,6 +145,7 @@ export function buildSeoIntel({
   organicCompetitors = [],
   keywordIntel = [],
   paidDataAvailable = null,
+  unverifiedSections = [],
   meta = {},
 }) {
   return {
@@ -160,6 +161,8 @@ export function buildSeoIntel({
     keyword_intel: keywordIntel,
     // paid_data_available distinguishes "[] because the provider has no paid API"
     // from "[] because there is genuinely no paid competition".
-    _metadata: { generated_at: null, paid_data_available: paidDataAvailable, ...meta },
+    // unverified_sections lists sections whose provider endpoints are best-guess
+    // (not yet confirmed against a live response) — consumers should discount them.
+    _metadata: { generated_at: null, paid_data_available: paidDataAvailable, unverified_sections: unverifiedSections, ...meta },
   };
 }
