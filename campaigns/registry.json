@@ -16,10 +16,10 @@
       {
         "id": "research",
         "name": "🔍 Research",
-        "description": "Market intelligence, competitor analysis, audience insights, keyword/hook discovery.",
-        "deliverables": ["market_dna.json", "competitor_intel/"],
+        "description": "Market intelligence, competitor analysis, audience insights, keyword/hook discovery. SEMrush adds SEO + PPC keyword and competitor data.",
+        "deliverables": ["market_dna.json", "competitor_intel/", "seo_intel.json"],
         "gate": "Research reviewed, insights actionable",
-        "agents": ["spyder"]
+        "agents": ["spyder", "semrush"]
       },
       {
         "id": "planning",
@@ -88,7 +88,7 @@
       },
       "window": { "start": "2026-04-18", "end": "2026-06-30" },
       "property": "Ko Lake Villa",
-      "agents": ["spyder", "pomelli", "stitch", "openclaw"],
+      "agents": ["spyder", "semrush", "pomelli", "stitch", "openclaw"],
       "path": "./campaigns/ko-lake-retreats/"
     },
     {

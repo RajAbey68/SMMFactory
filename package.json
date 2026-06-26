@@ -7,6 +7,8 @@
     "test": "tsx tests/truth-tests.ts 2>/dev/null || node tests/truth-tests.mjs",
     "test:node": "node tests/truth-tests.mjs",
     "quality": "bash scripts/quality-gate.sh",
+    "semrush": "node scripts/semrush-scan.mjs",
+    "seo": "node scripts/seo-scan.mjs",
     "reviews": "bash review-engine/start.sh",
     "hooks": "bash creative/hook-studio/start.sh"
   },

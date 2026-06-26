@@ -11,6 +11,7 @@ params:
   TARGET_MARKETS: ["US", "UK"]
 agents:
   - spyder
+  - semrush
   - pomelli
   - stitch
   - openclaw
@@ -48,6 +49,24 @@ agents:
   "competitor_insights": []
 }
 ```
+
+---
+
+## STEP 1.2: SEMRUSH SEO + PPC INTELLIGENCE (SEMrush Analytics API)
+
+> **Tool:** SEMrush Analytics API | **Input:** target domain + tracked keywords
+> **Output:** `./research/seo_intel.json` (per campaign: `campaigns/<slug>/research/seo_intel.json`)
+
+- Run: `node scripts/semrush-scan.mjs --campaign <slug>`
+- Pull for the target domain:
+  1. **Domain Overview** (`domain_ranks`) — authority rank, organic/paid traffic, keyword counts
+  2. **Organic keywords** (`domain_organic`) — positions, volume, difficulty, traffic share
+  3. **Paid keywords** (`domain_adwords`) — competitor Google Ads keywords + copy (the PPC audit)
+  4. **Organic competitors** (`domain_organic_organic`) — domains contesting the same SERPs
+  5. **Keyword Overview** (`phrase_this`) per tracked keyword — volume, CPC, competition, difficulty for **keyword-gap discovery**
+- Save to `./research/seo_intel.json`.
+- This is the search-side twin of the AdSpyder scan: AdSpyder surfaces competitor *ads*, SEMrush surfaces competitor *keywords & SEO*. Both feed STEP 1.5.
+- ⚠️ Requires a SEMrush subscription **with the API-units add-on**. See SECURITY.md.
 
 ---
 
