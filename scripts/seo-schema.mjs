@@ -102,7 +102,8 @@ export function sanitizeDomain(input) {
 export function deriveScanStatus({ domainOverview, organicKeywords = [], paidKeywords = [], organicCompetitors = [], keywordIntel = [] } = {}) {
   const listErrored = (s) => s && typeof s === 'object' && s._error;
   const len = (s) => (Array.isArray(s) ? s.length : 0);
-  const kwFailed = keywordIntel.filter((k) => k && k.data == null).length;
+  // A keyword that erred is a failure; a keyword that simply returned no data is not.
+  const kwFailed = keywordIntel.filter((k) => k && k.error).length;
   const kwOk = keywordIntel.filter((k) => k && k.data != null).length;
 
   const errored =

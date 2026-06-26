@@ -133,7 +133,7 @@ async function main() {
   const keywordIntel = [];
   for (const kw of cfg.tracked_keywords.slice(0, 10)) {
     const r = await safe(`Keyword overview "${kw}"`, () => prov.keywordOverview(kw));
-    keywordIntel.push({ keyword: kw, data: r && !r._error ? r : null });
+    keywordIntel.push({ keyword: kw, data: r && !r._error ? r : null, error: r && r._error ? r._code : null });
   }
 
   const elapsed = ((Date.now() - start) / 1000).toFixed(1);
