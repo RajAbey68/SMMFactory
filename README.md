@@ -93,15 +93,32 @@ cp mcp_config.json ~/.antigravity/mcp_config.json
 | `/verify` | Full pre-deploy quality gate |
 | `/quality` | Quick quality check |
 | `/status` | Workspace health snapshot |
-| `/adspyder-scan` | Run competitive intelligence scan |
+| `/adspyder-scan` | Run competitive **ad** intelligence scan |
+| `/semrush-scan` | Run SEMrush **SEO + PPC** intelligence scan → `seo_intel.json` |
 
 ## Blueprint
 
 Open `marketing-studio.agy` in the Antigravity Playground to run the full orchestration:
 
-1. **RECON** (Spyder) → `research/market_dna.json`
+1. **RECON** (Spyder + AdSpyder + SEMrush) → `research/market_dna.json`, `seo_intel.json`
 2. **CREATIVE** (Pomelli + Stitch) → ads + landing page
 3. **DEPLOY** (OpenClaw) → Meta + Google campaigns
+
+> **SEMrush / SE Ranking** are the search-side research providers: AdSpyder surfaces
+> competitor *ads*, these surface competitor *keywords & SEO* (organic + paid + keyword gaps).
+> They sit behind a **provider-neutral adapter** (`scripts/seo-providers.mjs`) that emits a
+> single canonical `seo_intel.json` schema (`scripts/seo-schema.mjs`) — swap providers without
+> touching downstream consumers:
+>
+> ```bash
+> # provider-neutral runner (default SEO_PROVIDER, or --provider):
+> SEMRUSH_API_KEY=xxx   node scripts/seo-scan.mjs --provider semrush   --campaign <slug>
+> SERANKING_API_KEY=xxx node scripts/seo-scan.mjs --provider seranking --campaign <slug>
+> ```
+>
+> SEMrush requires its Analytics API **units add-on**; SE Ranking uses a single Data API key
+> (`Authorization: Token`). An independent design review ranked **SE Ranking ahead of SpyFu**
+> as the general SEMrush replacement.
 
 ## CI/CD (GitHub Actions)
 

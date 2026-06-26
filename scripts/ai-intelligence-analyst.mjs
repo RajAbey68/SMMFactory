@@ -43,6 +43,7 @@ const P = PROVIDERS[AI_PROVIDER] || PROVIDERS.openai;
 // ── File paths ──────────────────────────────────────────────
 const MARKET_DNA_PATH = 'research/market_dna.json';
 const COMPETITOR_INTEL_DIR = 'research/competitor_intel';
+const SEO_INTEL_PATH = 'research/seo_intel.json';
 const OUTPUT_PATH = 'research/ai_analysis.json';
 
 // ── Colors for terminal output ──────────────────────────────
@@ -162,8 +163,17 @@ async function main() {
     }
   }
 
-  if (!marketDna && !competitorScan) {
-    log('❌', `${C.red}No data to analyze. Need market_dna.json or competitor scan.${C.reset}`);
+  // ── Load SEMrush SEO intel (optional) ──
+  let seoIntel = null;
+  if (existsSync(SEO_INTEL_PATH)) {
+    seoIntel = JSON.parse(readFileSync(SEO_INTEL_PATH, 'utf-8'));
+    const orgKw = seoIntel.top_organic_keywords?.length || 0;
+    const paidKw = seoIntel.top_paid_keywords?.length || 0;
+    log('🔎', `SEMrush SEO intel loaded: ${orgKw} organic + ${paidKw} paid keywords`);
+  }
+
+  if (!marketDna && !competitorScan && !seoIntel) {
+    log('❌', `${C.red}No data to analyze. Need market_dna.json, competitor scan, or seo_intel.json.${C.reset}`);
     process.exit(1);
   }
 
@@ -239,6 +249,8 @@ ${marketDna ? `**Market DNA:**\n${JSON.stringify(marketDna, null, 2)}` : '(No ma
 
 ${competitorScan ? `**Competitor Intelligence Scan:**\n${JSON.stringify(competitorScan, null, 2)}` : '(No competitor scan available)'}
 
+${seoIntel ? `**SEMrush SEO + PPC Intelligence:**\nUse organic keywords for content/SEO angles, paid keywords to reverse-engineer competitor Google Ads, and keyword_intel (volume/CPC/difficulty) to prioritize high-intent, low-difficulty keyword gaps.\n${JSON.stringify(seoIntel, null, 2)}` : '(No SEMrush SEO intel available)'}
+
 Generate comprehensive analysis with all required fields.`;
 
   const startTime = Date.now();
@@ -267,6 +279,7 @@ Generate comprehensive analysis with all required fields.`;
       input_files: {
         market_dna: marketDna ? MARKET_DNA_PATH : null,
         competitor_scan: competitorScan ? 'latest' : null,
+        seo_intel: seoIntel ? SEO_INTEL_PATH : null,
       }
     };
 

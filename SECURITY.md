@@ -88,6 +88,33 @@ OPENAI_ADS_ACCOUNT_ID=org-xxx
 
 ---
 
+### Research / Intelligence APIs
+
+```env
+# AdSpyder — competitor ad intelligence
+ADSPYDER_API_KEY=xxx
+
+# SEMrush — SEO + PPC intelligence (Analytics API)
+# Requires a subscription WITH the API-units add-on.
+# Key location: SEMrush account → Subscription info → API units.
+SEMRUSH_API_KEY=xxx
+SEMRUSH_DATABASE=uk   # uk | us | au | de | ...
+
+# SE Ranking — SEO + PPC intelligence (Data API, SEMrush alternative)
+# One key authenticates every endpoint. Sent as "Authorization: Token <key>".
+SERANKING_API_KEY=xxx
+SERANKING_SOURCE=uk
+
+# Provider selector for scripts/seo-scan.mjs
+SEO_PROVIDER=semrush   # semrush | seranking
+```
+
+> ⚠️ The SEMrush key is passed as a URL query parameter by the Analytics API.
+> The client never logs it in full (only `first5...last4`), and `.env` is gitignored —
+> never paste a real key into a shared API-call example.
+
+---
+
 ### Notifications
 
 ```env
@@ -134,6 +161,8 @@ but storing it outside the project directory is an extra safety layer.
 | Anthropic | 90 days | console.anthropic.com |
 | Meta | On employee offboarding | Facebook Business Manager |
 | Google | On compromise only | Google Cloud Console → IAM |
+| SEMrush | 90 days or on compromise | SEMrush → Subscription info → API units |
+| SE Ranking | 90 days or on compromise | SE Ranking → Account → API |
 | All | Immediately on accidental commit | See Golden Rule above |
 
 ---

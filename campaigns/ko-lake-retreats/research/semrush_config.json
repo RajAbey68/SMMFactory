@@ -1,0 +1,44 @@
+{
+  "tool": "semrush",
+  "version": "1.0.0",
+  "description": "SEMrush Analytics API integration for SMMFactory — SEO + PPC competitive intelligence (Research phase). The search-side twin of adspyder_config.json.",
+  "target_domain": "kolakevilla.com",
+  "database": "uk",
+  "competitor_domains": [
+    "booking.com",
+    "airbnb.com",
+    "villasinsrilanka.com",
+    "boutiquehotelsrilanka.com"
+  ],
+  "tracked_keywords": [
+    "luxury group villa Sri Lanka",
+    "Easter villa rentals Sri Lanka",
+    "large family holiday Ahangama",
+    "yoga retreat venue Sri Lanka",
+    "surf stay Ahangama",
+    "digital nomad Koggala",
+    "private pool villa Koggala",
+    "luxury villa Galle coast"
+  ],
+  "reports": {
+    "domain_overview": "domain_ranks — rank, organic/paid traffic, keyword counts",
+    "organic_keywords": "domain_organic — keywords the domain ranks for organically",
+    "paid_keywords": "domain_adwords — competitor Google Ads keywords + copy",
+    "organic_competitors": "domain_organic_organic — domains competing for the same keywords",
+    "keyword_overview": "phrase_this — volume, CPC, competition, difficulty per tracked keyword"
+  },
+  "pipeline": {
+    "step_1": "SEMrush pulls domain overview + organic/paid keywords + organic competitors",
+    "step_2": "Keyword overview run per tracked keyword for gap discovery",
+    "step_3": "Export to research/seo_intel.json",
+    "step_4": "Feed to scripts/ai-intelligence-analyst.mjs for gap analysis + proof-based ad copy",
+    "step_5": "Feed high-intent keyword gaps to OpenClaw for Google Ads keyword build"
+  },
+  "api": {
+    "base_url": "https://api.semrush.com/",
+    "auth": "key query parameter (SEMRUSH_API_KEY)",
+    "format": "CSV, semicolon-separated",
+    "units_note": "Consumes API units — requires the SEMrush API-units add-on. Tracked-keyword overview is capped to 10/run to protect units.",
+    "docs": "https://developer.semrush.com/api/v3/analytics/"
+  }
+}

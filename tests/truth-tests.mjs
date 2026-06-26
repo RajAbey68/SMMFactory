@@ -290,6 +290,164 @@ await test('.env.example exists with all required keys', async () => {
   assert(content.includes('SLACK_WEBHOOK_URL'), '.env.example missing SLACK_WEBHOOK_URL');
 });
 
+// ─── SEMRUSH INTEGRATION ────────────────────────────────────────
+
+await test('SEMrush client module exists with correct exports', async () => {
+  const path = 'scripts/semrush-client.mjs';
+  assert(existsSync(path), 'scripts/semrush-client.mjs missing');
+  const content = readFileSync(path, 'utf-8');
+  assert(content.includes('export function parseSemrushCsv'), 'Missing parseSemrushCsv export');
+  assert(content.includes('export function mapColumns'), 'Missing mapColumns export');
+  assert(content.includes('export class SemrushClient'), 'Missing SemrushClient export');
+  assert(content.includes('export const SEMRUSH_COLUMNS'), 'Missing SEMRUSH_COLUMNS export');
+  assert(content.includes('api.semrush.com'), 'Missing SEMrush API host');
+});
+
+await test('SEMrush parseSemrushCsv parses CSV and flags errors (functional)', async () => {
+  const { parseSemrushCsv } = await import('../scripts/semrush-client.mjs');
+  const rows = parseSemrushCsv('Keyword;Position;Search Volume\nluxury villa;3;1900');
+  assert(rows.length === 1, `Expected 1 row, got ${rows.length}`);
+  assert(rows[0].Keyword === 'luxury villa', `Expected "luxury villa", got "${rows[0].Keyword}"`);
+  assert(parseSemrushCsv('').length === 0, 'Empty body should yield 0 rows');
+  let threw = false;
+  try { parseSemrushCsv('ERROR 120 :: WRONG KEY'); } catch { threw = true; }
+  assert(threw, 'ERROR response should throw');
+});
+
+await test('SEMrush mapColumns normalizes + coerces (functional)', async () => {
+  const { mapColumns } = await import('../scripts/semrush-client.mjs');
+  const m = mapColumns([{ Keyword: 'surf', 'Search Volume': '880', CPC: '1.2' }]);
+  assert(m[0].keyword === 'surf', 'keyword not normalized');
+  assert(m[0].search_volume === 880, 'search_volume not coerced to number');
+  assert(m[0].cpc === 1.2, 'cpc not coerced to number');
+});
+
+await test('SEMrush client builds correct request URL (functional, offline)', async () => {
+  const { SemrushClient } = await import('../scripts/semrush-client.mjs');
+  const calls = [];
+  const client = new SemrushClient('k-123', {
+    database: 'uk',
+    fetchImpl: async (url) => { calls.push(url); return 'Keyword;Position\nx;1'; },
+  });
+  await client.organicKeywords('kolakevilla.com');
+  assert(calls[0].includes('type=domain_organic'), 'Wrong report type');
+  assert(calls[0].includes('key=k-123'), 'Missing key');
+  assert(calls[0].includes('database=uk'), 'Missing database');
+  assert(calls[0].includes('api.semrush.com'), 'Wrong host');
+});
+
+await test('SEMrush scan script exists with key guard + output', async () => {
+  const path = 'scripts/semrush-scan.mjs';
+  assert(existsSync(path), 'scripts/semrush-scan.mjs missing');
+  const content = readFileSync(path, 'utf-8');
+  assert(content.includes('SEMRUSH_API_KEY'), 'Scan script missing SEMRUSH_API_KEY guard');
+  assert(content.includes('seo_intel.json'), 'Scan script missing seo_intel.json output');
+  assert(content.includes('SemrushClient'), 'Scan script does not use SemrushClient');
+});
+
+await test('SEMrush workflow exists', async () => {
+  assert(existsSync('.agent/workflows/semrush-scan.md'), '.agent/workflows/semrush-scan.md missing');
+});
+
+await test('SEMrush config exists for ko-lake-retreats and is valid', async () => {
+  const path = 'campaigns/ko-lake-retreats/research/semrush_config.json';
+  assert(existsSync(path), `${path} missing`);
+  const cfg = JSON.parse(readFileSync(path, 'utf-8'));
+  assert(cfg.tool === 'semrush', `Expected tool "semrush", got "${cfg.tool}"`);
+  assert(cfg.target_domain, 'Missing target_domain');
+  assert(Array.isArray(cfg.tracked_keywords), 'Missing tracked_keywords array');
+});
+
+await test('.env.example includes SEMRUSH_API_KEY', async () => {
+  const content = readFileSync('.env.example', 'utf-8');
+  assert(content.includes('SEMRUSH_API_KEY'), '.env.example missing SEMRUSH_API_KEY');
+});
+
+await test('Blueprint includes SEMrush research step', async () => {
+  const content = readFileSync('marketing-studio.agy', 'utf-8');
+  assert(content.includes('SEMRUSH'), 'Blueprint missing SEMRUSH step');
+  assert(content.includes('semrush-scan.mjs'), 'Blueprint missing semrush-scan.mjs reference');
+});
+
+await test('Registry research phase registers the semrush agent', async () => {
+  const reg = JSON.parse(readFileSync('campaigns/registry.json', 'utf-8'));
+  const research = reg.lifecycle.phases.find(p => p.id === 'research');
+  assert(research.agents.includes('semrush'), 'Research phase missing semrush agent');
+  assert(research.deliverables.includes('seo_intel.json'), 'Research phase missing seo_intel.json deliverable');
+});
+
+// ─── SEO PROVIDER ABSTRACTION ───────────────────────────────────
+
+await test('Canonical seo-schema module exists with exports', async () => {
+  const path = 'scripts/seo-schema.mjs';
+  assert(existsSync(path), 'scripts/seo-schema.mjs missing');
+  const c = readFileSync(path, 'utf-8');
+  assert(c.includes('export function buildSeoIntel'), 'Missing buildSeoIntel');
+  assert(c.includes('export function normalizeRows'), 'Missing normalizeRows');
+  assert(c.includes('CANONICAL_KEYWORD_FIELDS'), 'Missing canonical field contract');
+});
+
+await test('SE Ranking client module exists with exports', async () => {
+  const path = 'scripts/seranking-client.mjs';
+  assert(existsSync(path), 'scripts/seranking-client.mjs missing');
+  const c = readFileSync(path, 'utf-8');
+  assert(c.includes('export class SeRankingClient'), 'Missing SeRankingClient');
+  assert(c.includes('export function parseSeRanking'), 'Missing parseSeRanking');
+  assert(c.includes('api.seranking.com'), 'Missing SE Ranking host');
+  assert(c.includes('Token '), 'Missing Token auth scheme');
+});
+
+await test('SEO provider factory exists and lists supported providers', async () => {
+  const path = 'scripts/seo-providers.mjs';
+  assert(existsSync(path), 'scripts/seo-providers.mjs missing');
+  const c = readFileSync(path, 'utf-8');
+  assert(c.includes('export function getProvider'), 'Missing getProvider');
+  assert(c.includes('SUPPORTED_PROVIDERS'), 'Missing SUPPORTED_PROVIDERS');
+});
+
+await test('Provider factory normalizes both providers to canonical volume (functional)', async () => {
+  const { getProvider } = await import('../scripts/seo-providers.mjs');
+  const semrush = getProvider('semrush', { client: {
+    domainOverview: async () => [{}], paidKeywords: async () => [], organicCompetitors: async () => [],
+    keywordOverview: async () => ({ keyword: 'k', search_volume: 5 }),
+    organicKeywords: async () => [{ keyword: 'luxury villa', search_volume: 1900 }],
+  } });
+  const seranking = getProvider('seranking', { client: {
+    domainOverview: async () => ({}), paidKeywords: async () => [], organicCompetitors: async () => [],
+    keywordOverview: async () => ({ keyword: 'k', volume: 5 }),
+    organicKeywords: async () => [{ keyword: 'luxury villa', volume: 1850 }],
+  } });
+  const a = await semrush.organicKeywords('x');
+  const b = await seranking.organicKeywords('x');
+  assert(a[0].volume === 1900, `SEMrush search_volume not normalized: ${JSON.stringify(a[0])}`);
+  assert(a[0].search_volume === undefined, 'SEMrush native field leaked through');
+  assert(b[0].volume === 1850, `SE Ranking volume not preserved: ${JSON.stringify(b[0])}`);
+});
+
+await test('buildSeoIntel produces a versioned canonical artifact (functional)', async () => {
+  const { buildSeoIntel } = await import('../scripts/seo-schema.mjs');
+  const intel = buildSeoIntel({ provider: 'seranking', target: 'x.com', region: 'uk', meta: { generated_at: 'T' } });
+  assert(intel.schema === 'seo_intel', 'Wrong schema tag');
+  assert(intel.provider === 'seranking', 'Wrong provider');
+  assert(Array.isArray(intel.organic_keywords), 'organic_keywords not defaulted to array');
+  assert(intel._metadata.generated_at === 'T', 'generated_at not threaded');
+});
+
+await test('Provider-neutral seo-scan exists with provider selection', async () => {
+  const path = 'scripts/seo-scan.mjs';
+  assert(existsSync(path), 'scripts/seo-scan.mjs missing');
+  const c = readFileSync(path, 'utf-8');
+  assert(c.includes('SEO_PROVIDER') || c.includes('--provider') || c.includes('args.provider'), 'Missing provider selection');
+  assert(c.includes('getProvider'), 'Scan does not use getProvider');
+  assert(c.includes('buildSeoIntel'), 'Scan does not assemble canonical artifact');
+});
+
+await test('.env.example includes SE Ranking + provider selector', async () => {
+  const c = readFileSync('.env.example', 'utf-8');
+  assert(c.includes('SERANKING_API_KEY'), '.env.example missing SERANKING_API_KEY');
+  assert(c.includes('SEO_PROVIDER'), '.env.example missing SEO_PROVIDER');
+});
+
 // ─── REPORT ──────────────────────────────────────────────────────
 
 console.log('\n' + '═'.repeat(60));
