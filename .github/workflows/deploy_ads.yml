@@ -49,6 +49,9 @@ jobs:
           done
 
       - name: "🧪 Run Truth Tests"
+        run: npm run test:truth
+
+      - name: "🧪 Run Vitest Suite"
         run: npm test
 
   # ── SECURITY: Secret Scanning + CodeQL ──────────────────────────
