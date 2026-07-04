@@ -19,6 +19,8 @@ const PUBLIC_DIR = path.join(__dirname, 'public');
 const UPLOAD_DIR = path.join(__dirname, 'uploads');
 const OUTPUT_DIR = path.join(__dirname, 'output');
 const TEMP_DIR = path.join(__dirname, 'temp');
+// Canonical shared design tokens (repo root src/styles/) — served at /design-tokens.css
+const DESIGN_TOKENS_FILE = path.resolve(__dirname, '../../src/styles/design-tokens.css');
 
 [UPLOAD_DIR, OUTPUT_DIR, TEMP_DIR].forEach(d => {
   if (!fs.existsSync(d)) fs.mkdirSync(d, { recursive: true });
@@ -41,6 +43,7 @@ const MIME = {
   '.webm': 'video/webm',
   '.mov': 'video/quicktime',
   '.ico': 'image/x-icon',
+  '.webmanifest': 'application/manifest+json',
 };
 
 // ── Parse multipart form data (image uploads) ──
@@ -122,6 +125,18 @@ function parseJSON(req) {
 
 // ── Serve static files ──
 function serveStatic(req, res, urlPath) {
+  // Shared design tokens live outside PUBLIC_DIR — serve explicitly
+  if (urlPath === '/design-tokens.css') {
+    if (!fs.existsSync(DESIGN_TOKENS_FILE)) {
+      res.writeHead(404, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ error: 'Not found' }));
+      return;
+    }
+    res.writeHead(200, { 'Content-Type': 'text/css' });
+    fs.createReadStream(DESIGN_TOKENS_FILE).pipe(res);
+    return;
+  }
+
   // Determine which directory to serve from
   let filePath;
   if (urlPath.startsWith('/uploads/')) {

@@ -1,0 +1,12 @@
+{
+  "name": "SMMFactory — Campaign Command Center",
+  "short_name": "SMMFactory",
+  "description": "Real-time campaign dashboard with lifecycle tracking, metrics, and AG prompt integration.",
+  "start_url": ".",
+  "scope": ".",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#ffffff",
+  "theme_color": "#ffffff",
+  "icons": []
+}
