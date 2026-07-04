@@ -62,7 +62,7 @@ body {
   background: var(--bg-primary);
   color: var(--text-primary);
   min-height: 100vh;
-  padding-bottom: 180px;
+  padding-bottom: calc(180px + var(--safe-bottom, 0px));
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
 }
@@ -87,8 +87,9 @@ body::before {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 24px;
-  height: 52px;
+  /* Safe-area padding: notch/status-bar clearance when stuck at viewport top */
+  padding: var(--safe-top, 0px) calc(24px + var(--safe-right, 0px)) 0 calc(24px + var(--safe-left, 0px));
+  height: calc(52px + var(--safe-top, 0px));
   background: rgba(10, 14, 26, 0.92);
   backdrop-filter: blur(16px);
   border-bottom: 1px solid var(--border-subtle);
@@ -536,6 +537,10 @@ body::before {
   border-top: 1px solid var(--border-card);
   box-shadow: var(--shadow-prompt);
   transition: all var(--transition-smooth);
+  /* Safe-area padding: keep controls above home-indicator / rounded corners */
+  padding-bottom: var(--safe-bottom, 0px);
+  padding-left: var(--safe-left, 0px);
+  padding-right: var(--safe-right, 0px);
 }
 
 .ag-prompt__header {

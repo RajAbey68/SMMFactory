@@ -88,6 +88,10 @@ h3 { font-size: clamp(1.2rem, 2.5vw, 1.6rem); }
   top: 0; left: 0; right: 0;
   z-index: 100;
   padding: 1rem clamp(1rem, 5vw, 4rem);
+  /* Safe-area padding: notch/status-bar clearance for the fixed nav */
+  padding-top: calc(1rem + var(--safe-top, 0px));
+  padding-left: calc(clamp(1rem, 5vw, 4rem) + var(--safe-left, 0px));
+  padding-right: calc(clamp(1rem, 5vw, 4rem) + var(--safe-right, 0px));
   display: flex;
   align-items: center;
   justify-content: space-between;

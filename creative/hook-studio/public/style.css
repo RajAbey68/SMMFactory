@@ -57,8 +57,9 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 24px;
-  height: 56px;
+  /* Safe-area padding: notch/status-bar clearance when stuck at viewport top */
+  padding: var(--safe-top, 0px) calc(24px + var(--safe-right, 0px)) 0 calc(24px + var(--safe-left, 0px));
+  height: calc(56px + var(--safe-top, 0px));
   background: var(--bg-secondary);
   border-bottom: 1px solid var(--border);
   position: sticky;
@@ -895,8 +896,9 @@ body {
 /* ─── Toast ─── */
 .toast-container {
   position: fixed;
-  bottom: 24px;
-  right: 24px;
+  /* Safe-area offsets: clear home-indicator and rounded corners */
+  bottom: calc(24px + var(--safe-bottom, 0px));
+  right: calc(24px + var(--safe-right, 0px));
   z-index: 1000;
   display: flex;
   flex-direction: column-reverse;
