@@ -39,6 +39,41 @@
 - Cross-repo integrations are **optional couplings** (env-var service URLs,
   graceful fallback) — never hard dependencies.
 
+## Claude-side capabilities (the catalog)
+
+Where to browse them live: **claude.ai → Settings → Capabilities** (skills),
+**claude.ai/code/artifacts** (mini-apps/dashboards published from sessions),
+and the connectors list in any session's customize panel. This section is the
+durable index of the custom skills built to date (inventoried 2026-07-20):
+
+**Marketing / SMMFactory**
+- `ads-analysis` — daily paid-ads analyst per brand (Meta + Google Ads); the "optimize" phase engine
+- `blog-post`, `content-repurposing`, `seo-brief` — the blog pipeline (this repo, PR #3)
+- `voice` — write as a named Digital Law Firm author in a chosen register
+- `kolake-villa-ops` — Ko Lake Villa guest-facing ops to five-star standard
+
+**Research / knowledge**
+- `arbor-research` — multi-round hypothesis-tree research
+- `research-to-notebooklm` — push research into a NotebookLM notebook as a source
+- `notebooklm` — full NotebookLM API (notebooks, sources, podcasts, reports)
+- `career-cv-finder` — locate/retrieve CVs from NotebookLM for career tasks
+- `critical-thinkers-advocate` (+ verbatim variant) — framework-driven devil's-advocate pass
+
+**Engineering hygiene**
+- `code-review` — universal repo/branch review with PUSH / DO NOT PUSH verdict
+- `leadsync-code-review` — LeadSynch-specific pre-commit review (Biome, 4-tier patterns)
+- `coderabbit-runner` — trigger/fetch CodeRabbit reviews on PRs or local diffs
+
+**Session infrastructure**
+- `agent-boot-system` — session-start boot loader (fire paths, notebooks, tools)
+- `wrapup` — end-of-session summary pushed to the AI Brain notebook
+- `morning` — morning brief as a styled artifact
+
+**UIs (artifacts / in-repo tools)**
+- Blog Studio wizard — `tools/blog-studio/index.html` (this repo) + live artifact copy in the claude.ai/code artifacts gallery
+- ASIMOV-AI governance wizard — `tools/asimov-ai/index.html`
+- Campaign Command Center — `dashboard/index.html`
+
 ## Second-brain sync
 
 To make this register queryable in the AI Brain NotebookLM notebook, run on
