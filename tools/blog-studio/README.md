@@ -24,7 +24,7 @@ Walk the six steps → **Assemble brief**. You get three copyable outputs:
 
 ## The steps
 
-1. **Source** — topic idea, pasted text, a URL, or a campaign asset
+1. **Source** — topic idea, a **LeadSynch research run**, pasted text, a URL, or a campaign asset
 2. **Campaign** — `KLRtr` / `AICar` / `SKYHV` / generic house post (sets voice + audience)
 3. **Angle** — working title + source detail
 4. **Keywords** — primary + supporting
@@ -40,10 +40,19 @@ tools/blog-studio/index.html   ← this wizard (assembles the brief)
 .claude/skills/blog-post/       ← writes the post in the campaign voice → content/blog/*.md (draft)
 .claude/skills/content-repurposing/   ← source → blog-post
 .claude/skills/seo-brief/       ← WebSearch keyword/gap brief
-        │
+        │  grounded by
+        ▼
+LeadSynch research engine       ← POST /api/research/entity (LEADSYNCH_URL / localhost:3001):
+        │                          tiered sources + per-finding provenance
         ▼
 content/blog/*.md               ← draft store; a human flips draft:true → false to publish
 ```
+
+**LeadSynch hookup:** pick "LeadSynch research" as the Source step. The
+assembled brief instructs the skill to run `POST /api/research/entity`,
+poll the job, and write only from the returned sources (each carries a
+`sourceUrl`). Falls back to `WebSearch` — flagged in the draft header —
+when the service isn't running.
 
 ## Files
 

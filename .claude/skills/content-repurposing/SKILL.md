@@ -17,6 +17,11 @@ frontmatter. It has no voice rules of its own.
 - A URL (fetch with `WebFetch`; if it returns a JS shell or boilerplate,
   say so and ask for pasted text rather than inventing a summary)
 - Pasted text (a transcript, an email, notes)
+- **A LeadSynch research run** — an entity/topic to research first via the
+  LeadSynch engine (`POST /api/research/entity` on `LEADSYNCH_URL` or
+  `http://localhost:3001`; poll `GET /api/research/entity-job/:jobId`).
+  The job's sources and initiatives, with their `sourceUrl` provenance,
+  become the grounded source material for the post.
 
 ## Steps
 

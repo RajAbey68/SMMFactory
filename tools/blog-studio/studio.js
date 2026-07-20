@@ -41,6 +41,7 @@
 
   const SOURCES = {
     topic: { label: 'A topic idea', sub: 'Start from a subject — Studio drafts from scratch.', detail: null },
+    research: { label: 'LeadSynch research', sub: 'Run the grounded research engine on an entity or topic first — sources with provenance become the material.', detail: { type: 'text', label: 'Entity / topic to research', ph: 'e.g. wellness tourism trends Sri Lanka 2026' } },
     paste: { label: 'Repurpose pasted text', sub: 'A transcript, email, notes, or existing copy.', detail: { type: 'textarea', label: 'Paste the source text', ph: 'Paste the transcript, notes, or copy to repurpose…' } },
     url: { label: 'Repurpose a URL', sub: 'An article, landing page, or announcement to fetch.', detail: { type: 'text', label: 'Source URL', ph: 'https://…' } },
     asset: { label: 'From a campaign asset', sub: 'A file already in this campaign (research, DNA, calendar).', detail: { type: 'text', label: 'Path to the campaign file', ph: 'campaigns/ko-lake-retreats/research/market_dna.json' } },
@@ -371,6 +372,15 @@
       'draft: true, and save to content/blog/. Ground every factual claim in',
       "the campaign's own files — do not invent offers, prices, or results.",
     ];
+    if (state.source === 'research') {
+      lines.push('');
+      lines.push('Ground this via the LeadSynch research engine first: POST the');
+      lines.push('entity/topic above to /api/research/entity (LEADSYNCH_URL or');
+      lines.push('http://localhost:3001), poll the job, and write only from the');
+      lines.push('returned sources — cite their sourceUrl provenance. If the');
+      lines.push('service is unreachable, fall back per the skill’s "Research');
+      lines.push('grounding" section and note it in the draft header.');
+    }
     return lines.join('\n');
   }
 

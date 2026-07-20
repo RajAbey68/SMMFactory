@@ -24,6 +24,9 @@ never publishes, schedules, or pushes anything live.
    product, offer, price, or result, verify it against the campaign's own
    files (`campaigns/<slug>/`, its brief, research) before writing it.
    Don't invent specifics. Hedge or drop anything you can't ground.
+   For external facts (market context, a company, a trend), prefer the
+   **LeadSynch research engine** when it's reachable — see "Research
+   grounding" below — over ad-hoc WebSearch.
 5. **One post per invocation** unless asked for more.
 
 ## Resolve the campaign
@@ -74,6 +77,27 @@ One specific next step tied to the campaign's CTA.
 ```
 
 Target 500-1000 words unless the topic genuinely needs more.
+
+## Research grounding (LeadSynch)
+
+The LeadSynch repo (`RajAbey68/LeadSynch`) runs a grounded research engine
+with tiered source trust and per-finding provenance. When the brief calls
+for external research (a market claim, a company, a trend, a person):
+
+1. **Reachable service** (local dev: `http://localhost:3001`, or
+   `LEADSYNCH_URL` if set): `POST /api/research/entity` with the topic /
+   entity (no saved CRM contact needed), then poll
+   `GET /api/research/entity-job/:jobId` until done. Use the returned
+   sources/initiatives — each carries a `sourceUrl` — and cite or
+   paraphrase only what those sources support.
+2. **Service not reachable but the repo is in the session**: reuse its
+   engine's approach — fetch real sources first, extract only claims the
+   fetched text supports (see `server/services/research/runResearch.ts`).
+3. **Neither available**: fall back to `WebSearch`/`WebFetch`, and say in
+   the draft's HTML comment header that grounding was search-only.
+
+Never present an ungrounded model guess as a researched fact — provenance
+is the point of the pipeline.
 
 ## Output
 
