@@ -96,6 +96,18 @@ for external research (a market claim, a company, a trend, a person):
 3. **Neither available**: fall back to `WebSearch`/`WebFetch`, and say in
    the draft's HTML comment header that grounding was search-only.
 
+**Recovering previous research** (when the brief says "pick up" prior work
+rather than run fresh): try, in order —
+1. Research files already in this repo: `campaigns/<slug>/research/`,
+   `research/`, or a path the brief names.
+2. A stored LeadSynch research profile:
+   `GET /api/research/profile/:contactId` (durable — survives restarts;
+   research is tagged with a `project_name`).
+3. A same-session entity job: `GET /api/research/entity-job/:jobId` —
+   note these are in-memory only and gone after a LeadSynch restart.
+If none of these surface it, say so and offer to re-run fresh research —
+don't reconstruct "remembered" findings from nothing.
+
 Never present an ungrounded model guess as a researched fact — provenance
 is the point of the pipeline.
 

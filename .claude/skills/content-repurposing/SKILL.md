@@ -22,6 +22,12 @@ frontmatter. It has no voice rules of its own.
   `http://localhost:3001`; poll `GET /api/research/entity-job/:jobId`).
   The job's sources and initiatives, with their `sourceUrl` provenance,
   become the grounded source material for the post.
+- **Previous research** — recover work already done instead of re-running:
+  a campaign research file (`campaigns/<slug>/research/`), a stored
+  LeadSynch profile (`GET /api/research/profile/:contactId` — durable,
+  tagged by `project_name`), or a same-session entity job. If it can't be
+  found, say so and offer fresh research — never reconstruct findings from
+  memory.
 
 ## Steps
 

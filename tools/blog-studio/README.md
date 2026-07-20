@@ -24,7 +24,7 @@ Walk the six steps → **Assemble brief**. You get three copyable outputs:
 
 ## The steps
 
-1. **Source** — topic idea, a **LeadSynch research run**, pasted text, a URL, or a campaign asset
+1. **Source** — topic idea, **run new research** (LeadSynch), **pick up previous research** (campaign files / stored LeadSynch profiles), pasted text, a URL, or a campaign asset
 2. **Campaign** — `KLRtr` / `AICar` / `SKYHV` / generic house post (sets voice + audience)
 3. **Angle** — working title + source detail
 4. **Keywords** — primary + supporting

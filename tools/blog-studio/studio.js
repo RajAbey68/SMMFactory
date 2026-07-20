@@ -41,7 +41,8 @@
 
   const SOURCES = {
     topic: { label: 'A topic idea', sub: 'Start from a subject — Studio drafts from scratch.', detail: null },
-    research: { label: 'LeadSynch research', sub: 'Run the grounded research engine on an entity or topic first — sources with provenance become the material.', detail: { type: 'text', label: 'Entity / topic to research', ph: 'e.g. wellness tourism trends Sri Lanka 2026' } },
+    research: { label: 'Run new research', sub: 'Run the LeadSynch grounded research engine on an entity or topic — sources with provenance become the material.', detail: { type: 'text', label: 'Entity / topic to research', ph: 'e.g. wellness tourism trends Sri Lanka 2026' } },
+    prior: { label: 'Pick up previous research', sub: 'Recover research you already have — a campaign research file, a stored LeadSynch profile, or a project name.', detail: { type: 'text', label: 'What to recover', ph: 'e.g. campaigns/ko-lake-retreats/research/market_dna.json, a contact/company name, or a project name' } },
     paste: { label: 'Repurpose pasted text', sub: 'A transcript, email, notes, or existing copy.', detail: { type: 'textarea', label: 'Paste the source text', ph: 'Paste the transcript, notes, or copy to repurpose…' } },
     url: { label: 'Repurpose a URL', sub: 'An article, landing page, or announcement to fetch.', detail: { type: 'text', label: 'Source URL', ph: 'https://…' } },
     asset: { label: 'From a campaign asset', sub: 'A file already in this campaign (research, DNA, calendar).', detail: { type: 'text', label: 'Path to the campaign file', ph: 'campaigns/ko-lake-retreats/research/market_dna.json' } },
@@ -380,6 +381,16 @@
       lines.push('returned sources — cite their sourceUrl provenance. If the');
       lines.push('service is unreachable, fall back per the skill’s "Research');
       lines.push('grounding" section and note it in the draft header.');
+    }
+    if (state.source === 'prior') {
+      lines.push('');
+      lines.push('Recover the previous research named above before writing.');
+      lines.push('Try in order: (1) a research file in this repo (campaigns/*/');
+      lines.push('research/, research/) matching it; (2) a stored LeadSynch');
+      lines.push('profile — GET /api/research/profile/:contactId after finding');
+      lines.push('the contact; (3) ask me for the file or re-run fresh research');
+      lines.push('if neither exists. Write only from what was recovered — keep');
+      lines.push('its provenance — and never invent findings to fill gaps.');
     }
     return lines.join('\n');
   }
