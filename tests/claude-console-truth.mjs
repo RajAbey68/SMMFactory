@@ -88,6 +88,25 @@ await test('Governance rail present: third-party review + Four-Eyes gates', asyn
   assert(/four-eyes/i.test(src), 'Sprint protocol missing Four-Eyes gate');
 });
 
+// ─── REVIEW HARDENING (CodeRabbit PR #4 findings) ───────────────
+
+await test('esc() is attribute-safe (escapes quotes and >)', async () => {
+  assert(/replace\(\/"\/g/.test(src), 'esc() does not escape double quotes — attribute injection risk');
+  assert(/replace\(\/'\/g/.test(src), "esc() does not escape single quotes");
+  assert(/replace\(\/>\/g/.test(src), 'esc() does not escape >');
+});
+
+await test('Matrix cells are keyboard-operable', async () => {
+  assert(src.includes('tabindex="0"'), 'Matrix cells missing tabindex');
+  assert(src.includes('role="button"'), 'Matrix cells missing button role');
+  assert(/keydown/.test(src), 'No keydown handler for matrix cells');
+});
+
+await test('Live-registry badge state is toggled', async () => {
+  assert(/badge--live/.test(src) && /classList\.toggle\("badge--live"/.test(src),
+    '.badge--live never toggled — dead CSS');
+});
+
 // ─── REPORT ─────────────────────────────────────────────────────
 
 console.log('\n🧪 Claude Console Truth Tests\n');

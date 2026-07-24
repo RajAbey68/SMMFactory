@@ -11,7 +11,7 @@
     "seo": "node scripts/seo-scan.mjs",
     "reviews": "bash review-engine/start.sh",
     "hooks": "bash creative/hook-studio/start.sh",
-    "test:core": "tsx tests/truth-tests.ts 2>/dev/null || node tests/truth-tests.mjs",
+    "test:core": "if command -v tsx >/dev/null 2>&1; then tsx tests/truth-tests.ts; else node tests/truth-tests.mjs; fi",
     "test:console": "node tests/claude-console-truth.mjs"
   },
   "keywords": [

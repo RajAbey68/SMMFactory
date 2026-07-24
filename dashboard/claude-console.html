@@ -37,6 +37,7 @@
   a{color:var(--accent-text)}
   button{font:inherit;color:inherit;cursor:pointer}
   button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+  .mx td:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
   .wrap{max-width:1140px;margin:0 auto;padding:0 24px}
   .mast{border-bottom:2px solid var(--ink);padding:26px 0 18px;margin-bottom:22px}
   .mast-row{display:flex;align-items:baseline;justify-content:space-between;gap:16px;flex-wrap:wrap}
@@ -292,7 +293,9 @@
   };
 
   var $=function(s){return document.querySelector(s)};
-  var esc=function(t){return String(t).replace(/&/g,"&amp;").replace(/</g,"&lt;")};
+  var esc=function(t){return String(t)
+    .replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;").replace(/'/g,"&#39;")};
   var state={camp:CAMPS[0].ref,phase:null,src:"fallback snapshot"};
 
   /* ---------- live registry loader (same contract as dashboard.js) ---------- */
@@ -333,17 +336,18 @@
     var at={};CAMPS.forEach(function(c){at[c.phase]=(at[c.phase]||0)+1});
     var top=Object.keys(at).sort(function(a,b){return at[b]-at[a]})[0]||"—";
     $("#stats").innerHTML=
-      '<div class="stat"><span class="k stencil">Active campaigns</span><div class="v">'+CAMPS.length+'</div><div class="d">'+CAMPS.map(function(c){return c.ref}).join(" · ")+"</div></div>"
+      '<div class="stat"><span class="k stencil">Active campaigns</span><div class="v">'+CAMPS.length+'</div><div class="d">'+CAMPS.map(function(c){return esc(c.ref)}).join(" · ")+"</div></div>"
       +'<div class="stat"><span class="k stencil">Busiest station</span><div class="v">'+esc(top)+'</div><div class="d">'+(at[top]||0)+" unit(s)</div></div>"
       +'<div class="stat"><span class="k stencil">Stations</span><div class="v">'+PHASES.length+'</div><div class="d">gates on every one</div></div>'
       +'<div class="stat"><span class="k stencil">Data source</span><div class="v" style="font-size:15px">'+esc(state.src.split(" (")[0])+'</div><div class="d">no invented numbers</div></div>';
     $("#srcBadge").textContent="registry: "+state.src.split(" (")[0];
+    $("#srcBadge").classList.toggle("badge--live", state.src.indexOf("registry.json v")===0);
   }
   function renderLine(){
     var html="";
     PHASES.forEach(function(ph){
       var here=CAMPS.filter(function(c){return c.phase===ph.id});
-      html+='<div class="station'+(here.length?" occupied":"")+(state.phase===ph.id?" sel":"")+'" data-ph="'+ph.id+'">'
+      html+='<div class="station'+(here.length?" occupied":"")+(state.phase===ph.id?" sel":"")+'" data-ph="'+esc(ph.id)+'">'
         +'<div class="units">'+here.map(function(c){return '<span class="unit" style="background:var('+c.cvar+')" title="'+esc(c.name)+'">'+esc(c.ref.slice(0,2))+"</span>"}).join("")+"</div>"
         +'<span class="lamp" aria-hidden="true"></span>'
         +'<button class="st-label stencil" aria-pressed="'+(state.phase===ph.id)+'">'+ph.icon+" "+esc(ph.name)+"</button>"
@@ -392,16 +396,18 @@
       rows+="<tr"+(s.house?' class="house"':"")+"><th>"+esc(s.n)+"</th>"
         +PHASES.map(function(p){
           var m=s.p.indexOf(p.id)>=0?"●":(s.s.indexOf(p.id)>=0?"◐":"·");
-          return '<td class="'+(m==="●"?"p":"")+'" data-ph="'+p.id+'" title="'+esc(s.n)+" — "+esc(p.name)+'">'+m+"</td>";
+          return '<td class="'+(m==="●"?"p":"")+'" data-ph="'+esc(p.id)+'" tabindex="0" role="button" aria-label="'+esc(s.n)+" — "+esc(p.name)+'" title="'+esc(s.n)+" — "+esc(p.name)+'">'+m+"</td>";
         }).join("")+"</tr>";
     });
     $("#matrix").innerHTML=head+"<tbody>"+rows+"</tbody>";
     Array.prototype.forEach.call(document.querySelectorAll(".mx td[data-ph]"),function(td){
-      td.addEventListener("click",function(){
+      function activate(){
         state.phase=td.getAttribute("data-ph");
         renderLine();renderFilters();renderDeck();
         $("#deck").scrollIntoView({behavior:"smooth",block:"center"});
-      });
+      }
+      td.addEventListener("click",activate);
+      td.addEventListener("keydown",function(e){if(e.key==="Enter"||e.key===" "){e.preventDefault();activate();}});
     });
   }
   function renderFilters(){
@@ -410,7 +416,7 @@
         +'<span class="chip-dot" style="background:var('+c.cvar+')"></span>'+esc(c.ref)+"</button>";
     }).join("");
     $("#phaseFilters").innerHTML='<button class="fchip'+(state.phase===null?" on":"")+'" data-ph="">All stations</button>'
-      +PHASES.map(function(p){return '<button class="fchip'+(state.phase===p.id?" on":"")+'" data-ph="'+p.id+'">'+p.icon+" "+esc(p.name)+"</button>"}).join("");
+      +PHASES.map(function(p){return '<button class="fchip'+(state.phase===p.id?" on":"")+'" data-ph="'+esc(p.id)+'">'+p.icon+" "+esc(p.name)+"</button>"}).join("");
     Array.prototype.forEach.call(document.querySelectorAll("#campFilters .fchip"),function(b){
       b.addEventListener("click",function(){state.camp=b.getAttribute("data-ref");renderFilters();renderDeck();});
     });
