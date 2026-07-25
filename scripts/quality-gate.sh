@@ -22,10 +22,18 @@ echo "📄 Step 3/4: Blueprint check..."
 [ -f "marketing-studio.agy" ] && echo "   ✅ Blueprint found" || { echo "   ❌ Blueprint missing"; FAILED=1; }
 
 echo "🧪 Step 4/4: Truth tests..."
-if [ -f "tests/truth-tests.ts" ]; then
-  npx tsx tests/truth-tests.ts || FAILED=1
+if [ -f "tests/truth-tests.mjs" ]; then
+  node tests/truth-tests.mjs || FAILED=1
 else
-  echo "   ⚠️  No truth tests yet (tests/truth-tests.ts). Skipping."
+  echo "   ❌ Truth test suite missing (tests/truth-tests.mjs)."
+  FAILED=1
+fi
+
+if [ -f "tests/claude-console-truth.mjs" ]; then
+  node tests/claude-console-truth.mjs || FAILED=1
+else
+  echo "   ❌ Console truth tests missing (tests/claude-console-truth.mjs)."
+  FAILED=1
 fi
 
 echo ""
