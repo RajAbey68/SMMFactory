@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SMMFactory — Campaign OS (Claude Console)</title>
+  <meta name="description" content="Claude-operator console: production-line view of the campaign lifecycle, skill routing matrix, prompt deck, and sprint governance.">
+  <style>
+  :root{
+    --surface:#F5F4F0; --card:#FCFBF9; --card2:#EFEDE7;
+    --ink:#26292C; --ink2:#5A6065; --ink3:#878D92;
+    --line:#DBD9D2; --line2:#CDCBC3;
+    --accent:#B36A1B; --accent-text:#9A5A15; --accent-soft:rgba(179,106,27,.12);
+    --c-1:#0C84A8; --c-2:#6A5AD8; --c-3:#C43D5E;
+    --good:#2E7D4F; --bad:#B23A2E; --pend:#82888D; --lamp:#B36A1B;
+    --shadow:0 1px 2px rgba(38,41,44,.06),0 4px 16px rgba(38,41,44,.05);
+  }
+  @media (prefers-color-scheme: dark){
+    :root{
+      --surface:#171B1E; --card:#1E2327; --card2:#242A2F;
+      --ink:#E9E7E2; --ink2:#A7ACB0; --ink3:#7A8085;
+      --line:#2A3034; --line2:#353C41;
+      --accent:#D89238; --accent-text:#D89238; --accent-soft:rgba(216,146,56,.14);
+      --c-1:#2EA3C2; --c-2:#8B72EC; --c-3:#E0607F;
+      --good:#4CAF7D; --bad:#E06552; --pend:#7A8085; --lamp:#D89238;
+      --shadow:0 1px 2px rgba(0,0,0,.25),0 4px 18px rgba(0,0,0,.22);
+    }
+  }
+  *{box-sizing:border-box}
+  body{background:var(--surface);color:var(--ink);
+    font:15px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;margin:0;padding:0 0 96px}
+  .stencil{font-family:"Avenir Next Condensed","Helvetica Neue Condensed","Arial Narrow",-apple-system,sans-serif;
+    font-weight:700;text-transform:uppercase;letter-spacing:.14em}
+  .mono{font-family:ui-monospace,"SF Mono","JetBrains Mono",Menlo,Consolas,monospace}
+  .num{font-variant-numeric:tabular-nums}
+  h1,h2,h3{text-wrap:balance;margin:0}
+  a{color:var(--accent-text)}
+  button{font:inherit;color:inherit;cursor:pointer}
+  button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+  .mx td:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
+  .wrap{max-width:1140px;margin:0 auto;padding:0 24px}
+  .mast{border-bottom:2px solid var(--ink);padding:26px 0 18px;margin-bottom:22px}
+  .mast-row{display:flex;align-items:baseline;justify-content:space-between;gap:16px;flex-wrap:wrap}
+  .wordmark{font-size:30px;letter-spacing:.18em}
+  .wordmark .bolt{color:var(--accent-text)}
+  .mast-sub{color:var(--ink2);font-size:14px;margin-top:4px;max-width:62ch}
+  .mast-meta{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+  .badge{font-size:11px;letter-spacing:.1em;padding:4px 10px;border:1px solid var(--line2);border-radius:3px;color:var(--ink2);white-space:nowrap}
+  .badge--live{border-color:var(--good);color:var(--good)}
+  .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px;margin-bottom:28px}
+  .stat{background:var(--card);border:1px solid var(--line);border-radius:4px;padding:12px 14px;box-shadow:var(--shadow)}
+  .stat .k{font-size:11px;letter-spacing:.12em;color:var(--ink3)}
+  .stat .v{font-size:26px;font-weight:700;line-height:1.15;margin-top:2px}
+  .stat .d{font-size:12px;color:var(--ink2)}
+  section{margin-bottom:34px}
+  .sec-head{display:flex;align-items:baseline;gap:12px;border-bottom:1px solid var(--line);padding-bottom:6px;margin-bottom:14px}
+  .sec-head h2{font-size:15px;letter-spacing:.16em}
+  .sec-head .hint{font-size:12.5px;color:var(--ink3)}
+  .line-scroll{overflow-x:auto;padding-bottom:6px}
+  .pline{min-width:900px;position:relative;padding:8px 0 2px}
+  .belt{position:absolute;left:0;right:0;top:74px;height:10px;background:var(--card2);border:1px solid var(--line);border-radius:5px}
+  .stations{display:grid;grid-template-columns:repeat(8,1fr);position:relative;gap:8px}
+  .station{position:relative;padding-top:96px;text-align:center}
+  .station button.st-label{background:none;border:none;width:100%;padding:2px 0 6px;color:var(--ink2);
+    font-size:11.5px;letter-spacing:.12em;border-bottom:2px solid transparent}
+  .station.sel button.st-label{color:var(--ink);border-bottom-color:var(--accent)}
+  .station .lamp{position:absolute;top:52px;left:50%;transform:translateX(-50%);width:12px;height:12px;border-radius:50%;
+    background:var(--card2);border:2px solid var(--line2)}
+  .station.occupied .lamp{background:var(--lamp);border-color:var(--lamp)}
+  @media (prefers-reduced-motion: no-preference){
+    .station.occupied .lamp{animation:pulse 2.6s ease-in-out infinite}
+    @keyframes pulse{0%,100%{box-shadow:0 0 0 0 var(--accent-soft)}50%{box-shadow:0 0 0 7px var(--accent-soft)}}
+  }
+  .station .gate-note{font-size:10.5px;color:var(--ink3);max-width:14ch;margin:4px auto 0;line-height:1.35}
+  .units{position:absolute;top:26px;left:0;right:0;display:flex;justify-content:center;gap:6px}
+  .unit{width:26px;height:26px;border-radius:6px;display:grid;place-items:center;color:#fff;font-size:9.5px;font-weight:700;
+    border:2px solid var(--surface);box-shadow:var(--shadow)}
+  .line-legend{display:flex;gap:18px;margin-top:14px;font-size:12.5px;color:var(--ink2);flex-wrap:wrap}
+  .chip-dot{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:6px;vertical-align:baseline}
+  .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:14px}
+  .card{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--cc);border-radius:4px;padding:16px;
+    box-shadow:var(--shadow);display:flex;flex-direction:column;gap:10px}
+  .card .top{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+  .card .ref{font-size:12px;color:var(--cc);font-weight:600}
+  .card h3{font-size:16.5px;font-weight:650;line-height:1.3}
+  .card .type{font-size:11px;letter-spacing:.09em;color:var(--ink3);text-transform:uppercase;white-space:nowrap}
+  .mini-rail{display:flex;gap:3px}
+  .mini-rail span{height:6px;flex:1;border-radius:2px;background:var(--card2);border:1px solid var(--line)}
+  .mini-rail span.done{background:var(--good);border-color:var(--good)}
+  .mini-rail span.active{background:var(--lamp);border-color:var(--lamp)}
+  .card .next{font-size:13px;background:var(--card2);border-radius:3px;padding:8px 10px}
+  .card .next .lbl{font-size:10.5px;letter-spacing:.12em;color:var(--ink3);display:block}
+  .card .skills{font-size:12.5px;color:var(--ink2)}
+  .card .go{align-self:flex-start;background:var(--accent-soft);border:1px solid var(--accent);color:var(--accent-text);
+    border-radius:3px;padding:6px 12px;font-size:13px;font-weight:600}
+  .mx-scroll{overflow-x:auto}
+  table.mx{border-collapse:collapse;min-width:860px;width:100%;font-size:12.5px}
+  .mx th,.mx td{border:1px solid var(--line);padding:6px 8px;text-align:center}
+  .mx thead th{background:var(--card2);font-size:10.5px;letter-spacing:.1em;color:var(--ink2)}
+  .mx tbody th{background:var(--card);text-align:left;font-weight:600;white-space:nowrap;font-size:12.5px}
+  .mx td{background:var(--card);color:var(--ink3);cursor:pointer}
+  .mx td.p{background:var(--accent-soft);color:var(--accent-text);font-weight:700}
+  .mx td:hover{outline:2px solid var(--accent);outline-offset:-2px}
+  .mx tr.house th{color:var(--ink2);font-style:italic}
+  .mx-div td,.mx-div th{border-top:2px solid var(--ink);padding:4px 8px;background:var(--card2);font-size:10.5px;
+    letter-spacing:.12em;color:var(--ink3);text-align:left;font-style:normal}
+  .mx-legend{margin-top:10px;font-size:12.5px;color:var(--ink2);display:flex;gap:18px;flex-wrap:wrap}
+  .deck-filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
+  .fchip{background:var(--card);border:1px solid var(--line2);border-radius:16px;padding:5px 14px;font-size:13px;color:var(--ink2)}
+  .fchip.on{border-color:var(--accent);color:var(--accent-text);background:var(--accent-soft);font-weight:600}
+  .fchip .chip-dot{width:8px;height:8px}
+  .deck{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:14px}
+  .pcard{background:var(--card);border:1px solid var(--line);border-radius:4px;box-shadow:var(--shadow);display:flex;flex-direction:column}
+  .pcard .ph{display:flex;justify-content:space-between;align-items:center;padding:10px 14px;border-bottom:1px solid var(--line)}
+  .pcard .ph .t{font-weight:650;font-size:14px}
+  .pcard .ph .phase-tag{font-size:10.5px;letter-spacing:.1em;color:var(--ink3);text-transform:uppercase}
+  .pcard pre{margin:0;padding:12px 14px;white-space:pre-wrap;word-break:break-word;font-size:12.5px;line-height:1.5;
+    color:var(--ink2);flex:1;font-family:ui-monospace,"SF Mono","JetBrains Mono",Menlo,Consolas,monospace}
+  .pcard .pf{padding:10px 14px;border-top:1px solid var(--line);display:flex;justify-content:space-between;align-items:center}
+  .pcard .skills-used{font-size:11.5px;color:var(--ink3)}
+  .copy{background:var(--ink);color:var(--surface);border:none;border-radius:3px;padding:6px 14px;font-size:12.5px;font-weight:600}
+  .copy.copied{background:var(--good)}
+  .gov-scroll{overflow-x:auto;padding-bottom:4px}
+  .gov{display:flex;align-items:stretch;min-width:760px}
+  .gstep{flex:1;background:var(--card);border:1px solid var(--line);padding:12px 14px;position:relative}
+  .gstep+.gstep{margin-left:22px}
+  .gstep+.gstep::before{content:"▶";position:absolute;left:-19px;top:50%;transform:translateY(-50%);color:var(--ink3);font-size:11px}
+  .gstep .n{font-size:11px;letter-spacing:.13em;color:var(--ink3)}
+  .gstep .t{font-weight:700;margin:2px 0 4px;font-size:14px}
+  .gstep .d{font-size:12px;color:var(--ink2);line-height:1.45}
+  .gstep.gate{border-color:var(--accent);background:var(--accent-soft)}
+  .gstep.gate .n{color:var(--accent-text)}
+  .gov-note{margin-top:12px;font-size:13px;color:var(--ink2);max-width:78ch}
+  .gov-note b{color:var(--ink)}
+  .foot{border-top:1px solid var(--line);padding-top:14px;font-size:12.5px;color:var(--ink3);line-height:1.7}
+  .toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--ink);color:var(--surface);
+    padding:9px 20px;border-radius:4px;font-size:13.5px;font-weight:600;transition:transform .25s ease;z-index:50}
+  .toast.show{transform:translateX(-50%) translateY(0)}
+  @media (prefers-reduced-motion: reduce){.toast{transition:none}}
+  </style>
+</head>
+<body>
+
+<header class="mast">
+  <div class="wrap">
+    <div class="mast-row">
+      <div>
+        <h1 class="stencil wordmark"><span class="bolt">⚡</span> SMMFACTORY <span style="font-weight:400;color:var(--ink3)">/</span> CAMPAIGN OS</h1>
+        <p class="mast-sub">Claude is the operator console. Campaigns run the line — eight stations, a gate at every one. Skills are the tools on the floor; nothing ships without Four-Eyes.</p>
+      </div>
+      <div class="mast-meta">
+        <span class="badge stencil" id="srcBadge">registry: fallback snapshot</span>
+        <span class="badge num" id="verBadge">Phase 1 console</span>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <div class="stats num" id="stats"></div>
+
+  <section aria-label="Production line">
+    <div class="sec-head">
+      <h2 class="stencil">The Line</h2>
+      <span class="hint">Live from campaigns/registry.json — click a station to load its prompts below</span>
+    </div>
+    <div class="line-scroll"><div class="pline">
+      <div class="belt" aria-hidden="true"></div>
+      <div class="stations" id="stations"></div>
+    </div></div>
+    <div class="line-legend" id="legend"></div>
+  </section>
+
+  <section aria-label="Campaigns">
+    <div class="sec-head">
+      <h2 class="stencil">Units on the floor</h2>
+      <span class="hint">State, next gate, and the skills due at the current station</span>
+    </div>
+    <div class="cards" id="cards"></div>
+  </section>
+
+  <section aria-label="Skill routing matrix">
+    <div class="sec-head">
+      <h2 class="stencil">Skill Routing Matrix</h2>
+      <span class="hint">11 marketing skills × 8 stations · click a cell to load that prompt</span>
+    </div>
+    <div class="mx-scroll"><table class="mx" id="matrix"></table></div>
+    <div class="mx-legend">
+      <span><b>●</b> primary at this station</span>
+      <span><b>◐</b> support</span>
+      <span>house skills in <i>italics</i> ride alongside the 11</span>
+    </div>
+  </section>
+
+  <section aria-label="Prompt deck">
+    <div class="sec-head">
+      <h2 class="stencil">Operator Console — Prompt Deck</h2>
+      <span class="hint">Copy a card, paste it into Cowork. Prompts route to your installed skills by name.</span>
+    </div>
+    <div class="deck-filters" id="campFilters"></div>
+    <div class="deck-filters" id="phaseFilters"></div>
+    <div class="deck" id="deck"></div>
+  </section>
+
+  <section aria-label="Governance">
+    <div class="sec-head"><h2 class="stencil">Sprint Protocol — every phase, no exceptions</h2></div>
+    <div class="gov-scroll"><div class="gov">
+      <div class="gstep"><span class="n stencil">01 · BMAD</span><div class="t">Design</div><div class="d">Plan before code. Design doc in second-brain; brief &amp; gates named.</div></div>
+      <div class="gstep gate"><span class="n stencil">02 · Gate</span><div class="t">Third-party review</div><div class="d">CodeRabbit / DeepSeek / Gemini — reviewer named per sprint. Verdict recorded before any build starts.</div></div>
+      <div class="gstep"><span class="n stencil">03 · TDD</span><div class="t">Implement</div><div class="d">Truth tests first (npm test), then code. CI: tests + CodeQL green.</div></div>
+      <div class="gstep gate"><span class="n stencil">04 · Gate</span><div class="t">Four-Eyes</div><div class="d">Human + automated verification. Production deploy is a manual approval.</div></div>
+      <div class="gstep"><span class="n stencil">05 · Ship</span><div class="t">Deploy &amp; log</div><div class="d">launch_log / performance_log written. Kill discipline: no value in 4 weeks → delete, don't tune.</div></div>
+    </div></div>
+    <p class="gov-note"><b>Scope lock:</b> read-only / advisory until live Meta &amp; Google Ads tokens exist <b>and</b> the owner says go. No automated path mutates a live campaign.</p>
+  </section>
+
+  <footer class="foot">
+    Truth-tested by <span class="mono">tests/claude-console-truth.mjs</span> (npm test) — registry cross-refs, skill routing, operator contract.
+    Metrics await Meta system-user + Google Ads developer tokens — no numbers are invented on this board.
+  </footer>
+</main>
+
+<div class="toast" id="toast" role="status">Copied to clipboard</div>
+
+<script>
+(function(){
+  "use strict";
+
+  /* ---------- fallback snapshot (regenerated from campaigns/registry.json) ---------- */
+  var PHASES=[
+    {id:"ideation", icon:"💡", name:"Ideation",  gate:"Brief approved"},
+    {id:"research", icon:"🔍", name:"Research",  gate:"Insights actionable"},
+    {id:"planning", icon:"📋", name:"Planning",  gate:"Budget approved"},
+    {id:"creative", icon:"🎨", name:"Creative",  gate:"Assets match DNA"},
+    {id:"review",   icon:"✅", name:"Review",    gate:"Four-Eyes sign-off"},
+    {id:"launch",   icon:"🚀", name:"Launch",    gate:"Channels live + tracked"},
+    {id:"optimize", icon:"📈", name:"Optimize",  gate:"KPIs hit or adjusted"},
+    {id:"close",    icon:"🏁", name:"Close",     gate:"Retro documented"}
+  ];
+  var PALETTE=["--c-1","--c-2","--c-3"]; /* fixed categorical order — extra campaigns fold to neutral, never a new hue */
+  var CAMPS=[
+    {ref:"KLRtr", slug:"ko-lake-retreats", name:"Ko Lake Villa — Retreats & Events", type:"paid media", phase:"optimize",
+     next:"Daily optimize pass — ads-analysis; watch for wasted spend"},
+    {ref:"AICar", slug:"ai-career", name:"AI Adoption Advisor — Career Push", type:"personal brand", phase:"optimize",
+     next:"Publish next LinkedIn post; log outreach in performance_log.md"},
+    {ref:"SKYHV", slug:"sky-high-villas", name:"Sky High Villas — Heli-Tours Push", type:"paid media", phase:"research",
+     next:"Run research scans → market_dna.json + seo_intel.json, then planning gate"}
+  ];
+  CAMPS.forEach(function(c,i){c.cvar=PALETTE[i]||"--pend"});
+
+  var SKILLS=[
+    {n:"Market Research",        p:["ideation","research"],          s:["close"]},
+    {n:"Brand Building",         p:["ideation"],                     s:["creative","close"]},
+    {n:"Social Media Marketing", p:["planning","launch"],            s:["creative","optimize"]},
+    {n:"Content Creation",       p:["creative"],                     s:["planning","launch"]},
+    {n:"Copywriting",            p:["creative"],                     s:["research","launch"]},
+    {n:"SEO",                    p:["research"],                     s:["planning","optimize"]},
+    {n:"Google Ads",             p:["planning","launch","optimize"], s:["research"]},
+    {n:"Email Marketing",        p:["planning","launch"],            s:["close"]},
+    {n:"Influencer Outreach",    p:["research"],                     s:["planning","launch"]},
+    {n:"PR",                     p:["launch"],                       s:["planning","ideation"]},
+    {n:"CRM Systems",            p:["close"],                        s:["planning","optimize"]},
+    {n:"ads-analysis",           p:["optimize"],                     s:[],                    house:true},
+    {n:"voice (de-AI)",          p:[],                               s:["creative","launch"], house:true},
+    {n:"coderabbit-runner",      p:["review"],                       s:[],                    house:true},
+    {n:"dataviz",                p:[],                               s:["optimize","close"],  house:true},
+    {n:"notebooklm",             p:[],                               s:["close","research"],  house:true}
+  ];
+  var PROMPTS={
+    ideation:[{t:"Draft the campaign brief",k:"Brand Building · Market Research",
+      x:"Using the Brand Building and Market Research skills, draft campaign_brief.md for {NAME} ({REF}): concept, target audience, success criteria, budget envelope, and kill criteria. Close with the ideation gate check: is this brief ready for stakeholder approval? List what's missing."}],
+    research:[
+      {t:"Market intelligence sweep",k:"Market Research · SEO",
+       x:"For {REF} ({NAME}): run the research station. Use the Market Research and SEO skills to build market_dna.json fields — hooks, USPs, pricing bands, competitor_insights — and a keyword-gap summary in the seo_intel.json schema (scripts/seo-schema.mjs shape). Flag anything that changes the planning gate."},
+      {t:"Influencer & partner shortlist",k:"Influencer Outreach",
+       x:"For {REF}: using the Influencer Outreach skill, shortlist 10 realistic influencer / partner accounts for {NAME} with audience fit, indicative rates, and a first-contact angle each. No fabricated follower counts — mark unknowns as unknown."}],
+    planning:[{t:"Channel mix + action calendar",k:"Social Media Marketing · Google Ads · Email Marketing · CRM Systems",
+      x:"For {REF} ({NAME}): produce Campaign_Summary.md and action_calendar.md. Channel mix across Social Media Marketing, Google Ads, and Email Marketing skills; budget split with rationale; CRM Systems skill defines lead capture → follow-up flow. End at the planning gate: strategy + budget ready for approval?"}],
+    creative:[{t:"Asset production run",k:"Content Creation · Copywriting · voice",
+      x:"For {REF} ({NAME}): creative station. Content Creation + Copywriting skills: 3 ad variants (hook / body / CTA), landing hero copy, and a 6-post social calendar consistent with creative/*_dna.json brand DNA. Then run /voice as Rajiv for a de-AI pass on every line. Gate: assets match brand DNA."}],
+    review:[{t:"Four-Eyes + third-party review",k:"coderabbit-runner",
+      x:"For {REF}: review station. Build four_eyes_checklist.md for the campaign (claims verified, pricing correct, brand voice, tracking pixels, spend caps). Then run /coderabbit-runner on the campaign PR as the third-party reviewer and record the verdict in the checklist. Nothing advances unreviewed."}],
+    launch:[{t:"Launch runbook (advisory)",k:"Google Ads · Social Media Marketing · Email Marketing · PR",
+      x:"For {REF} ({NAME}): write launch_log.md as a go-live runbook — per-channel steps (Meta, Google Ads, LinkedIn, email, PR outreach), tracking confirmation checks, and rollback triggers. Advisory only: production deploy stays behind the CI Four-Eyes manual gate."}],
+    optimize:[
+      {t:"Daily ads pass",k:"ads-analysis · Google Ads",
+       x:"Run the ads-analysis skill for {SLUG}: pull Meta + Google metrics, diagnose what's working and where spend is wasted, and output today's performance_log.md entry with budget, creative, and keyword recommendations. If ROAS is under threshold, draft (don't execute) a reallocation."},
+      {t:"Weekly performance chart",k:"dataviz",
+       x:"From {REF}'s performance_log.md history, build a one-page weekly chart (dataviz skill): spend vs leads by channel, CTR trend, and one insight sentence per chart. Flag any metric still blocked on missing API tokens rather than inventing it."}],
+    close:[{t:"Retrospective + learnings",k:"CRM Systems · Brand Building · notebooklm",
+      x:"For {REF} ({NAME}): close the campaign. Write retrospective.md + final_report.md (what worked, what died, cost per outcome). CRM Systems skill: archive segments and tag the cohort for reactivation. Extract 3 reusable learnings into campaigns/registry.json notes, then push the retro to NotebookLM."}]
+  };
+
+  var $=function(s){return document.querySelector(s)};
+  var esc=function(t){return String(t)
+    .replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;").replace(/'/g,"&#39;")};
+  var state={camp:CAMPS[0].ref,phase:null,src:"fallback snapshot"};
+
+  /* ---------- live registry loader (same contract as dashboard.js) ---------- */
+  function normType(t){return String(t||"").replace(/[_-]+/g," ")}
+  function inferNext(c){
+    var raw=c.phase_progress&&c.phase_progress[c.current_phase];
+    if(typeof raw==="string"){
+      var d=raw.replace(/^[✅🔴⬜]\s*/,"").replace(/^(complete|in progress|not started)\s*[—–-]?\s*/i,"");
+      if(d)return d;
+    }
+    return "Advance the "+c.current_phase+" gate";
+  }
+  function applyRegistry(data){
+    if(data.lifecycle&&Array.isArray(data.lifecycle.phases)&&data.lifecycle.phases.length){
+      PHASES=data.lifecycle.phases.map(function(p){
+        var parts=String(p.name||p.id).trim().split(/\s+/);
+        var icon=/^\p{Extended_Pictographic}/u.test(parts[0]||"")?parts.shift():"•";
+        return {id:p.id,icon:icon,name:parts.join(" ")||p.id,gate:p.gate||""};
+      });
+    }
+    if(Array.isArray(data.campaigns)&&data.campaigns.length){
+      CAMPS=data.campaigns.map(function(c,i){
+        return {ref:c.ref,slug:c.slug,name:c.name,type:normType(c.type),phase:c.current_phase,
+                next:inferNext(c),cvar:PALETTE[i]||"--pend"};
+      });
+      state.camp=CAMPS[0].ref;
+    }
+  }
+  function loadRegistry(){
+    fetch("../campaigns/registry.json")
+      .then(function(r){if(!r.ok)throw new Error("HTTP "+r.status);return r.json()})
+      .then(function(d){applyRegistry(d);state.src="registry.json v"+(d.version||"?");renderAll()})
+      .catch(function(){state.src="fallback snapshot (registry fetch unavailable — open via a local server for live data)";renderAll()});
+  }
+
+  /* ---------- renderers ---------- */
+  function renderStats(){
+    var at={};CAMPS.forEach(function(c){at[c.phase]=(at[c.phase]||0)+1});
+    var top=Object.keys(at).sort(function(a,b){return at[b]-at[a]})[0]||"—";
+    $("#stats").innerHTML=
+      '<div class="stat"><span class="k stencil">Active campaigns</span><div class="v">'+CAMPS.length+'</div><div class="d">'+CAMPS.map(function(c){return esc(c.ref)}).join(" · ")+"</div></div>"
+      +'<div class="stat"><span class="k stencil">Busiest station</span><div class="v">'+esc(top)+'</div><div class="d">'+(at[top]||0)+" unit(s)</div></div>"
+      +'<div class="stat"><span class="k stencil">Stations</span><div class="v">'+PHASES.length+'</div><div class="d">gates on every one</div></div>'
+      +'<div class="stat"><span class="k stencil">Data source</span><div class="v" style="font-size:15px">'+esc(state.src.split(" (")[0])+'</div><div class="d">no invented numbers</div></div>';
+    $("#srcBadge").textContent="registry: "+state.src.split(" (")[0];
+    $("#srcBadge").classList.toggle("badge--live", state.src.indexOf("registry.json v")===0);
+  }
+  function renderLine(){
+    var html="";
+    PHASES.forEach(function(ph){
+      var here=CAMPS.filter(function(c){return c.phase===ph.id});
+      html+='<div class="station'+(here.length?" occupied":"")+(state.phase===ph.id?" sel":"")+'" data-ph="'+esc(ph.id)+'">'
+        +'<div class="units">'+here.map(function(c){return '<span class="unit" style="background:var('+c.cvar+')" title="'+esc(c.name)+'">'+esc(c.ref.slice(0,2))+"</span>"}).join("")+"</div>"
+        +'<span class="lamp" aria-hidden="true"></span>'
+        +'<button class="st-label stencil" aria-pressed="'+(state.phase===ph.id)+'">'+ph.icon+" "+esc(ph.name)+"</button>"
+        +'<div class="gate-note">gate: '+esc(ph.gate)+"</div></div>";
+    });
+    $("#stations").innerHTML=html;
+    $("#legend").innerHTML=CAMPS.map(function(c){
+      return '<span><span class="chip-dot" style="background:var('+c.cvar+')"></span>'+esc(c.ref)+" — "+esc(c.name)+"</span>";
+    }).join("")+'<span style="color:var(--ink3)">● amber lamp = station occupied (accent, never a series colour)</span>';
+    Array.prototype.forEach.call(document.querySelectorAll(".station .st-label"),function(b){
+      b.addEventListener("click",function(){
+        var id=b.parentElement.getAttribute("data-ph");
+        state.phase=(state.phase===id)?null:id;
+        renderLine();renderFilters();renderDeck();
+      });
+    });
+  }
+  function renderCards(){
+    var order=PHASES.map(function(p){return p.id});
+    $("#cards").innerHTML=CAMPS.map(function(c){
+      var idx=order.indexOf(c.phase);
+      var rail=order.map(function(p,i){return '<span class="'+(i<idx?"done":i===idx?"active":"")+'" title="'+esc(p)+'"></span>'}).join("");
+      var skills=SKILLS.filter(function(s){return s.p.indexOf(c.phase)>=0}).map(function(s){return s.n});
+      return '<div class="card" style="--cc:var('+c.cvar+')">'
+        +'<div class="top"><div><div class="ref mono">'+esc(c.ref)+" · "+esc(c.slug)+'</div><h3>'+esc(c.name)+"</h3></div>"
+        +'<span class="type">'+esc(c.type)+"</span></div>"
+        +'<div class="mini-rail" aria-label="phase progress">'+rail+"</div>"
+        +'<div class="next"><span class="lbl stencil">Next at this station</span>'+esc(c.next)+"</div>"
+        +'<div class="skills"><b>Skills due:</b> '+(skills.join(", ")||"—")+"</div>"
+        +'<button class="go" data-ref="'+esc(c.ref)+'" data-ph="'+esc(c.phase)+'">Load prompts ▸</button></div>';
+    }).join("");
+    Array.prototype.forEach.call(document.querySelectorAll(".card .go"),function(b){
+      b.addEventListener("click",function(){
+        state.camp=b.getAttribute("data-ref");state.phase=b.getAttribute("data-ph");
+        renderLine();renderFilters();renderDeck();
+        $("#campFilters").scrollIntoView({behavior:"smooth",block:"center"});
+      });
+    });
+  }
+  function renderMatrix(){
+    var head="<thead><tr><th style='text-align:left'>Skill ⟍ Station</th>"
+      +PHASES.map(function(p){return "<th>"+p.icon+"<br>"+esc(p.name)+"</th>"}).join("")+"</tr></thead>";
+    var rows="",divDone=false;
+    SKILLS.forEach(function(s){
+      if(s.house&&!divDone){rows+='<tr class="mx-div"><th></th><td colspan="'+PHASES.length+'">HOUSE SKILLS (already installed in Cowork)</td></tr>';divDone=true;}
+      rows+="<tr"+(s.house?' class="house"':"")+"><th>"+esc(s.n)+"</th>"
+        +PHASES.map(function(p){
+          var m=s.p.indexOf(p.id)>=0?"●":(s.s.indexOf(p.id)>=0?"◐":"·");
+          return '<td class="'+(m==="●"?"p":"")+'" data-ph="'+esc(p.id)+'" tabindex="0" role="button" aria-label="'+esc(s.n)+" — "+esc(p.name)+'" title="'+esc(s.n)+" — "+esc(p.name)+'">'+m+"</td>";
+        }).join("")+"</tr>";
+    });
+    $("#matrix").innerHTML=head+"<tbody>"+rows+"</tbody>";
+    Array.prototype.forEach.call(document.querySelectorAll(".mx td[data-ph]"),function(td){
+      function activate(){
+        state.phase=td.getAttribute("data-ph");
+        renderLine();renderFilters();renderDeck();
+        $("#deck").scrollIntoView({behavior:"smooth",block:"center"});
+      }
+      td.addEventListener("click",activate);
+      td.addEventListener("keydown",function(e){if(e.key==="Enter"||e.key===" "){e.preventDefault();activate();}});
+    });
+  }
+  function renderFilters(){
+    $("#campFilters").innerHTML=CAMPS.map(function(c){
+      return '<button class="fchip'+(state.camp===c.ref?" on":"")+'" data-ref="'+esc(c.ref)+'">'
+        +'<span class="chip-dot" style="background:var('+c.cvar+')"></span>'+esc(c.ref)+"</button>";
+    }).join("");
+    $("#phaseFilters").innerHTML='<button class="fchip'+(state.phase===null?" on":"")+'" data-ph="">All stations</button>'
+      +PHASES.map(function(p){return '<button class="fchip'+(state.phase===p.id?" on":"")+'" data-ph="'+esc(p.id)+'">'+p.icon+" "+esc(p.name)+"</button>"}).join("");
+    Array.prototype.forEach.call(document.querySelectorAll("#campFilters .fchip"),function(b){
+      b.addEventListener("click",function(){state.camp=b.getAttribute("data-ref");renderFilters();renderDeck();});
+    });
+    Array.prototype.forEach.call(document.querySelectorAll("#phaseFilters .fchip"),function(b){
+      b.addEventListener("click",function(){state.phase=b.getAttribute("data-ph")||null;renderLine();renderFilters();renderDeck();});
+    });
+  }
+  function renderDeck(){
+    var c=CAMPS.filter(function(x){return x.ref===state.camp})[0]||CAMPS[0];
+    var ids=state.phase?[state.phase]:PHASES.map(function(p){return p.id});
+    var cards=[];
+    ids.forEach(function(id){
+      var ph=PHASES.filter(function(p){return p.id===id})[0]||{icon:"•",name:id};
+      (PROMPTS[id]||[]).forEach(function(pr){
+        var text=pr.x.replace(/\{REF\}/g,c.ref).replace(/\{NAME\}/g,c.name).replace(/\{SLUG\}/g,c.slug);
+        cards.push('<div class="pcard"><div class="ph"><span class="t">'+esc(pr.t)+'</span>'
+          +'<span class="phase-tag stencil">'+ph.icon+" "+esc(ph.name)+"</span></div>"
+          +"<pre>"+esc(text)+"</pre>"
+          +'<div class="pf"><span class="skills-used">'+esc(pr.k)+"</span>"
+          +'<button class="copy">Copy prompt</button></div></div>');
+      });
+    });
+    $("#deck").innerHTML=cards.join("")||'<p style="color:var(--ink3)">No prompts for this filter.</p>';
+    Array.prototype.forEach.call(document.querySelectorAll(".copy"),function(b){
+      b.addEventListener("click",function(){
+        var text=b.closest(".pcard").querySelector("pre").textContent;
+        function done(){b.textContent="Copied ✓";b.classList.add("copied");
+          var t=$("#toast");t.classList.add("show");
+          setTimeout(function(){t.classList.remove("show");b.textContent="Copy prompt";b.classList.remove("copied")},1800);}
+        function fallback(){var ta=document.createElement("textarea");ta.value=text;document.body.appendChild(ta);ta.select();
+          try{document.execCommand("copy");done();}catch(e){b.textContent="Select & copy manually";}
+          document.body.removeChild(ta);}
+        if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(text).then(done,fallback);}
+        else fallback();
+      });
+    });
+  }
+  function renderAll(){renderStats();renderLine();renderCards();renderMatrix();renderFilters();renderDeck();}
+
+  renderAll();
+  loadRegistry();
+})();
+</script>
+</body>
+</html>

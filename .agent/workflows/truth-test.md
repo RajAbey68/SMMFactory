@@ -13,5 +13,5 @@ python3 -m json.tool package.json > /dev/null && echo "✅ package.json valid" |
 3. Check all required directories exist.
 for dir in research creative landing-page campaigns; do [ -d "$dir" ] && echo "✅ $dir/" || echo "❌ $dir/ missing"; done
 
-4. Run the truth test suite (when available).
-npx tsx tests/truth-tests.ts
+4. Run the full truth test suite (core + Claude console).
+npm test

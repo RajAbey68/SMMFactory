@@ -1,16 +1,18 @@
 {
   "name": "smm-factory",
   "version": "0.1.0",
-  "description": "Cloud-Hybrid Marketing Studio — Orchestrates Spyder, Pomelli, OpenClaw for self-optimizing ad campaigns.",
+  "description": "Cloud-Hybrid Marketing Studio \u2014 Orchestrates Spyder, Pomelli, OpenClaw for self-optimizing ad campaigns.",
   "private": true,
   "scripts": {
-    "test": "tsx tests/truth-tests.ts 2>/dev/null || node tests/truth-tests.mjs",
+    "test": "npm run test:core && npm run test:console",
     "test:node": "node tests/truth-tests.mjs",
     "quality": "bash scripts/quality-gate.sh",
     "semrush": "node scripts/semrush-scan.mjs",
     "seo": "node scripts/seo-scan.mjs",
     "reviews": "bash review-engine/start.sh",
-    "hooks": "bash creative/hook-studio/start.sh"
+    "hooks": "bash creative/hook-studio/start.sh",
+    "test:core": "node tests/truth-tests.mjs",
+    "test:console": "node tests/claude-console-truth.mjs"
   },
   "keywords": [
     "marketing",

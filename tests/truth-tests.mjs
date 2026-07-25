@@ -1,7 +1,6 @@
 #!/usr/bin/env node
-// tests/truth-tests.mjs — Plain Node.js truth tests (no tsx/npm required)
-// Fallback runner: node tests/truth-tests.mjs
-// Primary runner:  npx tsx tests/truth-tests.ts
+// tests/truth-tests.mjs — Canonical truth test suite (plain Node, no tsx required)
+// Run: node tests/truth-tests.mjs   (or `npm test` for this suite + console tests)
 
 import { readFileSync, existsSync, readdirSync } from 'fs';
 import { join } from 'path';
