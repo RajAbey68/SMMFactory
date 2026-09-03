@@ -876,6 +876,36 @@ await test('Attribution Engine computes cross-channel ROAS (functional)', async 
   assert(report.channel_performance.google.attributed_revenue_usd === 600, 'Google attributed revenue mismatch');
 });
 
+// ─── LINKEDIN B2B CLIENT (INTEGRATIONS) ───────────────────────────
+
+await test('LinkedIn Client module exists with exports', async () => {
+  const path = 'tools/openclaw/linkedin-client.mjs';
+  assert(existsSync(path), 'tools/openclaw/linkedin-client.mjs missing');
+  const { LinkedInClient } = await import('../tools/openclaw/linkedin-client.mjs');
+  assert(typeof LinkedInClient === 'function', 'Missing LinkedInClient export');
+});
+
+await test('LinkedIn Client creates feed posts, sponsored campaigns, and analytics (functional)', async () => {
+  const { LinkedInClient } = await import('../tools/openclaw/linkedin-client.mjs');
+  const client = new LinkedInClient();
+
+  const post = await client.createFeedPost({
+    text: 'AI Architecture Advisory: How we replaced fragile monolithic prompts with BMAD multi-agent roles.',
+    title: 'BMAD Methodology in Production'
+  });
+  assert(post.post_id && post.visibility === 'PUBLIC', 'Post creation failed');
+
+  const camp = await client.createSponsoredCampaign({
+    name: 'AI Advisory — CTO Targeting',
+    dailyBudgetUsd: 40,
+    targetJobTitles: ['CTO', 'Head of AI', 'VP Engineering']
+  });
+  assert(camp.campaign_urn && camp.daily_budget_usd === 40, 'Campaign setup failed');
+
+  const analytics = await client.getPostAnalytics(post.post_id);
+  assert(analytics.impressions > 0 && analytics.engagement_rate > 5.0, 'Analytics fetch failed');
+});
+
 await test('SEO retry/taxonomy module exists and retries transient errors (functional)', async () => {
   const path = 'scripts/seo-retry.mjs';
   assert(existsSync(path), 'scripts/seo-retry.mjs missing');
