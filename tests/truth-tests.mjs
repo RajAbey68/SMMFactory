@@ -1143,6 +1143,44 @@ await test('Close Campaign orchestrator script exists and is executable', async 
   assert(existsSync(scriptPath), 'scripts/close-campaign.mjs missing');
 });
 
+// ─── AUTONOMOUS INBOUND DISCOVERY & LEAD HARVESTING AGENT ─────────
+
+await test('Lead Discovery Agent module exists with exports', async () => {
+  const path = 'tools/lead-discovery-agent.mjs';
+  assert(existsSync(path), 'tools/lead-discovery-agent.mjs missing');
+  const { LeadDiscoveryAgent } = await import('../tools/lead-discovery-agent.mjs');
+  assert(typeof LeadDiscoveryAgent === 'function', 'Missing LeadDiscoveryAgent export');
+});
+
+await test('Lead Discovery Agent processes signals and routes to Asimov-AI and AI-Integ (functional)', async () => {
+  const { LeadDiscoveryAgent } = await import('../tools/lead-discovery-agent.mjs');
+  const agent = new LeadDiscoveryAgent();
+
+  // 1. Asimov-AI lead signal from BuzzBar #AHG_Forager (>=£800/day Outside IR35)
+  const asimovSignal = agent.processSignal({
+    source: 'BuzzBar',
+    channel: '#AHG_Forager',
+    author: 'TechLead_UK',
+    rate_gbp: 850,
+    text: 'Looking for an AI Architect outside IR35 to build autonomous multi-agent swarm architecture using BMAD methodology.'
+  });
+  assert(asimovSignal.is_qualified === true, 'Asimov lead should be qualified');
+  assert(asimovSignal.target_venture === 'asimov-ai', `Expected asimov-ai, got ${asimovSignal.target_venture}`);
+
+  // 2. AI-Integ lead signal (Enterprise systems integration)
+  const integSignal = agent.processSignal({
+    source: 'LinkedIn',
+    channel: '#Enterprise',
+    author: 'CIO_Retail',
+    text: 'Urgent requirement: Enterprise AI integration connecting legacy SQL databases and n8n webhook pipelines with modern LLMs.'
+  });
+  assert(integSignal.is_qualified === true, 'Integ lead should be qualified');
+  assert(integSignal.target_venture === 'ai-integ', `Expected ai-integ, got ${integSignal.target_venture}`);
+
+  const asimovLeads = agent.getQualifiedLeads('asimov-ai');
+  assert(asimovLeads.length > 0, 'Should return stored Asimov leads');
+});
+
 await test('SEO retry/taxonomy module exists and retries transient errors (functional)', async () => {
   const path = 'scripts/seo-retry.mjs';
   assert(existsSync(path), 'scripts/seo-retry.mjs missing');

@@ -271,6 +271,66 @@
           "note": "Direct conversions"
         }
       }
+    },
+    {
+      "slug": "asimov-ai",
+      "ref": "ASIMV",
+      "name": "Asimov AI — Autonomous Agent Engineering",
+      "type": "enterprise_ai",
+      "status": "active",
+      "current_phase": "ideation",
+      "window": {
+        "start": "2026-04-01",
+        "end": "2026-12-31"
+      },
+      "property": null,
+      "organization": "Asimov AI Research (asimov-ai.org)",
+      "agents": [
+        "spyder",
+        "pomelli",
+        "openclaw"
+      ],
+      "path": "./campaigns/asimov-ai/",
+      "phase_progress": {
+        "ideation": "✅ complete — mission brief and multi-agent positioning defined",
+        "research": "🔴 in progress — enterprise AI keyword & competitor harvesting",
+        "planning": "✅ complete — Campaign_Summary.md + action_calendar.md",
+        "creative": "⬜ not started",
+        "review": "⬜ not started",
+        "launch": "⬜ not started",
+        "optimize": "⬜ not started",
+        "close": "⬜ not started"
+      }
+    },
+    {
+      "slug": "ai-integ",
+      "ref": "AIINT",
+      "name": "AI Integration — Enterprise Systems Modernization",
+      "type": "enterprise_ai",
+      "status": "active",
+      "current_phase": "ideation",
+      "window": {
+        "start": "2026-04-01",
+        "end": "2026-12-31"
+      },
+      "property": null,
+      "organization": "AI Integration Solutions (ai-integ.com)",
+      "agents": [
+        "semrush",
+        "pomelli",
+        "openclaw"
+      ],
+      "path": "./campaigns/ai-integ/",
+      "phase_progress": {
+        "ideation": "✅ complete — enterprise integration service brief defined",
+        "research": "🔴 in progress — legacy system migration intent discovery",
+        "planning": "✅ complete — Campaign_Summary.md + action_calendar.md",
+        "creative": "⬜ not started",
+        "review": "⬜ not started",
+        "launch": "⬜ not started",
+        "optimize": "⬜ not started",
+        "close": "⬜ not started"
+      }
     }
   ],
   "conventions": {
