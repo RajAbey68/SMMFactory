@@ -992,6 +992,51 @@ await test('TikTok Ads Client creates campaigns, ad groups, and fetches metrics 
   assert(metrics.impressions > 0 && metrics.cpm_usd < 5.0, 'Metrics fetch failed');
 });
 
+// ─── THIRD-PARTY AUDITOR & DRIFT GATE (GOVERNANCE) ────────────────
+
+await test('Third-Party Auditor module exists with exports', async () => {
+  const path = 'tools/third-party-auditor.mjs';
+  assert(existsSync(path), 'tools/third-party-auditor.mjs missing');
+  const { ThirdPartyAuditor } = await import('../tools/third-party-auditor.mjs');
+  assert(typeof ThirdPartyAuditor === 'function', 'Missing ThirdPartyAuditor export');
+});
+
+await test('Third-Party Auditor detects terminology drift and verifies registered campaigns (functional)', async () => {
+  const { ThirdPartyAuditor } = await import('../tools/third-party-auditor.mjs');
+  const auditor = new ThirdPartyAuditor();
+
+  // Test drift detection on prohibited term "estate"
+  const badContent = 'Welcome to the luxury estate on Koggala Lake starting at $300.';
+  const drift = auditor.auditPropertyDrift(badContent, 'test-drift');
+  assert(!drift.passed, 'Auditor should fail on prohibited term "estate"');
+  assert(drift.findings.some(f => f.rule === 'PROHIBITED_TERM'), 'Missing PROHIBITED_TERM finding');
+
+  // Test valid content
+  const goodContent = 'Welcome to the lakeside villa on Koggala Lake starting at $250.';
+  const validScan = auditor.auditPropertyDrift(goodContent, 'test-valid');
+  assert(validScan.passed, 'Auditor should pass clean lakeside villa content');
+});
+
+// ─── ADSPYDER CONTINUOUS COMPETITOR MONITOR (FUNCTIONAL) ──────────
+
+await test('AdSpyder Monitor module exists with exports', async () => {
+  const path = 'tools/adspyder-monitor.mjs';
+  assert(existsSync(path), 'tools/adspyder-monitor.mjs missing');
+  const { AdSpyderMonitor } = await import('../tools/adspyder-monitor.mjs');
+  assert(typeof AdSpyderMonitor === 'function', 'Missing AdSpyderMonitor export');
+});
+
+await test('AdSpyder Monitor scans competitor libraries and extracts winning angles (functional)', async () => {
+  const { AdSpyderMonitor } = await import('../tools/adspyder-monitor.mjs');
+  const monitor = new AdSpyderMonitor();
+
+  const scan = await monitor.scanCompetitorLibrary('srilankavillas.com');
+  assert(scan.active_ads_count > 0 && scan.networks.includes('meta'), 'Scan result invalid');
+
+  const angles = monitor.extractWinningAngles(scan);
+  assert(angles.length > 0 && angles[0].longevity_days >= 14, 'Angle extraction failed');
+});
+
 await test('SEO retry/taxonomy module exists and retries transient errors (functional)', async () => {
   const path = 'scripts/seo-retry.mjs';
   assert(existsSync(path), 'scripts/seo-retry.mjs missing');

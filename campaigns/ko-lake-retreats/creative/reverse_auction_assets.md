@@ -9,7 +9,7 @@
 
 ### Broadcast Variant A: The Hourly Price Drop (Whole Villa Buyout)
 > 🚨 **KoLake Villa Flash Drop — This Weekend Only (Starts in 48h)**  
-> Private 7-Room Lakefront Estate · 60ft Infinity Pool · Full Villa Staff & In-House Cooks.  
+> Private 7-Room Lakefront Lakeside Villa · 60ft Infinity Pool · Full Villa Staff & In-House Cooks.  
 > 
 > 📉 **Current Auction Rate: $420 / night** *(Rack Rate: $850/night)*  
 > ⏱️ *Price drops $30 every 2 hours until claimed (Price Floor: $320).*  
@@ -53,7 +53,7 @@
 ### Responsive Search Ad (RSA) — Last-Minute Sri Lanka Villa
 * **Headline 1:** KoLake Villa Live Flash Deal
 * **Headline 2:** Reverse Auction Ends `{=COUNTDOWN(2026-09-01 18:00:00)}`
-* **Headline 3:** Private 7-Bed Estate & Pool
+* **Headline 3:** Private 7-Bed Lakeside Villa & Pool
 * **Description 1:** 60ft infinity pool & lakefront luxury in Ahangama. Price drops until booked. Direct booking transfer bonus included.
 * **Description 2:** Why pay full rack rate? Lock exclusive last-minute villa dates via WhatsApp in 60 seconds. Full staff & authentic meals included.
 * **Callout Extensions:** 
