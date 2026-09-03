@@ -719,6 +719,49 @@ await test('Feedback optimizer runs daily pass and emits BuzzBar telemetry (func
   assert(existsSync('campaigns/ko-lake-retreats/optimization_report.json'), 'optimization_report.json missing');
 });
 
+// ─── META ADS API CLIENT & GCS ASSET MANAGER (INTEGRATIONS) ───────
+
+await test('Meta Ads Client module exists with exports', async () => {
+  const path = 'tools/openclaw/meta-client.mjs';
+  assert(existsSync(path), 'tools/openclaw/meta-client.mjs missing');
+  const { MetaAdsClient } = await import('../tools/openclaw/meta-client.mjs');
+  assert(typeof MetaAdsClient === 'function', 'Missing MetaAdsClient export');
+});
+
+await test('Meta Ads Client supports campaign, adset, and insights operations (functional)', async () => {
+  const { MetaAdsClient } = await import('../tools/openclaw/meta-client.mjs');
+  const client = new MetaAdsClient();
+
+  const camp = await client.createCampaign({ name: 'Test Campaign', objective: 'OUTCOME_LEADS' });
+  assert(camp.id && camp.name === 'Test Campaign', 'Campaign creation contract failed');
+
+  const adSet = await client.createAdSet({ campaignId: camp.id, name: 'Test AdSet', dailyBudgetUsd: 30 });
+  assert(adSet.daily_budget_cents === 3000, `Expected 3000 cents budget, got ${adSet.daily_budget_cents}`);
+
+  const insights = await client.getCampaignInsights(camp.id);
+  assert(insights.impressions > 0 && typeof insights.ctr === 'number', 'Insights fetch contract failed');
+});
+
+await test('GCS Asset Manager module exists with exports', async () => {
+  const path = 'tools/gcs-asset-manager.mjs';
+  assert(existsSync(path), 'tools/gcs-asset-manager.mjs missing');
+  const { GCSAssetManager } = await import('../tools/gcs-asset-manager.mjs');
+  assert(typeof GCSAssetManager === 'function', 'Missing GCSAssetManager export');
+});
+
+await test('GCS Asset Manager handles upload and generates signed review URLs (functional)', async () => {
+  const { GCSAssetManager } = await import('../tools/gcs-asset-manager.mjs');
+  const manager = new GCSAssetManager();
+
+  const upload = await manager.uploadAsset('tools/market-dna-schema.mjs', 'test-assets');
+  assert(upload.gcs_uri.startsWith('gs://marketing-studio-assets/test-assets/'), 'Invalid GCS URI format');
+  assert(upload.sha256 && upload.sha256.length === 64, 'Missing SHA-256 asset hash');
+
+  const signed = manager.generateSignedReviewUrl(upload.gcs_uri, 7);
+  assert(signed.signed_url.includes('storage.googleapis.com'), 'Invalid signed URL host');
+  assert(signed.duration_days === 7, 'Expected 7-day duration');
+});
+
 await test('SEO retry/taxonomy module exists and retries transient errors (functional)', async () => {
   const path = 'scripts/seo-retry.mjs';
   assert(existsSync(path), 'scripts/seo-retry.mjs missing');
