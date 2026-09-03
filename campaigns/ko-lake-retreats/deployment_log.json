@@ -1,23 +1,23 @@
 {
   "campaign": "ko-lake-retreats",
-  "timestamp": "2026-09-03T01:54:47.786Z",
+  "timestamp": "2026-09-03T01:57:34.862Z",
   "dry_run": true,
   "manifest_digest": "1ae69230a517091e6e7b7801f930befe7d087f4a0df18927624f8c49cc0b7c03",
   "channels_deployed": {
     "meta": {
       "status": "DRY_RUN_VALIDATED",
       "ads_count": 4,
-      "timestamp": "2026-09-03T01:54:47.786Z"
+      "timestamp": "2026-09-03T01:57:34.862Z"
     },
     "google": {
       "status": "DRY_RUN_VALIDATED",
       "ads_count": 4,
-      "timestamp": "2026-09-03T01:54:47.786Z"
+      "timestamp": "2026-09-03T01:57:34.862Z"
     },
     "chatgpt": {
       "status": "DRY_RUN_VALIDATED",
       "ads_count": 4,
-      "timestamp": "2026-09-03T01:54:47.786Z"
+      "timestamp": "2026-09-03T01:57:34.862Z"
     }
   },
   "buzz_event": {

@@ -819,6 +819,63 @@ await test('OpenAI Ads Client validates proof points and tracks card moderation 
   assert(status.status === 'APPROVED' && status.impressions > 0, 'Moderation status fetch failed');
 });
 
+// ─── PHASE 5: MULTI-TOUCH ATTRIBUTION ENGINE (FUNCTIONAL) ───────────
+
+await test('Attribution Engine module exists with exports', async () => {
+  const path = 'tools/attribution-engine.mjs';
+  assert(existsSync(path), 'tools/attribution-engine.mjs missing');
+  const { calculateAttribution, computeMultiTouchRoas, ATTRIBUTION_MODELS } = await import('../tools/attribution-engine.mjs');
+  assert(typeof calculateAttribution === 'function', 'Missing calculateAttribution export');
+  assert(typeof computeMultiTouchRoas === 'function', 'Missing computeMultiTouchRoas export');
+  assert(ATTRIBUTION_MODELS.TIME_DECAY === 'time_decay', 'Missing ATTRIBUTION_MODELS constants');
+});
+
+await test('Attribution Engine computes correct first, last, and linear weights (functional)', async () => {
+  const { calculateAttribution, ATTRIBUTION_MODELS } = await import('../tools/attribution-engine.mjs');
+
+  const journey = [
+    { channel: 'meta', timestamp: '2026-05-01T10:00:00Z' },
+    { channel: 'google', timestamp: '2026-05-02T12:00:00Z' },
+    { channel: 'whatsapp', timestamp: '2026-05-03T15:00:00Z' }
+  ];
+
+  const first = calculateAttribution(journey, ATTRIBUTION_MODELS.FIRST_TOUCH);
+  assert(first.meta === 1.0 && !first.whatsapp, 'First-touch calculation failed');
+
+  const last = calculateAttribution(journey, ATTRIBUTION_MODELS.LAST_TOUCH);
+  assert(last.whatsapp === 1.0 && !last.meta, 'Last-touch calculation failed');
+
+  const linear = calculateAttribution(journey, ATTRIBUTION_MODELS.LINEAR);
+  assert(linear.meta === 0.3333 && linear.whatsapp === 0.3333, 'Linear attribution failed');
+});
+
+await test('Attribution Engine computes cross-channel ROAS (functional)', async () => {
+  const { computeMultiTouchRoas, ATTRIBUTION_MODELS } = await import('../tools/attribution-engine.mjs');
+
+  const conversions = [
+    {
+      conversion_value_usd: 1200, // 3-night villa buyout
+      touchpoints: [
+        { channel: 'meta', timestamp: '2026-05-01T10:00:00Z' },
+        { channel: 'google', timestamp: '2026-05-02T12:00:00Z' }
+      ]
+    },
+    {
+      conversion_value_usd: 450,
+      touchpoints: [
+        { channel: 'meta', timestamp: '2026-05-03T10:00:00Z' }
+      ]
+    }
+  ];
+
+  const spend = { meta: 200, google: 150 };
+  const report = computeMultiTouchRoas({ channelSpendUsd: spend, conversions, model: ATTRIBUTION_MODELS.LINEAR });
+
+  assert(report.total_spend_usd === 350, 'Total spend mismatch');
+  assert(report.channel_performance.meta.roas >= 5.0, 'Meta ROAS calculation mismatch');
+  assert(report.channel_performance.google.attributed_revenue_usd === 600, 'Google attributed revenue mismatch');
+});
+
 await test('SEO retry/taxonomy module exists and retries transient errors (functional)', async () => {
   const path = 'scripts/seo-retry.mjs';
   assert(existsSync(path), 'scripts/seo-retry.mjs missing');
