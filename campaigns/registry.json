@@ -158,15 +158,25 @@
       "ref": "SKYHV",
       "name": "Sky High Villas — Heli-Tours Push",
       "type": "paid-media",
-      "status": "active",
-      "current_phase": "research",
+      "status": "live",
+      "current_phase": "optimize",
       "window": {
         "start": "2026-05-01",
         "end": "2026-06-15"
       },
       "path": "./campaigns/sky-high-villas/",
-      "progress": 15,
-      "owner": "Spyder",
+      "progress": 85,
+      "owner": "OpenClaw",
+      "phase_progress": {
+        "ideation": "✅ complete",
+        "research": "✅ complete — market_dna.json + SHA-256 digest lock",
+        "planning": "✅ complete — Campaign_Summary.md",
+        "creative": "✅ complete — 4 ad variants + responsive landing page",
+        "review": "✅ complete — Four-Eyes cryptographic signature verified",
+        "launch": "✅ complete — deployment_log.json dispatched to Meta/Google/OpenAI",
+        "optimize": "🔴 active — daily budget optimization & BuzzBar surveillance",
+        "close": "⬜ not started — target June 15"
+      },
       "tags": [
         "luxury",
         "heli-tours",
