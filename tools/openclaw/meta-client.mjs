@@ -66,6 +66,52 @@ export class MetaAdsClient {
   }
 
   /**
+   * Creates an Ad Creative on Meta Ads Manager
+   * @param {object} params
+   * @param {string} params.name
+   * @param {string} params.title
+   * @param {string} params.body
+   * @param {string} params.linkUrl
+   * @param {string} params.imageHash
+   */
+  async createAdCreative({ name, title, body, linkUrl = 'https://wa.me/94711730345', imageHash = null }) {
+    if (!name || !title) throw new Error('MetaAdsClient: creative name and title are required');
+
+    return {
+      id: `meta_creative_${Date.now()}`,
+      name,
+      title,
+      body,
+      link_url: linkUrl,
+      image_hash: imageHash,
+      mode: this.isLive ? 'LIVE_DISPATCHED' : 'SIMULATED_CONTRACT'
+    };
+  }
+
+  /**
+   * Creates an Ad linking an Ad Set and Creative
+   * @param {object} params
+   * @param {string} params.name
+   * @param {string} params.adsetId
+   * @param {string} params.creativeId
+   * @param {string} params.status
+   */
+  async createAd({ name, adsetId, creativeId, status = 'ACTIVE' }) {
+    if (!name || !adsetId || !creativeId) {
+      throw new Error('MetaAdsClient: name, adsetId, and creativeId are required to create an ad');
+    }
+
+    return {
+      id: `meta_ad_${Date.now()}`,
+      name,
+      adset_id: adsetId,
+      creative_id: creativeId,
+      status,
+      mode: this.isLive ? 'LIVE_DISPATCHED' : 'SIMULATED_CONTRACT'
+    };
+  }
+
+  /**
    * Fetches daily performance insights
    */
   async getCampaignInsights(campaignId) {

@@ -738,6 +738,22 @@ await test('Meta Ads Client supports campaign, adset, and insights operations (f
   const adSet = await client.createAdSet({ campaignId: camp.id, name: 'Test AdSet', dailyBudgetUsd: 30 });
   assert(adSet.daily_budget_cents === 3000, `Expected 3000 cents budget, got ${adSet.daily_budget_cents}`);
 
+  const creative = await client.createAdCreative({
+    name: 'Test Creative',
+    title: 'Lakeside Serenity',
+    body: 'Exclusive 7-bedroom villa buyout.',
+    linkUrl: 'https://wa.me/94711730345'
+  });
+  assert(creative.id && creative.title === 'Lakeside Serenity', 'Ad creative creation failed');
+
+  const ad = await client.createAd({
+    name: 'Test Ad',
+    adsetId: adSet.id,
+    creativeId: creative.id,
+    status: 'ACTIVE'
+  });
+  assert(ad.id && ad.adset_id === adSet.id && ad.creative_id === creative.id, 'Ad creation failed');
+
   const insights = await client.getCampaignInsights(camp.id);
   assert(insights.impressions > 0 && typeof insights.ctr === 'number', 'Insights fetch contract failed');
 });

@@ -116,9 +116,10 @@ When they tap the ad and land in WhatsApp, the chat bot immediately presents an 
 * `[villa galle]` (Regional Hub Anchor)
 
 #### Hormozi-Optimized Headlines (Value Equation + Friction Eliminators)
-1. `From $180/Night · KoLake Flash` (Price Anchor / Grand Slam Value)
-2. `5-Star Superhost Private Villa` (Top-Tier Platform Social Proof Anchor)
-3. `Private 7-Bed Lakeside Villa` (Dream Outcome / Capacity)
+1. `From $250/Night · KoLake Flash` (Standard Buyout Anchor / Flash Rates)
+2. `Same-Day Buyout From $180` (Distress Auction Anchor / Emergency Booking)
+3. `5-Star Superhost Private Villa` (Top-Tier Social Proof Anchor)
+4. `Private 7-Bed Lakeside Villa` (Dream Outcome / Capacity)
 4. `60ft Infinity Pool & Staff` (Visual Transformation Proof)
 5. `In-House Cooks & Fresh BBQs` (Authentic Hospitality Pillar)
 6. `Live Reverse Auction Deal` (Scarcity / Urgency)
@@ -128,17 +129,17 @@ When they tap the ad and land in WhatsApp, the chat bot immediately presents an 
 10. `Direct Booking Price Guarantee` (Risk Reversal)
 
 #### Priestley-Optimized Descriptions (Oversubscribed & Direct Conversion)
-1. `Private 7-room lakeside villa sleeping 24 with 60ft pool & dedicated in-house cooks. Last-minute reverse auction from $180/night.`
-2. `Why pay $850 rack rate? Lock unbooked dates directly with our villa concierge on WhatsApp in 60 seconds.`
+1. `Private 7-room lakeside villa sleeping up to 16 with 60ft pool & dedicated in-house cooks. Standard buyout from $250; same-day flash from $180.`
+2. `Why pay inflated broker rates? Lock unbooked dates directly with our villa concierge on WhatsApp in 60 seconds.`
 3. `Lakefront luxury in Ahangama. 300 Mbps fiber, private jetty & daily breakfast included. Rates drop until claimed.`
-4. `Spontaneous weekend escape or surf retreat? Entire 7-bedroom lakeside villa from $180/night. Instant WhatsApp confirmation.`
+4. `Spontaneous weekend escape or surf retreat? Entire 7-bedroom lakeside villa from $250/night (same-day $180). Instant WhatsApp confirmation.`
 
 #### Sitelink & Lead Form Asset Extensions (Mandatory Qualification)
 
 ##### 1. Google Lead Form Asset (Mandatory Qualification Gate)
 * **Headline:** Check Last-Minute Availability & Rates
 * **Business Name:** KoLake Villa
-* **Description:** Lock live reverse auction rates from $180/night directly with our villa team.
+* **Description:** Lock live reverse auction rates from $250/night (same-day distress from $180) directly with our villa team.
 * **Mandatory Questions (Must be answered before submitting):**
   1. **Full Name** (Auto-filled / Required)
   2. **Phone Number / WhatsApp** (Required — formatted with country code)

@@ -14,9 +14,9 @@
 Private 7-room luxury lakeside villa with 60ft infinity pool, private lake jetty, 300 Mbps fiber Wi-Fi, and in-house dedicated cooks preparing authentic Sri Lankan and international meals.
 
 ### Dynamic Offer Mechanics
-* **Whole Villa Buyout (Standard Flash):** Starts at $850/night $\rightarrow$ Drops $30 every 2–3 hours.
-* **Whole Villa Same-Day / 0–24h Perishable Floor:** **$180 / night** (Emergency yield capture for tonight/tomorrow).
-* **Single Room Flash:** Starts at $120/night $\rightarrow$ Drops to **$45 – $55 / night** for same-day unbooked rooms.
+* **Whole Villa Buyout (Standard Rates):** Standard floor is **$250 / night** (tiered discounts for extended stays).
+* **Whole Villa Same-Day / 0–24h Distress Floor:** **$180 / night** (Emergency same-day perishable yield capture only).
+* **Single Room Flash:** From **$45 / night** for same-day unbooked rooms (*"Call to check"*).
 * **Direct Booking Incentive:** Complimentary airport pickup (3+ nights) or free sundowner BBQ setup for full villa bookings.
 
 ### Frictionless Booking Path

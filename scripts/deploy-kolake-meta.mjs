@@ -138,15 +138,52 @@ async function deployCampaign() {
     createdAdSets.push({ id: adSetRes.id, config: adSet });
   }
 
-  // Step 3: Unpause Campaign
-  console.log(`\n[3/3] Activating Campaign...`);
+  // Step 3: Create Ad Creatives and Ads for each Ad Set (Fix P1: Prevent Empty Campaign Activation)
+  console.log(`\n[3/4] Creating Ad Creatives and Live Ads...`);
+  const createdAds = [];
+  for (const item of createdAdSets) {
+    const adSet = item.config;
+    console.log(`  Attaching Ad Creative to Ad Set: ${adSet.name}...`);
+
+    // 1. Create Ad Creative
+    const creativeRes = await metaFetch(`${AD_ACCOUNT_ID}/adcreatives`, {
+      name: `Creative - ${adSet.name}`,
+      object_story_spec: {
+        page_id: payload.meta_ads.page_id || '108239015382019',
+        link_data: {
+          link: `https://wa.me/94711730345?text=${encodeURIComponent('Hi Ko Lake Villa, I saw your live reverse auction rate. Is the buyout available?')}`,
+          message: adSet.primary_text,
+          name: adSet.headline,
+          call_to_action: {
+            type: 'LEARN_MORE',
+            value: { link: 'https://wa.me/94711730345' }
+          }
+        }
+      }
+    });
+
+    // 2. Create Ad attaching to the Ad Set
+    const adRes = await metaFetch(`${AD_ACCOUNT_ID}/ads`, {
+      name: `Ad - ${adSet.name}`,
+      adset_id: item.id,
+      creative: { creative_id: creativeRes.id },
+      status: 'ACTIVE'
+    });
+
+    console.log(`    ✅ Ad Attached! ID: ${adRes.id} (Creative: ${creativeRes.id})`);
+    createdAds.push({ id: adRes.id, adset_id: item.id, creative_id: creativeRes.id });
+  }
+
+  // Step 4: Unpause Campaign
+  console.log(`\n[4/4] Activating Campaign...`);
   await metaFetch(campaignId, { status: 'ACTIVE' });
-  console.log(`  ✅ Campaign is now LIVE on Meta Ads Manager!`);
+  console.log(`  ✅ Campaign is now LIVE on Meta Ads Manager with ${createdAds.length} active ads!`);
 
   console.log(`\n════════════════════════════════════════════════════════════`);
   console.log(`  🎉 DEPLOYMENT SUCCESSFUL`);
   console.log(`  Campaign ID : ${campaignId}`);
   console.log(`  Ad Sets     : ${createdAdSets.length} Active`);
+  console.log(`  Ads Created : ${createdAds.length} Active`);
   console.log(`  Target URL  : https://wa.me/94711730345`);
   console.log(`════════════════════════════════════════════════════════════\n`);
 }

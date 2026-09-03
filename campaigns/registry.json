@@ -217,7 +217,9 @@
         "ad_account_id": "act_10151305992816228",
         "kpis": {
           "cpl_target_usd": 12,
-          "floor_price_usd": 180,
+          "standard_buyout_floor_usd": 250,
+          "same_day_emergency_floor_usd": 180,
+          "room_floor_usd": 45,
           "min_roas": 4.5
         }
       },
