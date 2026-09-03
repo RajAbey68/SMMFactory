@@ -686,5 +686,20 @@
     ],
     "synced_at": "2026-09-03T05:32:20.677Z",
     "mode": "LOCAL_AUDIT_LOG"
+  },
+  {
+    "id": "lin_sync_1788413563037",
+    "campaign": "smmfactory-core",
+    "phase": "optimize",
+    "team": "SMM",
+    "status": "IN_PROGRESS",
+    "summary": "Console Optimisation: Enhance Operator Console to surface real-time activities, telemetry, and discovery streams of autonomous agent bots (Buzz Bots, Grok/X Social Scanners, Lead Harvesters, and Multi-Tenant Routing across Asimov-AI, AI-Integ, and KoLake).",
+    "artifacts": [
+      "dashboard/claude-console.html",
+      "tools/lead-discovery-agent.mjs",
+      "campaigns/discovered_leads.json"
+    ],
+    "synced_at": "2026-09-03T05:32:43.037Z",
+    "mode": "LOCAL_AUDIT_LOG"
   }
 ]
