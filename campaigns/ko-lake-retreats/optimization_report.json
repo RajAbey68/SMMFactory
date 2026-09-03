@@ -1,0 +1,74 @@
+{
+  "campaign": "ko-lake-retreats",
+  "timestamp": "2026-09-03T01:39:51.951Z",
+  "metrics_evaluated": [
+    {
+      "channel": "meta",
+      "currentBudget": 40,
+      "ctr": 2.35,
+      "cpc": 0.42,
+      "roas": 3.8
+    },
+    {
+      "channel": "google",
+      "currentBudget": 20,
+      "ctr": 0.72,
+      "cpc": 1.85,
+      "roas": 1.1
+    },
+    {
+      "channel": "chatgpt",
+      "currentBudget": 15,
+      "ctr": 1.5,
+      "cpc": 0.9,
+      "roas": 2.4
+    }
+  ],
+  "optimization_result": {
+    "allocations": [
+      {
+        "channel": "meta",
+        "previous_budget": 40,
+        "optimized_budget": 50,
+        "delta": 10,
+        "action": "SCALE_UP",
+        "rationale": "High ROAS (3.8x) or CTR (2.35%). Scaled budget +25%."
+      },
+      {
+        "channel": "google",
+        "previous_budget": 20,
+        "optimized_budget": 10,
+        "delta": -10,
+        "action": "TRIM_DOWN",
+        "rationale": "Sub-threshold ROAS (1.1x) and CTR (0.72%). Trimmed budget -50%."
+      },
+      {
+        "channel": "chatgpt",
+        "previous_budget": 15,
+        "optimized_budget": 15,
+        "delta": 0,
+        "action": "MAINTAIN",
+        "rationale": "Performance within expected baseline parameters"
+      }
+    ],
+    "totalBudget": 75,
+    "recommendations": [
+      "[META] SCALE_UP: $40 -> $50/day. High ROAS (3.8x) or CTR (2.35%). Scaled budget +25%.",
+      "[GOOGLE] TRIM_DOWN: $20 -> $10/day. Sub-threshold ROAS (1.1x) and CTR (0.72%). Trimmed budget -50%.",
+      "[CHATGPT] MAINTAIN: $15 -> $15/day. Performance within expected baseline parameters"
+    ]
+  },
+  "buzz_event": {
+    "channel": "#marketing-kolake",
+    "relay": "wss://theahg.communities.buzz.xyz",
+    "event_type": "BUDGET_OPTIMIZATION_RECOMMENDED",
+    "campaign": "ko-lake-retreats",
+    "total_budget": 75,
+    "recommendations": [
+      "[META] SCALE_UP: $40 -> $50/day. High ROAS (3.8x) or CTR (2.35%). Scaled budget +25%.",
+      "[GOOGLE] TRIM_DOWN: $20 -> $10/day. Sub-threshold ROAS (1.1x) and CTR (0.72%). Trimmed budget -50%.",
+      "[CHATGPT] MAINTAIN: $15 -> $15/day. Performance within expected baseline parameters"
+    ],
+    "timestamp": "2026-09-03T01:39:51.951Z"
+  }
+}

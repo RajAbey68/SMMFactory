@@ -1,0 +1,35 @@
+{
+  "property_identity": {
+    "official_name": "Ko Lake Villa",
+    "property_type": "Lakeside Villa",
+    "prohibited_terms": ["estate", "resort", "hotel"],
+    "tagline": "Experience the tranquility of lakeside living",
+    "website": "https://www.kolakevilla.com",
+    "display_url": "www.kolakevilla.com"
+  },
+  "room_inventory": {
+    "total_ac_ensuite_bedrooms": 7,
+    "room_breakdown": {
+      "family_suites": {
+        "count": 2,
+        "capacity_per_suite": "5-6 guests",
+        "description": "Large multi-guest suites with air conditioning and private en-suite bathrooms."
+      },
+      "triple_rooms": {
+        "capacity": "3 guests",
+        "description": "Spacious AC en-suite rooms with triple bed layout."
+      },
+      "double_rooms": {
+        "capacity": "2 guests",
+        "description": "Comfortable AC en-suite rooms with plush double bed layout."
+      }
+    }
+  },
+  "pricing_axioms": {
+    "full_villa_7bed_starting_rate_usd": 250,
+    "full_villa_extended_stay_discounts": "Tiered discounts available for longer stays",
+    "last_minute_room_starting_rate_usd": 45,
+    "last_minute_room_policy": "Call to check availability"
+  },
+  "canonical_call_to_action": "For more information about our unique accommodations and to explore the amenities of Ko Lake Villa, please visit our website at www.kolakevilla.com. Book your stay today and experience the tranquility of lakeside living!"
+}
