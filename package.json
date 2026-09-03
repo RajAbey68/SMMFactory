@@ -1,6 +1,7 @@
 {
   "name": "smm-factory",
   "version": "0.1.0",
+  "type": "module",
   "description": "Cloud-Hybrid Marketing Studio \u2014 Orchestrates Spyder, Pomelli, OpenClaw for self-optimizing ad campaigns.",
   "private": true,
   "scripts": {
