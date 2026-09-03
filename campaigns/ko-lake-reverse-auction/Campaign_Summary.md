@@ -11,7 +11,7 @@
 ## 1. Strategy & Offer Architecture
 
 ### Product (Core Asset)
-Private 7-room luxury lakefront estate with 60ft infinity pool, private lake jetty, 300 Mbps fiber Wi-Fi, and in-house dedicated cooks preparing authentic Sri Lankan and international meals.
+Private 7-room luxury lakeside villa with 60ft infinity pool, private lake jetty, 300 Mbps fiber Wi-Fi, and in-house dedicated cooks preparing authentic Sri Lankan and international meals.
 
 ### Dynamic Offer Mechanics
 * **Whole Villa Buyout (Standard Flash):** Starts at $850/night $\rightarrow$ Drops $30 every 2–3 hours.
