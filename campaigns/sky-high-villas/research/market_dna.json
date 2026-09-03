@@ -1,0 +1,51 @@
+{
+  "property": "Sky High Villas",
+  "url": "https://skyhighvillas.com",
+  "location": "Central Highlands / South Coast Corridor, Sri Lanka",
+  "brand": {
+    "colors": {
+      "primary": "#0A192F",
+      "secondary": "#1E3A8A",
+      "accent": "#F59E0B"
+    },
+    "palette_names": [
+      "Deep Sky Navy",
+      "Altitude Blue",
+      "Aviation Gold"
+    ],
+    "tone": "ultra-luxury"
+  },
+  "property_details": {
+    "villas_count": 3,
+    "helipad_certified": true,
+    "max_guests": 18,
+    "scenic_flight_time_minutes": 45,
+    "concierge": "Dedicated luxury aviation concierge",
+    "chef": "Private fine dining chef on-site"
+  },
+  "usps": [
+    "Direct private helicopter transfers landing on private villa helipad",
+    "Panoramic 360-degree mountain and ocean ridge vistas",
+    "Tailored scenic heli-safaris across Sigiriya and tea country",
+    "Full-service private chef and dedicated aviation concierge"
+  ],
+  "pricing": {
+    "currency": "USD",
+    "entire_villa_starting_floor": 450,
+    "rooms_starting_floor": 85,
+    "heli_package_starting_floor": 1200
+  },
+  "hooks": [
+    "Skip the 5-hour drive — Touch down by private helicopter in 45 minutes",
+    "Private helipad villa retreat with dedicated chef from $450/night",
+    "Luxury South Coast to Highland heli-safari villa buyout"
+  ],
+  "target_keywords": [
+    "sky high villas",
+    "helicopter tour sri lanka",
+    "private helipad villa",
+    "luxury heli safari sri lanka",
+    "highland luxury villa"
+  ],
+  "generated_at": "2026-09-03T02:45:00Z"
+}
