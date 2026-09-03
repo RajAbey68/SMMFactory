@@ -3,7 +3,7 @@
 > **WhatsApp Direct Booking Route:** `https://wa.me/94711730345`  
 > **Property:** KoLake Villa, Koggala / Ahangama, Sri Lanka  
 > **Offer:** Last-Minute Flash Reverse Auction (Whole Villa Buyout & Single Room Escapes)  
-> **Hospitality Highlights:** Private 7-room lakefront estate, 60ft infinity pool, private jetty, 300 Mbps fiber Wi-Fi, full villa staff & in-house cooks.
+> **Hospitality Highlights:** Private 7-room lakeside villa, 60ft infinity pool, private jetty, 300 Mbps fiber Wi-Fi, full villa staff & in-house cooks.
 
 ---
 
@@ -47,9 +47,9 @@ When they tap the ad and land in WhatsApp, the chat bot immediately presents an 
 * **Geo-Targeting:** Colombo (+25 km radius)
 * **Demographics:** Age 26–55, Top 10% Household Income
 * **Device Targeting:** Apple iOS (iPhone only) / Flagship Android (Samsung S-series/Google Pixel only). Exclude budget Android/Huawei.
-* **Price Anchor Overlay (On Creative):** *"Tonight Flash from $180/night · Private 7-Room Estate"*
+* **Price Anchor Overlay (On Creative):** *"Tonight Flash from $180/night · Private 7-Room Lakeside Villa"*
 * **Primary Text:**  
-  Finished work in Colombo by 4 PM? Be poolside in Ahangama by 6:30 PM. Private 7-room luxury lakefront estate with 60ft pool and in-house cooks. Unbooked dates now on live reverse auction from $180/night — rates drop until booked.
+  Finished work in Colombo by 4 PM? Be poolside in Ahangama by 6:30 PM. Private 7-room luxury lakeside villa with 60ft pool and in-house cooks. Unbooked dates now on live reverse auction from $180/night — rates drop until booked.
 * **Headline:** 📉 From $180/Night — Private Villa Flash Drop
 * **Description:** 7 Ensuite Rooms · 60ft Infinity Pool · In-House Cooks
 * **CTA Button:** Send WhatsApp Message
@@ -65,7 +65,7 @@ When they tap the ad and land in WhatsApp, the chat bot immediately presents an 
 * **Device Filter:** Apple iOS (iPhone) only
 * **Price Anchor Overlay (On Creative):** *"From $45/room or $180 full villa · 300 Mbps Wi-Fi & Pool"*
 * **Primary Text:**  
-  Upgrade your south coast stay. Skip crowded hostels and noisy guesthouses. Snag private ensuite rooms from $45/night or the full 7-bedroom lakefront estate from $180/night on live flash reverse auction.
+  Upgrade your south coast stay. Skip crowded hostels and noisy guesthouses. Snag private ensuite rooms from $45/night or the full 7-bedroom lakeside villa from $180/night on live flash reverse auction.
 * **Headline:** 🌴 From $45/Room · Lakefront Luxury
 * **Description:** 300 Mbps Fiber Wi-Fi · 350y to Surf · Authentic Kitchen Team
 * **CTA Button:** Send WhatsApp Message
@@ -83,7 +83,7 @@ When they tap the ad and land in WhatsApp, the chat bot immediately presents an 
   * **Language:** English
 * **Price Anchor Overlay (On Creative):** *"Sri Lanka Private Villa Flash · From $180/night"*
 * **Primary Text:**  
-  Direct flights from Bangalore, Mumbai & Chennai put you poolside in Ahangama in hours. Private 7-room lakefront estate with 60ft infinity pool, full staff, and authentic Sri Lankan dining. Unbooked dates on live flash auction from $180/night.
+  Direct flights from Bangalore, Mumbai & Chennai put you poolside in Ahangama in hours. Private 7-room lakeside villa with 60ft infinity pool, full staff, and authentic Sri Lankan dining. Unbooked dates on live flash auction from $180/night.
 * **Headline:** 🇱🇰 Private Lakefront Villa — From $180/Night
 * **Description:** 7 Ensuite Bedrooms · 60ft Pool · Dedicated Staff & Cooks
 * **CTA Button:** Send WhatsApp Message
@@ -117,8 +117,8 @@ When they tap the ad and land in WhatsApp, the chat bot immediately presents an 
 
 #### Hormozi-Optimized Headlines (Value Equation + Friction Eliminators)
 1. `From $180/Night · KoLake Flash` (Price Anchor / Grand Slam Value)
-2. `5-Star Superhost Private Villa` (Airbnb Social Proof Anchor)
-3. `Private 7-Bed Lakefront Estate` (Dream Outcome / Capacity)
+2. `5-Star Superhost Private Villa` (Top-Tier Platform Social Proof Anchor)
+3. `Private 7-Bed Lakeside Villa` (Dream Outcome / Capacity)
 4. `60ft Infinity Pool & Staff` (Visual Transformation Proof)
 5. `In-House Cooks & Fresh BBQs` (Authentic Hospitality Pillar)
 6. `Live Reverse Auction Deal` (Scarcity / Urgency)
@@ -128,10 +128,10 @@ When they tap the ad and land in WhatsApp, the chat bot immediately presents an 
 10. `Direct Booking Price Guarantee` (Risk Reversal)
 
 #### Priestley-Optimized Descriptions (Oversubscribed & Direct Conversion)
-1. `Private 7-room estate sleeping 24 with 60ft pool & dedicated in-house cooks. Last-minute reverse auction from $180/night.`
+1. `Private 7-room lakeside villa sleeping 24 with 60ft pool & dedicated in-house cooks. Last-minute reverse auction from $180/night.`
 2. `Why pay $850 rack rate? Lock unbooked dates directly with our villa concierge on WhatsApp in 60 seconds.`
 3. `Lakefront luxury in Ahangama. 300 Mbps fiber, private jetty & daily breakfast included. Rates drop until claimed.`
-4. `Spontaneous weekend escape or surf retreat? Entire 7-bedroom estate from $180/night. Instant WhatsApp confirmation.`
+4. `Spontaneous weekend escape or surf retreat? Entire 7-bedroom lakeside villa from $180/night. Instant WhatsApp confirmation.`
 
 #### Sitelink & Lead Form Asset Extensions (Mandatory Qualification)
 
@@ -158,7 +158,7 @@ When they tap the ad and land in WhatsApp, the chat bot immediately presents an 
 
 ##### 2. Sitelink Extensions
 * **Sitelink 1:** *WhatsApp Concierge (+94 71 173 0345)* $\rightarrow$ `https://wa.me/94711730345`
-* **Sitelink 2:** *Explore The 7-Bed Estate* $\rightarrow$ `https://kolakevilla.com`
+* **Sitelink 2:** *Explore The 7-Bed Lakeside Villa* $\rightarrow$ `https://kolakevilla.com`
 
 ---
 
@@ -166,7 +166,7 @@ When they tap the ad and land in WhatsApp, the chat bot immediately presents an 
 
 ### WhatsApp Broadcast #1: Opening Bid
 > 🚨 **KoLake Villa Reverse Auction — Weekend Slot Just Opened!**  
-> Private 7-Room Lakefront Estate · 60ft Infinity Pool · Full Staff & In-House Cooks.  
+> Private 7-Room Lakeside Villa · 60ft Infinity Pool · Full Staff & In-House Cooks.  
 > 
 > 📉 **Current Live Rate: $420 / night** *(Standard $850)*  
 > ⏱️ *Price drops $30 every 2 hours until claimed.*  

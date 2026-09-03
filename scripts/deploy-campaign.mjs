@@ -37,6 +37,12 @@ export async function deployCampaign(options = {}) {
     throw new Error(`Cannot deploy: Missing market_dna.json for ${campaign}`);
   }
   const dnaDigest = computeFileDigest(dnaPath);
+  const dnaData = JSON.parse(fs.readFileSync(dnaPath, 'utf-8'));
+  if (campaign === 'ko-lake-retreats' && dnaData.target_keywords && Array.isArray(dnaData.target_keywords)) {
+    console.log(`[OpenClaw] Validating keywords against Ground-Truth Closed Vocabulary...`);
+    verifyGroundedKeywords(dnaData.target_keywords);
+    console.log(`[OpenClaw] ✅ Grounding verified! All ${dnaData.target_keywords.length} keywords pass Closed-Vocabulary Gate.`);
+  }
 
   // 2. Axiom 1: Four-Eyes Principle Gate Check (Hard Stop if unsigned)
   console.log(`[OpenClaw] Verifying Four-Eyes Cryptographic Approval...`);

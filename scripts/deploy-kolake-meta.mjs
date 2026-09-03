@@ -29,13 +29,35 @@ if (!AD_ACCOUNT_ID.startsWith('act_')) {
   AD_ACCOUNT_ID = `act_${AD_ACCOUNT_ID}`;
 }
 
-// 2. Load Ground-Truth Payload
+// 2. Load Ground-Truth Payload & Enforce Axiom 1 (Four-Eyes Principle)
 const payloadPath = path.resolve('campaigns/ko-lake-reverse-auction/n8n_deploy_payload.json');
 if (!fs.existsSync(payloadPath)) {
   console.error(`❌ Payload not found at ${payloadPath}`);
   process.exit(1);
 }
 const payload = JSON.parse(fs.readFileSync(payloadPath, 'utf8'));
+
+// Axiom 1: Four-Eyes Principle Gate Check
+const isBypass = process.argv.includes('--emergency-bypass');
+if (isBypass) {
+  console.warn('\n⚠️  WARNING: EMERGENCY BYPASS ACTIVATED. Deploying without Four-Eyes sign-off.');
+} else {
+  console.log('🛡️ Verifying Four-Eyes Cryptographic Approval for ko-lake-reverse-auction...');
+  try {
+    const { verifyApprovalRecord } = await import('../tools/approval-signer.mjs');
+    const { computeFileDigest } = await import('../tools/security-scrubber.mjs');
+    const dnaPath = path.resolve('campaigns/ko-lake-retreats/research/market_dna.json');
+    if (fs.existsSync(dnaPath)) {
+      const digest = computeFileDigest(dnaPath);
+      verifyApprovalRecord('ko-lake-retreats', digest);
+      console.log('✅ Four-Eyes Approval verified! Stakeholder signature valid.\n');
+    }
+  } catch (err) {
+    console.error(`\n❌ FOUR-EYES GATE VIOLATION: ${err.message}`);
+    console.error('Use --emergency-bypass if executing an authorized critical manual override.\n');
+    process.exit(1);
+  }
+}
 
 async function metaFetch(endpoint, body = {}) {
   const url = `${GRAPH_URL}/${endpoint}`;
