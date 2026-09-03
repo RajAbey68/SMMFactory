@@ -934,6 +934,37 @@ await test('Linear Sync Manager records phase completion in audit ledger (functi
   assert(history.length > 0, 'Sync history ledger should not be empty');
 });
 
+// ─── A/B TESTING STATISTICAL ENGINE (FUNCTIONAL) ──────────────────
+
+await test('A/B Testing Engine module exists with exports', async () => {
+  const path = 'tools/ab-testing-engine.mjs';
+  assert(existsSync(path), 'tools/ab-testing-engine.mjs missing');
+  const { ABTestingEngine } = await import('../tools/ab-testing-engine.mjs');
+  assert(typeof ABTestingEngine === 'function', 'Missing ABTestingEngine export');
+});
+
+await test('A/B Testing Engine handles sample sizing and evaluates statistical significance (functional)', async () => {
+  const { ABTestingEngine } = await import('../tools/ab-testing-engine.mjs');
+  const engine = new ABTestingEngine({ confidenceThreshold: 0.95, minSampleSize: 100 });
+
+  // 1. Low sample size should request more data
+  const lowSample = engine.evaluateTest(
+    { name: 'Control Headline', visitors: 40, conversions: 2 },
+    { name: 'Flash Auction Headline', visitors: 45, conversions: 6 }
+  );
+  assert(lowSample.status === 'COLLECTING_DATA', 'Expected COLLECTING_DATA status for small samples');
+
+  // 2. High sample size with clear winner (95%+ confidence)
+  const strongWinner = engine.evaluateTest(
+    { name: 'Control (Direct Rates)', visitors: 1000, conversions: 25 },       // 2.5% CR
+    { name: 'Treatment (Reverse Auction)', visitors: 1000, conversions: 55 }   // 5.5% CR
+  );
+  assert(strongWinner.status === 'STATISTICALLY_SIGNIFICANT', 'Expected STATISTICALLY_SIGNIFICANT');
+  assert(strongWinner.winner === 'Treatment (Reverse Auction)', 'Winner mismatch');
+  assert(strongWinner.action === 'GRADUATE_WINNER', 'Action should be GRADUATE_WINNER');
+  assert(strongWinner.confidence >= 0.99, 'Confidence should be >= 99%');
+});
+
 await test('SEO retry/taxonomy module exists and retries transient errors (functional)', async () => {
   const path = 'scripts/seo-retry.mjs';
   assert(existsSync(path), 'scripts/seo-retry.mjs missing');
