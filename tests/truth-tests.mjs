@@ -1098,6 +1098,35 @@ await test('CTWA Funnel Tracker generates tracked URLs and evaluates multi-stage
   assert(funnel.metrics.total_deposit_usd === 1440, 'Revenue deposit mismatch');
 });
 
+// ─── RETROSPECTIVE & CLOSE ENGINE (PHASE 8 GATE) ──────────────────
+
+await test('Retrospective Engine module exists with exports', async () => {
+  const path = 'tools/retrospective-engine.mjs';
+  assert(existsSync(path), 'tools/retrospective-engine.mjs missing');
+  const { RetrospectiveEngine } = await import('../tools/retrospective-engine.mjs');
+  assert(typeof RetrospectiveEngine === 'function', 'Missing RetrospectiveEngine export');
+});
+
+await test('Retrospective Engine generates retrospective and final report markdown (functional)', async () => {
+  const { RetrospectiveEngine } = await import('../tools/retrospective-engine.mjs');
+  const engine = new RetrospectiveEngine();
+
+  const report = engine.generateRetrospective('ko-lake-retreats', {
+    total_spend_usd: 1200,
+    total_revenue_usd: 6000,
+    total_bookings: 10
+  });
+
+  assert(report.performance_summary.blended_roas === 5, 'ROAS calculation mismatch');
+  assert(existsSync('campaigns/ko-lake-retreats/retrospective.md'), 'retrospective.md missing');
+  assert(existsSync('campaigns/ko-lake-retreats/final_report.md'), 'final_report.md missing');
+});
+
+await test('Close Campaign orchestrator script exists and is executable', async () => {
+  const scriptPath = 'scripts/close-campaign.mjs';
+  assert(existsSync(scriptPath), 'scripts/close-campaign.mjs missing');
+});
+
 await test('SEO retry/taxonomy module exists and retries transient errors (functional)', async () => {
   const path = 'scripts/seo-retry.mjs';
   assert(existsSync(path), 'scripts/seo-retry.mjs missing');
