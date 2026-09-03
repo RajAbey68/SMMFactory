@@ -965,6 +965,33 @@ await test('A/B Testing Engine handles sample sizing and evaluates statistical s
   assert(strongWinner.confidence >= 0.99, 'Confidence should be >= 99%');
 });
 
+// ─── TIKTOK ADS CLIENT (INTEGRATIONS) ─────────────────────────────
+
+await test('TikTok Ads Client module exists with exports', async () => {
+  const path = 'tools/openclaw/tiktok-client.mjs';
+  assert(existsSync(path), 'tools/openclaw/tiktok-client.mjs missing');
+  const { TikTokAdsClient } = await import('../tools/openclaw/tiktok-client.mjs');
+  assert(typeof TikTokAdsClient === 'function', 'Missing TikTokAdsClient export');
+});
+
+await test('TikTok Ads Client creates campaigns, ad groups, and fetches metrics (functional)', async () => {
+  const { TikTokAdsClient } = await import('../tools/openclaw/tiktok-client.mjs');
+  const client = new TikTokAdsClient();
+
+  const camp = await client.createCampaign({ name: 'Ko Lake Villa TikTok Push', objective: 'TRAFFIC', dailyBudgetUsd: 50 });
+  assert(camp.campaign_id && camp.daily_budget === 50, 'Campaign creation failed');
+
+  const adGroup = await client.createAdGroup({
+    campaignId: camp.campaign_id,
+    name: 'South Coast Nomads',
+    ageGroups: ['AGE_18_24', 'AGE_25_34']
+  });
+  assert(adGroup.adgroup_id && adGroup.age_groups.length === 2, 'Ad group creation failed');
+
+  const metrics = await client.getPerformanceMetrics(camp.campaign_id);
+  assert(metrics.impressions > 0 && metrics.cpm_usd < 5.0, 'Metrics fetch failed');
+});
+
 await test('SEO retry/taxonomy module exists and retries transient errors (functional)', async () => {
   const path = 'scripts/seo-retry.mjs';
   assert(existsSync(path), 'scripts/seo-retry.mjs missing');
