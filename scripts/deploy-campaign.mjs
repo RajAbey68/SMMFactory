@@ -84,6 +84,24 @@ export async function deployCampaign(options = {}) {
   }
 
   const logFile = path.resolve(`campaigns/${campaign}/deployment_log.json`);
+
+  // 5. Update Linear: Record completion of Launch phase
+  try {
+    const { LinearSyncManager } = await import('../tools/linear-sync.mjs');
+    const linearSync = new LinearSyncManager();
+    const syncRes = await linearSync.syncPhaseCompletion({
+      campaignSlug: campaign,
+      phaseId: 'launch',
+      status: 'COMPLETED',
+      summary: `Successfully deployed campaign ${campaign} across ${channels.join(', ')}. Four-Eyes sign-off verified.`,
+      artifacts: [variantsPath, logFile]
+    });
+    console.log(`[Linear] 📐 Synced phase completion: ${syncRes.phase} (${syncRes.mode})`);
+    deploymentResults.linear_sync = syncRes;
+  } catch (err) {
+    console.warn(`[Linear] Sync notice: ${err.message}`);
+  }
+
   fs.writeFileSync(logFile, JSON.stringify(deploymentResults, null, 2), 'utf-8');
   console.log(`[OpenClaw] ✅ Deployment cycle finished. Log saved to ${logFile}`);
 

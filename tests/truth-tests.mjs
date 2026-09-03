@@ -906,6 +906,34 @@ await test('LinkedIn Client creates feed posts, sponsored campaigns, and analyti
   assert(analytics.impressions > 0 && analytics.engagement_rate > 5.0, 'Analytics fetch failed');
 });
 
+// ─── LINEAR PHASE COMPLETION SYNC (INTEGRATIONS) ──────────────────
+
+await test('Linear Sync Manager module exists with exports', async () => {
+  const path = 'tools/linear-sync.mjs';
+  assert(existsSync(path), 'tools/linear-sync.mjs missing');
+  const { LinearSyncManager } = await import('../tools/linear-sync.mjs');
+  assert(typeof LinearSyncManager === 'function', 'Missing LinearSyncManager export');
+});
+
+await test('Linear Sync Manager records phase completion in audit ledger (functional)', async () => {
+  const { LinearSyncManager } = await import('../tools/linear-sync.mjs');
+  const manager = new LinearSyncManager();
+
+  const record = await manager.syncPhaseCompletion({
+    campaignSlug: 'ko-lake-retreats',
+    phaseId: 'review',
+    status: 'COMPLETED',
+    summary: 'Four-Eyes human and cryptographic sign-off complete.',
+    artifacts: ['campaigns/ko-lake-retreats/approval_record.json']
+  });
+
+  assert(record.id && record.campaign === 'ko-lake-retreats', 'Record generation failed');
+  assert(record.phase === 'review' && record.status === 'COMPLETED', 'Phase status failed');
+
+  const history = manager.getSyncHistory('ko-lake-retreats');
+  assert(history.length > 0, 'Sync history ledger should not be empty');
+});
+
 await test('SEO retry/taxonomy module exists and retries transient errors (functional)', async () => {
   const path = 'scripts/seo-retry.mjs';
   assert(existsSync(path), 'scripts/seo-retry.mjs missing');

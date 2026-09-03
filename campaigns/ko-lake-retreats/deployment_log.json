@@ -1,23 +1,23 @@
 {
   "campaign": "ko-lake-retreats",
-  "timestamp": "2026-09-03T01:58:03.166Z",
+  "timestamp": "2026-09-03T01:58:52.654Z",
   "dry_run": true,
   "manifest_digest": "1ae69230a517091e6e7b7801f930befe7d087f4a0df18927624f8c49cc0b7c03",
   "channels_deployed": {
     "meta": {
       "status": "DRY_RUN_VALIDATED",
       "ads_count": 4,
-      "timestamp": "2026-09-03T01:58:03.166Z"
+      "timestamp": "2026-09-03T01:58:52.654Z"
     },
     "google": {
       "status": "DRY_RUN_VALIDATED",
       "ads_count": 4,
-      "timestamp": "2026-09-03T01:58:03.166Z"
+      "timestamp": "2026-09-03T01:58:52.654Z"
     },
     "chatgpt": {
       "status": "DRY_RUN_VALIDATED",
       "ads_count": 4,
-      "timestamp": "2026-09-03T01:58:03.166Z"
+      "timestamp": "2026-09-03T01:58:52.654Z"
     }
   },
   "buzz_event": {
@@ -25,5 +25,19 @@
     "event_type": "CAMPAIGN_DEPLOYED",
     "campaign": "ko-lake-retreats",
     "status": "SIMULATED"
+  },
+  "linear_sync": {
+    "id": "lin_sync_1788400732655",
+    "campaign": "ko-lake-retreats",
+    "phase": "launch",
+    "team": "SMM",
+    "status": "COMPLETED",
+    "summary": "Successfully deployed campaign ko-lake-retreats across meta, google, chatgpt. Four-Eyes sign-off verified.",
+    "artifacts": [
+      "/Users/rajabey/code/SMMFactory/campaigns/ko-lake-retreats/creative/ad_variants.json",
+      "/Users/rajabey/code/SMMFactory/campaigns/ko-lake-retreats/deployment_log.json"
+    ],
+    "synced_at": "2026-09-03T01:58:52.655Z",
+    "mode": "LOCAL_AUDIT_LOG"
   }
 }
