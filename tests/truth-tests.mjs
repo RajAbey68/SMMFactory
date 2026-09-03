@@ -1037,6 +1037,31 @@ await test('AdSpyder Monitor scans competitor libraries and extracts winning ang
   assert(angles.length > 0 && angles[0].longevity_days >= 14, 'Angle extraction failed');
 });
 
+// ─── NEGATIVE KEYWORD HARVESTER (FUNCTIONAL) ──────────────────────
+
+await test('Negative Keyword Harvester module exists with exports', async () => {
+  const path = 'tools/negative-keyword-harvester.mjs';
+  assert(existsSync(path), 'tools/negative-keyword-harvester.mjs missing');
+  const { NegativeKeywordHarvester } = await import('../tools/negative-keyword-harvester.mjs');
+  assert(typeof NegativeKeywordHarvester === 'function', 'Missing NegativeKeywordHarvester export');
+});
+
+await test('Negative Keyword Harvester detects bleed queries and irrelevant intent (functional)', async () => {
+  const { NegativeKeywordHarvester } = await import('../tools/negative-keyword-harvester.mjs');
+  const harvester = new NegativeKeywordHarvester({ spendThresholdUsd: 15 });
+
+  const searchTerms = [
+    { query: 'luxury villa koggala lake', clicks: 12, spend_usd: 14.50, conversions: 2 },
+    { query: 'cheap hostel room koggala', clicks: 8, spend_usd: 6.20, conversions: 0 },
+    { query: 'villa weather forecast', clicks: 15, spend_usd: 18.00, conversions: 0 }
+  ];
+
+  const harvested = harvester.harvestNegatives(searchTerms);
+  assert(harvested.candidates_count === 2, 'Should flag cheap hostel and weather forecast');
+  assert(harvested.total_wasted_spend_usd === 24.20, 'Wasted spend sum mismatch');
+  assert(harvested.recommended_action === 'SYNC_TO_GOOGLE_ADS_NEGATIVE_LIST', 'Action mismatch');
+});
+
 await test('SEO retry/taxonomy module exists and retries transient errors (functional)', async () => {
   const path = 'scripts/seo-retry.mjs';
   assert(existsSync(path), 'scripts/seo-retry.mjs missing');
