@@ -1,7 +1,7 @@
 # Campaign Retrospective: ko-lake-retreats
 
 **Status:** Formally Closed  
-**Closed At:** 2026-09-03T05:43:22.908Z  
+**Closed At:** 2026-09-03T05:53:08.160Z  
 **Blended ROAS:** 5x  
 **Total Bookings Generated:** 10  
 **Total Attributed Revenue:** $6,000  

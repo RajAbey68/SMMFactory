@@ -234,42 +234,8 @@
         "optimize": "🔴 active"
       },
       "metrics": {
-        "impressions": {
-          "value": "38,604",
-          "source": "Meta Ads",
-          "trend": "up",
-          "note": "Combined reach"
-        },
-        "clicks": {
-          "value": "2,197",
-          "source": "Meta Ads",
-          "trend": "up",
-          "note": "Link clicks"
-        },
-        "ctr": {
-          "value": "5.69%",
-          "source": "Meta Ads",
-          "trend": "up",
-          "note": "Highly qualified CTR"
-        },
-        "leads": {
-          "value": "108",
-          "source": "WhatsApp / Web",
-          "trend": "up",
-          "note": "UTM tracked inquiries"
-        },
-        "spend": {
-          "value": ".83",
-          "source": "Meta Ads",
-          "trend": "neutral",
-          "note": "Capped daily budget"
-        },
-        "landing_views": {
-          "value": "108",
-          "source": "Pixel",
-          "trend": "up",
-          "note": "Direct conversions"
-        }
+        "status": "awaiting_live_telemetry",
+        "note": "Metrics await Meta system-user + Google Ads developer tokens — no numbers are invented on this board."
       }
     },
     {

@@ -19,13 +19,17 @@ export class LinkedInClient {
   async createFeedPost({ text, title = '', visibility = 'PUBLIC' }) {
     if (!text) throw new Error('LinkedInClient: post text is required');
 
+    if (this.isLive) {
+      throw new Error('[NotImplementedError] LinkedIn live OAuth publishing is pending production LinkedIn App Client ID & OAuth refresh token.');
+    }
+
     return {
       post_id: `urn:li:share:${Date.now()}`,
       author: this.authorUrn,
       title,
       text_length: text.length,
       visibility,
-      mode: this.isLive ? 'LIVE_DISPATCHED' : 'SIMULATED_CONTRACT',
+      mode: 'SIMULATED_CONTRACT',
       published_at: new Date().toISOString()
     };
   }

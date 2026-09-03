@@ -30,7 +30,7 @@
     "windsor": {
       "serverUrl": "https://mcp.windsor.ai/",
       "headers": {
-        "Authorization": "Bearer 98de1ee25d627e8dfe40a1f26384009f40a5",
+        "Authorization": "Bearer ${WINDSOR_API_KEY}",
         "Content-Type": "application/json",
         "Accept": "application/json, text/event-stream"
       }

@@ -60,8 +60,8 @@ You are the **KoLake Marketing BOT**, the dedicated marketing, paid ads, and web
   "provider": "openrouter",
   "persona_source_version": null,
   "env_vars": {
-    "SUPABASE_ANON_KEY": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpjdHB5dmVvYWt2YnJyam12aXFnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTYxNDgyMTMsImV4cCI6MjA3MTcyNDIxM30.rgB4Cy_ktvQ9Dq0KmpX7IrM5vVqZW4HgtwiqulkV3Rg",
-    "SUPABASE_URL": "https://zctpyveoakvbrrjmviqg.supabase.co"
+    "SUPABASE_ANON_KEY": process.env.SUPABASE_ANON_KEY || "",
+    "SUPABASE_URL": process.env.SUPABASE_URL || ""
   },
   "start_on_app_launch": false,
   "auto_restart_on_config_change": true,

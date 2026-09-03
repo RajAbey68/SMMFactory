@@ -32,8 +32,8 @@ export class OpenAIAdsClient {
       headline: cardData.headline,
       proof_points_count: cardData.proof_points?.length || 0,
       moderation_status: 'APPROVED',
-      placement: 'CHATGPT_TRAVEL_SEARCH_RESULTS',
-      mode: this.isLive ? 'LIVE_DISPATCHED' : 'SIMULATED_CONTRACT',
+      placement: 'CHATGPT_SEARCH_RESULTS_SPECIFICATION',
+      mode: 'ADVISORY_PROMPT_SPECIFICATION',
       created_at: new Date().toISOString()
     };
   }

@@ -3,7 +3,7 @@
  * Standard JSON-RPC / SSE client interface for Windsor.ai MCP Server (https://mcp.windsor.ai/)
  */
 
-export const WINDSOR_KEY = process.env.WINDSOR_API_KEY || '98de1ee25d627e8dfe40a1f26384009f40a5';
+export const WINDSOR_KEY = process.env.WINDSOR_API_KEY || null;
 export const WINDSOR_MCP_URL = 'https://mcp.windsor.ai/';
 
 /**

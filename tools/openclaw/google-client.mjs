@@ -19,6 +19,10 @@ export class GoogleAdsClient {
   async createPMaxCampaign({ name, dailyBudgetUsd = 20, targetCpaUsd = 15 }) {
     if (!name) throw new Error('GoogleAdsClient: campaign name is required');
 
+    if (this.isLive) {
+      throw new Error('[NotImplementedError] Google Ads live API dispatch is pending production Google Ads Developer Token & OAuth2 pipeline.');
+    }
+
     return {
       campaign_id: `gads_pmax_${Date.now()}`,
       customer_id: this.customerId,
@@ -27,7 +31,7 @@ export class GoogleAdsClient {
       daily_budget_micros: Math.round(dailyBudgetUsd * 1_000_000),
       target_cpa_micros: Math.round(targetCpaUsd * 1_000_000),
       status: 'PAUSED',
-      mode: this.isLive ? 'LIVE_DISPATCHED' : 'SIMULATED_CONTRACT'
+      mode: 'SIMULATED_CONTRACT'
     };
   }
 

@@ -18,6 +18,10 @@ export class TikTokAdsClient {
   async createCampaign({ name, objective = 'TRAFFIC', dailyBudgetUsd = 50 }) {
     if (!name) throw new Error('TikTokAdsClient: campaign name is required');
 
+    if (this.isLive) {
+      throw new Error('[NotImplementedError] TikTok Ads live API dispatch is pending production TikTok Business Marketing API credential onboarding.');
+    }
+
     return {
       campaign_id: `tiktok_camp_${Date.now()}`,
       advertiser_id: this.advertiserId,
@@ -25,7 +29,7 @@ export class TikTokAdsClient {
       objective_type: objective,
       daily_budget: dailyBudgetUsd,
       status: 'OPERATION_STATUS_DISABLE',
-      mode: this.isLive ? 'LIVE_DISPATCHED' : 'SIMULATED_CONTRACT'
+      mode: 'SIMULATED_CONTRACT'
     };
   }
 
