@@ -1,7 +1,23 @@
-// tools/approval-signer.mjs — Cryptographic Four-Eyes Approval Token Generator & Validator
 import crypto from 'node:crypto';
 import fs from 'node:fs';
 import path from 'node:path';
+
+// Load .env if present
+if (fs.existsSync('.env')) {
+  try {
+    const envLines = fs.readFileSync('.env', 'utf-8').split('\n');
+    for (const line of envLines) {
+      const trimmed = line.trim();
+      if (!trimmed || trimmed.startsWith('#')) continue;
+      const idx = trimmed.indexOf('=');
+      if (idx !== -1) {
+        const key = trimmed.slice(0, idx).trim();
+        const val = trimmed.slice(idx + 1).trim();
+        if (!process.env[key]) process.env[key] = val;
+      }
+    }
+  } catch (e) {}
+}
 
 /**
  * Creates a cryptographically signed approval record for a campaign.
@@ -12,7 +28,11 @@ import path from 'node:path';
  * @param {string} params.privateKeySecret - Shared HMAC secret or vault secret
  * @returns {object} signedApprovalRecord
  */
-export function signApprovalRecord({ campaign, stakeholder, manifestDigest, privateKeySecret = 'smm-four-eyes-vault-secret' }) {
+export function signApprovalRecord({ campaign, stakeholder, manifestDigest, privateKeySecret = process.env.SMM_FOUR_EYES_SECRET || process.env.HMAC_SECRET }) {
+  if (!privateKeySecret) {
+    throw new Error('[Security Gate] SMM_FOUR_EYES_SECRET environment variable is required to sign approval records. Refusing to sign with insecure default.');
+  }
+
   const timestamp = new Date().toISOString();
   const nonce = crypto.randomBytes(16).toString('hex');
   
@@ -46,7 +66,11 @@ export function signApprovalRecord({ campaign, stakeholder, manifestDigest, priv
  * @param {string} privateKeySecret
  * @returns {boolean}
  */
-export function verifyApprovalRecord(campaign, manifestDigest, privateKeySecret = 'smm-four-eyes-vault-secret') {
+export function verifyApprovalRecord(campaign, manifestDigest, privateKeySecret = process.env.SMM_FOUR_EYES_SECRET || process.env.HMAC_SECRET) {
+  if (!privateKeySecret) {
+    throw new Error('[Security Gate] SMM_FOUR_EYES_SECRET environment variable is required to verify approval records. Refusing to verify with insecure default.');
+  }
+
   const recordPath = path.resolve(`campaigns/${campaign}/approval_record.json`);
   if (!fs.existsSync(recordPath)) {
     throw new Error(`[Axiom 1 Gate Violation] Missing approval_record.json for campaign "${campaign}". Human stakeholder sign-off is mandatory.`);

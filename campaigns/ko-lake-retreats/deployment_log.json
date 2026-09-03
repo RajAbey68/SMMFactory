@@ -1,6 +1,6 @@
 {
   "campaign": "ko-lake-retreats",
-  "timestamp": "2026-09-03T05:32:20.640Z",
+  "timestamp": "2026-09-03T05:43:22.817Z",
   "dry_run": true,
   "manifest_digest": "1ae69230a517091e6e7b7801f930befe7d087f4a0df18927624f8c49cc0b7c03",
   "channels_deployed": {
@@ -8,12 +8,12 @@
       "status": "DRY_RUN_VALIDATED",
       "adapter_execution": {
         "client_mode": "SIMULATED_CONTRACT",
-        "campaign_id": "meta_camp_1788413540640",
-        "adset_id": "meta_adset_1788413540640",
-        "ad_id": "meta_ad_1788413540641"
+        "campaign_id": "meta_camp_1788414202817",
+        "adset_id": "meta_adset_1788414202817",
+        "ad_id": "meta_ad_1788414202817"
       },
       "ads_count": 4,
-      "timestamp": "2026-09-03T05:32:20.641Z"
+      "timestamp": "2026-09-03T05:43:22.817Z"
     },
     "google": {
       "status": "DRY_RUN_VALIDATED",
@@ -21,7 +21,7 @@
         "client_mode": "SIMULATED_CONTRACT"
       },
       "ads_count": 4,
-      "timestamp": "2026-09-03T05:32:20.641Z"
+      "timestamp": "2026-09-03T05:43:22.818Z"
     },
     "chatgpt": {
       "status": "DRY_RUN_VALIDATED",
@@ -29,7 +29,7 @@
         "note": "Direct fallback simulated"
       },
       "ads_count": 4,
-      "timestamp": "2026-09-03T05:32:20.642Z"
+      "timestamp": "2026-09-03T05:43:22.819Z"
     }
   },
   "buzz_event": {
@@ -40,7 +40,7 @@
     "status": "SIMULATED"
   },
   "linear_sync": {
-    "id": "lin_sync_1788413540666",
+    "id": "lin_sync_1788414202896",
     "campaign": "ko-lake-retreats",
     "phase": "launch",
     "team": "SMM",
@@ -50,7 +50,7 @@
       "/Users/rajabey/code/SMMFactory/campaigns/ko-lake-retreats/creative/ad_variants.json",
       "/Users/rajabey/code/SMMFactory/campaigns/ko-lake-retreats/deployment_log.json"
     ],
-    "synced_at": "2026-09-03T05:32:20.666Z",
+    "synced_at": "2026-09-03T05:43:22.896Z",
     "mode": "LOCAL_AUDIT_LOG"
   }
 }

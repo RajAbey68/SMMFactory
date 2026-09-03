@@ -5,6 +5,23 @@
 import { readFileSync, existsSync, readdirSync } from 'fs';
 import { join } from 'path';
 
+// Load .env into process.env if present
+if (existsSync('.env')) {
+  try {
+    const envLines = readFileSync('.env', 'utf-8').split('\n');
+    for (const line of envLines) {
+      const trimmed = line.trim();
+      if (!trimmed || trimmed.startsWith('#')) continue;
+      const idx = trimmed.indexOf('=');
+      if (idx !== -1) {
+        const key = trimmed.slice(0, idx).trim();
+        const val = trimmed.slice(idx + 1).trim();
+        if (!process.env[key]) process.env[key] = val;
+      }
+    }
+  } catch (e) {}
+}
+
 const results = [];
 
 async function test(name, fn) {
@@ -648,12 +665,26 @@ await test('Cryptographic Four-Eyes approval verification blocks unapproved depl
   // 3. Verification fails with tampered digest
   let caughtTamper = false;
   try {
-    verifyApprovalRecord(campaign, 'tampered-digest-1234567890abcdef');
+    verifyApprovalRecord(campaign, 'tampered-digest-1234567890abcdef', 'test-secret');
   } catch (err) {
     caughtTamper = true;
     assert(err.message.includes('Manifest digest mismatch'), 'Missing mismatch error');
   }
   assert(caughtTamper === true, 'Expected tamper detection to throw');
+
+  // 4. Fail-closed: Throws if secret is omitted and unset in env
+  const origSecret = process.env.SMM_FOUR_EYES_SECRET;
+  delete process.env.SMM_FOUR_EYES_SECRET;
+  delete process.env.HMAC_SECRET;
+  let caughtFailClosed = false;
+  try {
+    verifyApprovalRecord(campaign, manifestDigest, null);
+  } catch (err) {
+    caughtFailClosed = true;
+    assert(err.message.includes('SMM_FOUR_EYES_SECRET environment variable is required'), 'Missing fail-closed error');
+  }
+  assert(caughtFailClosed === true, 'Expected fail-closed security error');
+  if (origSecret) process.env.SMM_FOUR_EYES_SECRET = origSecret;
 });
 
 await test('OpenClaw deploy script dispatches with verified Four-Eyes gate (functional)', async () => {

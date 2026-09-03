@@ -11,6 +11,23 @@ import crypto from 'node:crypto';
 import { assertNoProhibitedTerms, sanitizeScrapedContent, scrubOutboundPrompt } from './security-scrubber.mjs';
 import { verifyApprovalRecord } from './approval-signer.mjs';
 
+// Ensure .env is loaded for SMM_FOUR_EYES_SECRET
+if (fs.existsSync('.env')) {
+  try {
+    const envLines = fs.readFileSync('.env', 'utf-8').split('\n');
+    for (const line of envLines) {
+      const trimmed = line.trim();
+      if (!trimmed || trimmed.startsWith('#')) continue;
+      const idx = trimmed.indexOf('=');
+      if (idx !== -1) {
+        const key = trimmed.slice(0, idx).trim();
+        const val = trimmed.slice(idx + 1).trim();
+        if (!process.env[key]) process.env[key] = val;
+      }
+    }
+  } catch (e) {}
+}
+
 export class ThirdPartyAuditor {
   constructor(options = {}) {
     this.workspaceRoot = options.workspaceRoot || process.cwd();
