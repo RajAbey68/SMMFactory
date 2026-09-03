@@ -1062,6 +1062,42 @@ await test('Negative Keyword Harvester detects bleed queries and irrelevant inte
   assert(harvested.recommended_action === 'SYNC_TO_GOOGLE_ADS_NEGATIVE_LIST', 'Action mismatch');
 });
 
+// ─── CTWA FUNNEL TRACKER (FUNCTIONAL) ─────────────────────────────
+
+await test('CTWA Funnel Tracker module exists with exports', async () => {
+  const path = 'tools/ctwa-funnel-tracker.mjs';
+  assert(existsSync(path), 'tools/ctwa-funnel-tracker.mjs missing');
+  const { CTWAFunnelTracker } = await import('../tools/ctwa-funnel-tracker.mjs');
+  assert(typeof CTWAFunnelTracker === 'function', 'Missing CTWAFunnelTracker export');
+});
+
+await test('CTWA Funnel Tracker generates tracked URLs and evaluates multi-stage funnels (functional)', async () => {
+  const { CTWAFunnelTracker } = await import('../tools/ctwa-funnel-tracker.mjs');
+  const tracker = new CTWAFunnelTracker();
+
+  // Test URL generation
+  const link = tracker.generateTrackedUrl({
+    campaignSlug: 'ko-lake-retreats',
+    sourceChannel: 'meta',
+    utmSource: 'feed_carousel_1'
+  });
+  assert(link.wa_link.includes('wa.me/94711730345'), 'WhatsApp target phone mismatch');
+  assert(link.wa_link.includes('ko-lake-retreats'), 'Campaign slug missing from URL');
+
+  // Test Funnel evaluation
+  const funnel = tracker.evaluateFunnel({
+    ad_clicks: 250,
+    conversations_started: 70, // 28% CR
+    qualified_leads: 35,       // 50% qualification
+    bookings_closed: 8,        // 22.8% close
+    total_deposit_usd: 1440
+  });
+
+  assert(funnel.funnel_health === 'OPTIMAL', 'Funnel health mismatch');
+  assert(funnel.conversion_rates.click_to_convo_percent === 28, 'Click-to-convo calculation mismatch');
+  assert(funnel.metrics.total_deposit_usd === 1440, 'Revenue deposit mismatch');
+});
+
 await test('SEO retry/taxonomy module exists and retries transient errors (functional)', async () => {
   const path = 'scripts/seo-retry.mjs';
   assert(existsSync(path), 'scripts/seo-retry.mjs missing');

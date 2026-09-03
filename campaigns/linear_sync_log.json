@@ -470,5 +470,32 @@
     ],
     "synced_at": "2026-09-03T02:07:33.444Z",
     "mode": "LOCAL_AUDIT_LOG"
+  },
+  {
+    "id": "lin_sync_1788401400740",
+    "campaign": "ko-lake-retreats",
+    "phase": "launch",
+    "team": "SMM",
+    "status": "COMPLETED",
+    "summary": "Successfully deployed campaign ko-lake-retreats across meta, google, chatgpt. Four-Eyes sign-off verified.",
+    "artifacts": [
+      "/Users/rajabey/code/SMMFactory/campaigns/ko-lake-retreats/creative/ad_variants.json",
+      "/Users/rajabey/code/SMMFactory/campaigns/ko-lake-retreats/deployment_log.json"
+    ],
+    "synced_at": "2026-09-03T02:10:00.740Z",
+    "mode": "LOCAL_AUDIT_LOG"
+  },
+  {
+    "id": "lin_sync_1788401400745",
+    "campaign": "ko-lake-retreats",
+    "phase": "review",
+    "team": "SMM",
+    "status": "COMPLETED",
+    "summary": "Four-Eyes human and cryptographic sign-off complete.",
+    "artifacts": [
+      "campaigns/ko-lake-retreats/approval_record.json"
+    ],
+    "synced_at": "2026-09-03T02:10:00.745Z",
+    "mode": "LOCAL_AUDIT_LOG"
   }
 ]
