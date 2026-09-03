@@ -1,6 +1,6 @@
 {
   "campaign": "ko-lake-retreats",
-  "timestamp": "2026-09-03T01:53:51.135Z",
+  "timestamp": "2026-09-03T01:54:47.788Z",
   "metrics_evaluated": [
     {
       "channel": "meta",
@@ -69,6 +69,6 @@
       "[GOOGLE] TRIM_DOWN: $20 -> $10/day. Sub-threshold ROAS (1.1x) and CTR (0.72%). Trimmed budget -50%.",
       "[CHATGPT] MAINTAIN: $15 -> $15/day. Performance within expected baseline parameters"
     ],
-    "timestamp": "2026-09-03T01:53:51.135Z"
+    "timestamp": "2026-09-03T01:54:47.788Z"
   }
 }

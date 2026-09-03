@@ -73,3 +73,16 @@ export function validateAdCopyCompliance(adCopy, platform = 'meta') {
     foundSuperlatives
   };
 }
+
+/**
+ * Validates a ChatGPT Sponsored Recommendation Card
+ * @param {object} card
+ */
+export function validateChatGPTCard(card) {
+  const result = validateAdCopyCompliance(card, 'chatgpt');
+  if (!result.valid) {
+    throw new Error(`ChatGPT Card Validation Failed: ${result.errors.join('; ')}`);
+  }
+  return result;
+}
+

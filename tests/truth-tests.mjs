@@ -762,6 +762,63 @@ await test('GCS Asset Manager handles upload and generates signed review URLs (f
   assert(signed.duration_days === 7, 'Expected 7-day duration');
 });
 
+// ─── GOOGLE ADS & OPENAI ADS CLIENTS (INTEGRATIONS) ───────────────
+
+await test('Google Ads Client module exists with exports', async () => {
+  const path = 'tools/openclaw/google-client.mjs';
+  assert(existsSync(path), 'tools/openclaw/google-client.mjs missing');
+  const { GoogleAdsClient } = await import('../tools/openclaw/google-client.mjs');
+  assert(typeof GoogleAdsClient === 'function', 'Missing GoogleAdsClient export');
+});
+
+await test('Google Ads Client supports PMax campaign, asset groups, and metrics (functional)', async () => {
+  const { GoogleAdsClient } = await import('../tools/openclaw/google-client.mjs');
+  const client = new GoogleAdsClient();
+
+  const camp = await client.createPMaxCampaign({ name: 'Ko Lake PMax Push', dailyBudgetUsd: 25 });
+  assert(camp.campaign_id && camp.daily_budget_micros === 25000000, 'PMax campaign creation failed');
+
+  const group = await client.createAssetGroup({
+    campaignId: camp.campaign_id,
+    name: 'Retreat Assets',
+    headlines: ['Ko Lake Villa', 'Private Lakefront Stay'],
+    descriptions: ['7-Bedroom luxury villa with 60ft pool'],
+    finalUrls: ['https://kolakevilla.com']
+  });
+  assert(group.asset_group_id && group.headlines_count === 2, 'Asset group setup failed');
+
+  const metrics = await client.getPerformanceMetrics(camp.campaign_id);
+  assert(metrics.impressions > 0 && metrics.roas === 4.8, 'Performance metrics fetch failed');
+});
+
+await test('OpenAI Ads Client module exists with exports', async () => {
+  const path = 'tools/openclaw/openai-ads-client.mjs';
+  assert(existsSync(path), 'tools/openclaw/openai-ads-client.mjs missing');
+  const { OpenAIAdsClient } = await import('../tools/openclaw/openai-ads-client.mjs');
+  assert(typeof OpenAIAdsClient === 'function', 'Missing OpenAIAdsClient export');
+});
+
+await test('OpenAI Ads Client validates proof points and tracks card moderation (functional)', async () => {
+  const { OpenAIAdsClient } = await import('../tools/openclaw/openai-ads-client.mjs');
+  const client = new OpenAIAdsClient();
+
+  const card = await client.submitRecommendationCard({
+    property: 'Ko Lake Villa',
+    headline: 'Private Lakeside Villa Buyout',
+    description: '7 AC ensuite bedrooms with 60ft infinity pool and dedicated cooks.',
+    proof_points: [
+      '7 AC ensuite bedrooms sleeping up to 24 guests',
+      'Rates start from $250/night for full buyout'
+    ],
+    cta: 'Explore on www.kolakevilla.com',
+    url: 'https://kolakevilla.com'
+  });
+  assert(card.card_id && card.moderation_status === 'APPROVED', 'Card submission failed');
+
+  const status = await client.getModerationStatus(card.card_id);
+  assert(status.status === 'APPROVED' && status.impressions > 0, 'Moderation status fetch failed');
+});
+
 await test('SEO retry/taxonomy module exists and retries transient errors (functional)', async () => {
   const path = 'scripts/seo-retry.mjs';
   assert(existsSync(path), 'scripts/seo-retry.mjs missing');
