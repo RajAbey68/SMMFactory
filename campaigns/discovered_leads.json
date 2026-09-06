@@ -286,5 +286,101 @@
       "High Urgency"
     ],
     "recommended_action": "DISPATCH_DIRECT_RESPONSE_TO_AI-INTEG"
+  },
+  {
+    "lead_id": "lead_1788501101769_yjfzy",
+    "timestamp": "2026-09-04T05:51:41.770Z",
+    "source": "BuzzBar",
+    "channel": "#AHG_Forager",
+    "author": "TechLead_UK",
+    "text_snippet": "Looking for an AI Architect outside IR35 to build autonomous multi-agent swarm architecture using BMAD methodology.",
+    "target_venture": "asimov-ai",
+    "qualification_score": 90,
+    "is_qualified": true,
+    "matched_criteria": [
+      "Autonomous Agent Architecture Intent",
+      "High-Value Contract Rate (£850/day >= £800)"
+    ],
+    "recommended_action": "DISPATCH_DIRECT_RESPONSE_TO_ASIMOV-AI"
+  },
+  {
+    "lead_id": "lead_1788501101771_blay4",
+    "timestamp": "2026-09-04T05:51:41.771Z",
+    "source": "LinkedIn",
+    "channel": "#Enterprise",
+    "author": "CIO_Retail",
+    "text_snippet": "Urgent requirement: Enterprise AI integration connecting legacy SQL databases and n8n webhook pipelines with modern LLMs.",
+    "target_venture": "ai-integ",
+    "qualification_score": 50,
+    "is_qualified": true,
+    "matched_criteria": [
+      "Enterprise AI Integration Intent",
+      "High Urgency"
+    ],
+    "recommended_action": "DISPATCH_DIRECT_RESPONSE_TO_AI-INTEG"
+  },
+  {
+    "lead_id": "lead_1788513501735_u8sap",
+    "timestamp": "2026-09-04T09:18:21.735Z",
+    "source": "BuzzBar",
+    "channel": "#AHG_Forager",
+    "author": "TechLead_UK",
+    "text_snippet": "Looking for an AI Architect outside IR35 to build autonomous multi-agent swarm architecture using BMAD methodology.",
+    "target_venture": "asimov-ai",
+    "qualification_score": 90,
+    "is_qualified": true,
+    "matched_criteria": [
+      "Autonomous Agent Architecture Intent",
+      "High-Value Contract Rate (£850/day >= £800)"
+    ],
+    "recommended_action": "DISPATCH_DIRECT_RESPONSE_TO_ASIMOV-AI"
+  },
+  {
+    "lead_id": "lead_1788513501736_zulkm",
+    "timestamp": "2026-09-04T09:18:21.736Z",
+    "source": "LinkedIn",
+    "channel": "#Enterprise",
+    "author": "CIO_Retail",
+    "text_snippet": "Urgent requirement: Enterprise AI integration connecting legacy SQL databases and n8n webhook pipelines with modern LLMs.",
+    "target_venture": "ai-integ",
+    "qualification_score": 50,
+    "is_qualified": true,
+    "matched_criteria": [
+      "Enterprise AI Integration Intent",
+      "High Urgency"
+    ],
+    "recommended_action": "DISPATCH_DIRECT_RESPONSE_TO_AI-INTEG"
+  },
+  {
+    "lead_id": "lead_1788514990211_ydyzs",
+    "timestamp": "2026-09-04T09:43:10.211Z",
+    "source": "BuzzBar",
+    "channel": "#AHG_Forager",
+    "author": "TechLead_UK",
+    "text_snippet": "Looking for an AI Architect outside IR35 to build autonomous multi-agent swarm architecture using BMAD methodology.",
+    "target_venture": "asimov-ai",
+    "qualification_score": 90,
+    "is_qualified": true,
+    "matched_criteria": [
+      "Autonomous Agent Architecture Intent",
+      "High-Value Contract Rate (£850/day >= £800)"
+    ],
+    "recommended_action": "DISPATCH_DIRECT_RESPONSE_TO_ASIMOV-AI"
+  },
+  {
+    "lead_id": "lead_1788514990212_jhopu",
+    "timestamp": "2026-09-04T09:43:10.212Z",
+    "source": "LinkedIn",
+    "channel": "#Enterprise",
+    "author": "CIO_Retail",
+    "text_snippet": "Urgent requirement: Enterprise AI integration connecting legacy SQL databases and n8n webhook pipelines with modern LLMs.",
+    "target_venture": "ai-integ",
+    "qualification_score": 50,
+    "is_qualified": true,
+    "matched_criteria": [
+      "Enterprise AI Integration Intent",
+      "High Urgency"
+    ],
+    "recommended_action": "DISPATCH_DIRECT_RESPONSE_TO_AI-INTEG"
   }
 ]

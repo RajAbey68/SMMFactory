@@ -19,6 +19,9 @@ Hospitality inventory pricing must respect actual operational minimums ($180 sam
 ### Axiom 4: Grounding & Zero Hallucination (Strict Closed-Vocabulary Gate)
 All dynamic outputs must pass `scripts/validate-grounding.mjs` before being committed to campaign manifests or execution payloads.
 
+### Axiom 5: Deterministic Hub Pre-Flight Gate (Session Standard)
+Every agent or session start must verify the live integration hub (`bash scripts/test-remote-hub.sh`) and deterministic truth suite (`node tests/integration-hub-truth.mjs`). Inbound webhook latency must remain <200ms and buzz-bar must be online with active relay connection.
+
 ---
 
 ## BMAD (Breakthrough Method for Agile AI-Driven Development) Role Matrix

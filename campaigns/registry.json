@@ -297,6 +297,40 @@
         "optimize": "⬜ not started",
         "close": "⬜ not started"
       }
+    },
+    {
+      "slug": "ko-lake-reddit-tribes",
+      "ref": "KLRdt",
+      "name": "Ko Lake Villa — Reddit & Community Tribes Engine",
+      "type": "community_paid_and_organic",
+      "status": "active",
+      "current_phase": "planning",
+      "window": {
+        "start": "2026-09-06",
+        "end": "2027-04-30"
+      },
+      "property": "Ko Lake Villa",
+      "budget": {
+        "flight_1_pre_christmas_usd": 1350,
+        "flight_2_peak_spring_usd": 2000,
+        "daily_rate_usd": 15.00
+      },
+      "agents": [
+        "grokbot",
+        "buzzbot",
+        "openclaw"
+      ],
+      "path": "./campaigns/ko-lake-reddit-tribes/",
+      "phase_progress": {
+        "ideation": "✅ complete",
+        "research": "✅ complete — TravelSphere Reddit travel booking study data ingested",
+        "planning": "✅ complete — Campaign_Summary.md + paid budget allocation",
+        "creative": "🟡 in progress — Reddit ad variant copy & community responses",
+        "review": "⬜ pending",
+        "launch": "⬜ pending",
+        "optimize": "⬜ pending",
+        "close": "⬜ pending"
+      }
     }
   ],
   "conventions": {
@@ -304,6 +338,7 @@
     "structure": "Each campaign folder contains: Campaign_Summary.md, action_calendar.md, creative/, research/ (if applicable)",
     "ambiguity": "If no slug is specified and context is unclear, the agent MUST ask which campaign before proceeding.",
     "new_campaign": "Every new campaign starts at 'ideation' phase. Create a campaign_brief.md using the template from strategy_foundations.md.",
-    "strategy_foundations": "./research/strategy_foundations.md — Hormozi (Value Equation, Grand Slam Offer, Core Four) + Priestley (5 Ps, Oversubscribed, 7-11-4, Scorecard). Every campaign MUST be evaluated against these frameworks."
+    "strategy_foundations": "./research/strategy_foundations.md — Hormozi (Value Equation, Grand Slam Offer, Core Four) + Priestley (5 Ps, Oversubscribed, 7-11-4, Scorecard). Every campaign MUST be evaluated against these frameworks.",
+    "qualification_rules": "All paid media campaigns MUST enforce: 1) Plain English copy standard for consumer ads ('Rent Entire 7-Bedroom Villa'); accepted exceptions for retreats, surfing, yoga, wellness, corporate offsites, and DMCs ('Exclusive Buyout', 'Yoga Deck', 'Team Workation', 'DMC Incentive'), 2) Hardware tier gate (Apple iOS & Flagship Android), 3) Language filter (Exclude Sinhala/Tamil for in-country ads; allow English, Spanish, Portuguese, Arabic, Hebrew, French, German, Russian, Italian, Mandarin, Cantonese, Malay), 4) Meta Higher-Intent Instant Form / Bot Gate requiring booking date and party size selection, 5) Exclude Meta Audience Network."
   }
 }

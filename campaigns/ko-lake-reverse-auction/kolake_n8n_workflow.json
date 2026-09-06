@@ -6,44 +6,48 @@
       "parameters": {
         "httpMethod": "POST",
         "path": "kolake-marketing",
-        "responseMode": "lastNode",
+        "responseMode": "responseNode",
         "options": {}
       },
       "type": "n8n-nodes-base.webhook",
       "typeVersion": 2,
       "position": [0, 0],
       "webhookId": "kolake-marketing-webhook",
-      "id": "2c62c953-62d2-4328-87b4-c3c3a4f6bbd1",
+      "id": "webhook-node",
       "name": "Webhook"
     },
     {
       "parameters": {
-        "jsCode": "const raw = $input.first().json;\nconst payload = raw.body || raw;\n\n// Structured CTWA Welcome Flow Options\nconst ctwaWelcomePayload = {\n  welcome_message: \"Welcome to Ko Lake Villa! 🌊 Thank you for inquiring via our Reverse Auction. Please choose an option below:\",\n  quick_options: [\n    { id: 1, title: \"Entire Villa Buyout\", desc: \"7 En-Suite Bedrooms (up to 24 guests, from $250/night)\" },\n    { id: 2, title: \"Last-Minute Room\", desc: \"AC En-Suite Bedroom by the lake (from $45/night)\" },\n    { id: 3, title: \"Direct Reverse Auction Bid\", desc: \"Name your travel dates and proposed rate\" }\n  ],\n  canonical_website: \"https://www.kolakevilla.com\",\n  prefilled_deep_link: \"https://wa.me/94711730345?text=\" + encodeURIComponent(\"Hi Ko Lake Villa! I saw your reverse auction offer. I'd like to check rates for [Dates] for [X] guests.\"),\n  official_cta: \"For more information about our unique accommodations and to explore the amenities of Ko Lake Villa, please visit our website at www.kolakevilla.com. Book your stay today and experience the tranquility of lakeside living!\"\n};\n\nreturn [{\n  json: {\n    status: 'RECEIVED_AND_PROCESSED',\n    event: payload.event || 'DEPLOY_REVERSE_AUCTION',\n    campaign: payload.campaign_slug || 'ko-lake-reverse-auction',\n    whatsapp_recipient: '+94 71 173 0345',\n    pricing: {\n      starting_bid_usd: payload.pricing?.starting_bid || 420,\n      whole_villa_floor_usd: 250,\n      same_day_emergency_floor_usd: 180,\n      single_room_floor_usd: 45\n    },\n    ctwa_conversion_flow: ctwaWelcomePayload,\n    meta_status: payload.meta_ads?.status || 'ACTIVE',\n    meta_campaign_id: '120248229307270630',\n    dispatched_at: new Date().toISOString()\n  }\n}];"
+        "jsCode": "const raw = $input.first().json;\nconst payload = raw.body || raw;\n\n// Structured CTWA Welcome Flow Options\nconst ctwaWelcomePayload = {\n  welcome_message: \"Welcome to Ko Lake Villa! 🌊 Thank you for inquiring via our Reverse Auction. Please choose an option below:\",\n  quick_options: [\n    { id: 1, title: \"Entire Villa Buyout\", desc: \"7 En-Suite Bedrooms (up to 24 guests, from $250/night)\" },\n    { id: 2, title: \"Last-Minute Room\", desc: \"AC En-Suite Bedroom by the lake (from $45/night)\" },\n    { id: 3, title: \"Direct Reverse Auction Bid\", desc: \"Name your travel dates and proposed rate\" }\n  ],\n  canonical_website: \"https://www.kolakevilla.com\",\n  prefilled_deep_link: \"https://wa.me/94711730345?text=\" + encodeURIComponent(\"Hi Ko Lake Villa! I saw your reverse auction offer. I'd like to check rates for [Dates] for [X] guests.\"),\n  official_cta: \"For more information about our unique accommodations and to explore the amenities of Ko Lake Villa, please visit our website at www.kolakevilla.com. Book your stay today and experience the tranquility of lakeside living!\"\n};\n\nconst startingBid = payload.pricing?.starting_bid || 420;\n\nreturn [{\n  json: {\n    status: 'RECEIVED_AND_PROCESSED',\n    event: payload.event || 'DEPLOY_REVERSE_AUCTION',\n    campaign: payload.campaign_slug || 'ko-lake-reverse-auction',\n    whatsapp_recipient: '+94 71 173 0345',\n    pricing: {\n      starting_bid_usd: startingBid,\n      whole_villa_floor_usd: 250,\n      same_day_emergency_floor_usd: 180,\n      single_room_floor_usd: 45\n    },\n    ctwa_conversion_flow: ctwaWelcomePayload,\n    meta_status: payload.meta_ads?.status || 'ACTIVE',\n    meta_campaign_id: '120248229307270630',\n    dispatched_at: new Date().toISOString()\n  }\n}];"
       },
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [250, 0],
-      "id": "76b4b455-da89-4be6-8a03-7cb7742d4536",
+      "id": "code-node",
       "name": "Process Dispatch & CTWA Flow"
     },
     {
       "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ JSON.stringify($json) }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [500, -100],
+      "id": "respond-node",
+      "name": "Instant HTTP 200 Response"
+    },
+    {
+      "parameters": {
         "method": "POST",
-        "url": "https://mcp.windsor.ai/",
+        "url": "http://172.17.0.1:7070/api/buzz/send",
         "sendHeaders": true,
         "headerParameters": {
           "parameters": [
             {
-              "name": "Authorization",
-              "value": "Bearer {{ $env.WINDSOR_API_KEY }}"
-            },
-            {
               "name": "Content-Type",
               "value": "application/json"
-            },
-            {
-              "name": "Accept",
-              "value": "application/json, text/event-stream"
             }
           ]
         },
@@ -51,20 +55,24 @@
         "bodyParameters": {
           "parameters": [
             {
-              "name": "jsonrpc",
-              "value": "2.0"
+              "name": "channel",
+              "value": "#KoLake Auction"
             },
             {
-              "name": "id",
-              "value": "={{ $now.toMillis() }}"
+              "name": "targetAgent",
+              "value": "grok-buzz-agent"
             },
             {
-              "name": "method",
-              "value": "tools/call"
+              "name": "action",
+              "value": "AUCTION_BID_SUBMITTED"
+            },
+            {
+              "name": "message",
+              "value": "={{ 'Auction inquiry received: ' + $json.pricing.starting_bid_usd + ' USD' }}"
             },
             {
               "name": "params",
-              "value": "={{ { name: 'get_connectors', arguments: {} } }}"
+              "value": "={{ { bid_usd: $json.pricing.starting_bid_usd, campaign: $json.campaign } }}"
             }
           ]
         },
@@ -73,9 +81,9 @@
       },
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
-      "position": [500, 0],
-      "id": "windsor-mcp-node",
-      "name": "Windsor.ai Connector"
+      "position": [500, 100],
+      "id": "buzz-dispatch-node",
+      "name": "Async Buzz Dispatch"
     }
   ],
   "connections": {
@@ -94,7 +102,12 @@
       "main": [
         [
           {
-            "node": "Windsor.ai Connector",
+            "node": "Instant HTTP 200 Response",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Async Buzz Dispatch",
             "type": "main",
             "index": 0
           }

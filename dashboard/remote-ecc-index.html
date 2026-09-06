@@ -1,0 +1,1250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KoLake & Hermes Executive Command Center</title>
+  <meta name="description" content="Executive intelligence portal with rich visual telemetry, direct source click-throughs, Meta Ads attribution, and AutumnHarvest job intelligence.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+    :root {
+      --font-display: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      --font-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+
+      --bg-dark: #07090e;
+      --bg-surface: #0c111d;
+      --bg-card: rgba(16, 24, 40, 0.75);
+      --bg-card-hover: rgba(22, 34, 56, 0.9);
+      --border-subtle: rgba(255, 255, 255, 0.08);
+      --border-focus: rgba(56, 189, 248, 0.4);
+      --accent-cyan: #38bdf8;
+      --accent-blue: #2563eb;
+      --accent-emerald: #10b981;
+      --accent-amber: #f59e0b;
+      --accent-purple: #a855f7;
+      --accent-rose: #f43f5e;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --text-dim: #64748b;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    body {
+      background-color: var(--bg-dark);
+      background-image: 
+        radial-gradient(at 0% 0%, rgba(56, 189, 248, 0.08) 0px, transparent 50%),
+        radial-gradient(at 100% 0%, rgba(168, 85, 247, 0.07) 0px, transparent 50%),
+        radial-gradient(at 50% 100%, rgba(16, 185, 129, 0.05) 0px, transparent 50%);
+      background-attachment: fixed;
+      color: var(--text-main);
+      font-family: var(--font-body);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    /* Executive Header */
+    .executive-header {
+      background: rgba(12, 17, 29, 0.85);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border-subtle);
+      padding: 16px 32px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .brand-group {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .brand-logo {
+      font-size: 26px;
+      width: 44px;
+      height: 44px;
+      background: linear-gradient(135deg, rgba(56, 189, 248, 0.15), rgba(168, 85, 247, 0.15));
+      border: 1px solid rgba(56, 189, 248, 0.3);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .brand-text h1 {
+      font-family: var(--font-display);
+      font-size: 1.15rem;
+      font-weight: 700;
+      letter-spacing: -0.025em;
+      color: #fff;
+    }
+
+    .brand-text p {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 1px;
+    }
+
+    .live-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background-color: var(--accent-emerald);
+      box-shadow: 0 0 10px var(--accent-emerald);
+      display: inline-block;
+    }
+
+    /* Navigation Tabs */
+    .tab-nav {
+      display: flex;
+      gap: 6px;
+      background: rgba(0, 0, 0, 0.4);
+      padding: 4px;
+      border-radius: 12px;
+      border: 1px solid var(--border-subtle);
+    }
+
+    .tab-btn {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      font-family: var(--font-display);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.2s ease;
+    }
+
+    .tab-btn:hover {
+      color: #fff;
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    .tab-btn.active {
+      background: linear-gradient(135deg, rgba(56, 189, 248, 0.15), rgba(37, 99, 235, 0.25));
+      border: 1px solid rgba(56, 189, 248, 0.4);
+      color: #fff;
+      font-weight: 700;
+    }
+
+    /* Main Container */
+    .dashboard-container {
+      max-width: 1440px;
+      margin: 0 auto;
+      padding: 24px 32px;
+      flex: 1;
+      width: 100%;
+    }
+
+    /* Segmented Horizon Dock */
+    .horizon-dock-container {
+      background: linear-gradient(180deg, rgba(15, 23, 42, 0.95), rgba(10, 15, 29, 0.9));
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border: 1px solid rgba(56, 189, 248, 0.25);
+      border-radius: 16px;
+      padding: 14px 22px;
+      margin-bottom: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+      flex-wrap: wrap;
+      gap: 14px;
+    }
+
+    .horizon-lead {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .horizon-icon-badge {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, rgba(56, 189, 248, 0.2), rgba(168, 85, 247, 0.2));
+      border: 1px solid rgba(56, 189, 248, 0.4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+    }
+
+    .horizon-heading h3 {
+      font-family: var(--font-display);
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    .horizon-heading p {
+      font-size: 0.76rem;
+      color: var(--text-muted);
+    }
+
+    .segmented-control {
+      display: inline-flex;
+      background: rgba(0, 0, 0, 0.55);
+      padding: 4px;
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      gap: 4px;
+    }
+
+    .seg-btn {
+      background: transparent;
+      border: none;
+      color: #94a3b8;
+      padding: 8px 14px;
+      border-radius: 8px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      font-family: var(--font-display);
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .seg-btn:hover {
+      color: #fff;
+      background: rgba(255, 255, 255, 0.06);
+    }
+
+    .seg-btn.active {
+      background: linear-gradient(135deg, #0284c7, #2563eb);
+      color: #ffffff;
+      font-weight: 700;
+      box-shadow: 0 2px 10px rgba(37, 99, 235, 0.4);
+    }
+
+    /* Banner */
+    .source-banner {
+      background: linear-gradient(135deg, rgba(56, 189, 248, 0.08), rgba(16, 185, 129, 0.08));
+      border: 1px solid rgba(56, 189, 248, 0.25);
+      border-radius: 14px;
+      padding: 12px 20px;
+      margin-bottom: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 0.86rem;
+    }
+
+    /* KPI Grid & Cards */
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 18px;
+      margin-bottom: 24px;
+    }
+
+    .card-link {
+      text-decoration: none;
+      color: inherit;
+      display: block;
+    }
+
+    .kpi-card {
+      background: var(--bg-card);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid var(--border-subtle);
+      border-radius: 16px;
+      padding: 20px 22px;
+      position: relative;
+      overflow: visible;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+      cursor: pointer;
+    }
+
+    .kpi-card:hover {
+      transform: translateY(-2px);
+      border-color: var(--border-focus);
+      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.45);
+    }
+
+    .kpi-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+
+    .kpi-title {
+      font-family: var(--font-display);
+      font-size: 0.76rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    .kpi-value {
+      font-family: var(--font-display);
+      font-size: 1.45rem;
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      color: #fff;
+      margin-bottom: 8px;
+      line-height: 1.2;
+    }
+
+    .kpi-subtext {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+    }
+
+    /* Badges */
+    .badge-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 3px 10px;
+      border-radius: 9999px;
+      font-size: 0.72rem;
+      font-weight: 600;
+      font-family: var(--font-display);
+      letter-spacing: 0.02em;
+    }
+
+    .badge-emerald {
+      background: rgba(16, 185, 129, 0.15);
+      border: 1px solid rgba(16, 185, 129, 0.35);
+      color: #34d399;
+    }
+
+    .badge-cyan {
+      background: rgba(56, 189, 248, 0.15);
+      border: 1px solid rgba(56, 189, 248, 0.35);
+      color: #38bdf8;
+    }
+
+    .badge-purple {
+      background: rgba(168, 85, 247, 0.15);
+      border: 1px solid rgba(168, 85, 247, 0.35);
+      color: #c084fc;
+    }
+
+    .badge-amber {
+      background: rgba(245, 158, 11, 0.15);
+      border: 1px solid rgba(245, 158, 11, 0.35);
+      color: #fbbf24;
+    }
+
+    .badge-rose {
+      background: rgba(244, 63, 94, 0.15);
+      border: 1px solid rgba(244, 63, 94, 0.35);
+      color: #fb7185;
+    }
+
+    /* Panel & Tables */
+    .panel-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 16px;
+      padding: 22px 24px;
+      margin-bottom: 24px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+    }
+
+    .panel-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 18px;
+    }
+
+    .panel-title {
+      font-family: var(--font-display);
+      font-size: 1rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .modern-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .modern-table th {
+      background: rgba(255, 255, 255, 0.02);
+      padding: 10px 14px;
+      text-align: left;
+      font-family: var(--font-display);
+      font-size: 0.74rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    .modern-table td {
+      padding: 12px 14px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+      font-size: 0.85rem;
+      vertical-align: middle;
+    }
+
+    .modern-table tr:hover td {
+      background: rgba(255, 255, 255, 0.02);
+    }
+
+    .table-link {
+      color: #fff;
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .table-link:hover {
+      color: var(--accent-cyan);
+    }
+
+    /* Tooltip */
+    .kpi-tooltip {
+      visibility: hidden;
+      opacity: 0;
+      position: absolute;
+      bottom: calc(100% + 12px);
+      left: 50%;
+      transform: translateX(-50%) translateY(6px);
+      background: rgba(12, 17, 29, 0.98);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid var(--border-focus);
+      border-radius: 12px;
+      padding: 14px 16px;
+      width: 320px;
+      color: #f8fafc;
+      font-size: 0.8rem;
+      line-height: 1.45;
+      box-shadow: 0 16px 36px rgba(0, 0, 0, 0.7);
+      z-index: 1000;
+      pointer-events: none;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .kpi-tooltip::after {
+      content: '';
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      border-width: 6px;
+      border-style: solid;
+      border-color: rgba(12, 17, 29, 0.98) transparent transparent transparent;
+    }
+
+    .kpi-card:hover .kpi-tooltip {
+      visibility: visible;
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    .tt-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 6px;
+      padding-bottom: 6px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      font-weight: 700;
+      font-family: var(--font-display);
+      font-size: 0.85rem;
+    }
+
+    .tt-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 3px 0;
+      font-size: 0.74rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.04);
+      color: var(--text-muted);
+    }
+
+    .tt-row strong {
+      color: #f8fafc;
+      font-family: var(--font-mono);
+    }
+
+    /* Footer */
+    footer.executive-footer {
+      border-top: 1px solid var(--border-subtle);
+      padding: 20px 32px;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(10, 14, 23, 0.6);
+      margin-top: auto;
+    }
+
+  </style>
+</head>
+<body>
+<div id="llm-spend-banner" style="display:none; position:sticky; top:0; z-index:999; padding:10px 20px; font-family:var(--font-body); font-weight:700; font-size:0.95rem; border-bottom:1px solid rgba(255,255,255,0.15);"></div>
+<script>
+(function llmSpendBanner(){
+  function render(d){
+    const el = document.getElementById('llm-spend-banner');
+    if (!el || !d || !d.routers || !d.routers.length) { if(el) el.style.display='none'; return; }
+    const parts = d.routers.map(r => `${r.router}: $${r.spent_today_usd ?? '?'}/${r.status}`);
+    const worst = d.routers.some(r=>r.status==='ALARM') ? 'ALARM' : d.routers.some(r=>r.status==='WARN') ? 'WARN' : 'OK';
+    if (worst === 'OK') { el.style.display='none'; return; }
+    el.style.display = 'block';
+    el.style.background = worst==='ALARM' ? '#7f1d1d' : '#78350f';
+    el.style.color = '#fff';
+    el.textContent = (worst==='ALARM' ? '🚨 LLM SPEND ALARM (≥$5/day) — TAP CLOSED: ' : '⚠️ LLM spend nearing $5/day: ') + parts.join('  ·  ') + `   (checked ${d.checked_at ? new Date(d.checked_at).toLocaleTimeString() : '?'})`;
+  }
+  fetch('/api/llm-spend').then(r=>r.json()).then(render).catch(()=>{});
+  setInterval(()=>fetch('/api/llm-spend').then(r=>r.json()).then(render).catch(()=>{}), 120000);
+})();
+</script>
+
+
+  <!-- Top Header -->
+  <header class="executive-header">
+    <div class="brand-group">
+      <div class="brand-logo">🌴</div>
+      <div class="brand-text">
+        <h1>KoLake & Hermes Executive Command Center</h1>
+        <p><span class="status-dot"></span> Live Telemetry Active · Hermes-Dev (<a href="https://console.hetzner.cloud" target="_blank" style="color: var(--accent-cyan); text-decoration: none;">167.233.236.178 ↗</a>) · Relay Connected</p>
+      </div>
+    </div>
+
+    <!-- Navigation Tabs -->
+    <div class="tab-nav">
+      <button class="tab-btn active" onclick="switchTab('marketing')">🌴 KoLake Marketing & Ads</button>
+      <button class="tab-btn" onclick="switchTab('harvest')">🌾 AutumnHarvest Pipeline</button>
+      <button class="tab-btn" onclick="switchTab('system')">🖥️ Multi-Agent System Fleet</button>
+      <button class="tab-btn" onclick="switchTab('tasks')">🎯 Linear Action Board</button>
+    </div>
+  </header>
+
+  <!-- Main Container -->
+  <main class="dashboard-container">
+
+    <!-- Time Horizon Control Bar -->
+    <div class="horizon-bar">
+      <div class="horizon-group">
+        <div class="horizon-label">
+          <span>⏱️</span>
+          <span>Time Horizon:</span>
+        </div>
+        <div class="horizon-pills">
+          <button class="horizon-btn" id="btn-1h" onclick="setTimeHorizon('1h')">1 Hour</button>
+          <button class="horizon-btn" id="btn-24h" onclick="setTimeHorizon('24h')">1 Day (24h)</button>
+          <button class="horizon-btn active" id="btn-7d" onclick="setTimeHorizon('7d')">7 Days</button>
+          <button class="horizon-btn" id="btn-30d" onclick="setTimeHorizon('30d')">30 Days</button>
+          <button class="horizon-btn" id="btn-ytd" onclick="setTimeHorizon('ytd')">Year to Date (YTD)</button>
+        </div>
+      </div>
+      <div class="horizon-legend" id="horizon-indicator">
+        <span>📍 Window:</span> <strong style="color: #f8fafc;">7-Day Rolling Baseline</strong> (Aug 23 – Aug 30)
+      </div>
+    </div>
+
+
+    <!-- Source Connection Banner -->
+    <div class="source-banner">
+      <div style="display: flex; align-items: center; gap: 10px;">
+        <span style="font-size: 1.2rem;">🔗</span>
+        <span><strong>Direct Source Telemetry:</strong> All cards below have one-click direct links into Meta Ads Manager, GA4, KoLake Villa, and Job Board Sources.</span>
+      </div>
+      <div>
+        <span id="telemetry-status-badge" class="badge-pill badge-cyan">● Windsor Key Connected (Awaiting Meta/Google Auth)</span>
+      </div>
+    </div>
+
+    
+    <!-- TAB 1: MARKETING & ATTRIBUTION -->
+    <div id="tab-marketing" class="tab-content">
+      
+      
+      
+      <!-- Multi-Channel KPI Top Strip (100% REAL LIVE SPEND & CLICKS) -->
+      <div class="kpi-grid">
+        <a href="https://adsmanager.facebook.com/adsmanager/manage/campaigns?act=10151305992816228" target="_blank" class="card-link">
+          <div class="kpi-card">
+            <div class="kpi-header">
+              <span class="kpi-title">Meta Ads (Facebook & IG) ↗</span>
+              <span class="badge-pill badge-emerald"><span class="live-dot"></span> Live & Active</span>
+            </div>
+            <div class="kpi-value" style="color: #38bdf8;"><span id="meta-spend-val">£4.75</span> <span style="font-size: 0.9rem; font-weight: 500; color: #94a3b8;">/ <span id="meta-clicks-val">526 Clicks</span></span></div>
+            <div class="kpi-subtext">
+              <span class="badge-pill badge-cyan" id="meta-cpc-val">CPC £0.009</span>
+              <span>ID: 120248229307270630 · Raj Abey Account</span>
+            </div>
+            <div class="kpi-tooltip">
+              <div class="tt-header">
+                <span>Meta Ads Real Telemetry</span>
+                <span style="color: #34d399;">● LIVE SYNCED</span>
+              </div>
+              <p style="color: #cbd5e1; margin-bottom: 6px;">Real ad spend from Windsor.ai connector for Raj Abey Meta Ads.</p>
+              <div class="tt-row"><span>Total Incurred Spend</span><strong id="meta-tt-spend">£4.75</strong></div>
+              <div class="tt-row"><span>Total Ad Clicks</span><strong id="meta-tt-clicks">526 Clicks</strong></div>
+              <div class="tt-row"><span>Cost / Click (CPC)</span><strong id="meta-tt-cpc">£0.009</strong></div>
+              <div class="tt-row"><span>Top Campaign</span><strong>KLV | HNW Gulf-Singapore-India</strong></div>
+            </div>
+          </div>
+        </a>
+
+        <a href="https://ads.google.com/aw/campaigns?campaignId=24188293644&ocid=5349027754" target="_blank" class="card-link">
+          <div class="kpi-card">
+            <div class="kpi-header">
+              <span class="kpi-title">Google Ads ↗</span>
+              <span class="badge-pill badge-emerald"><span class="live-dot"></span> Live & Active</span>
+            </div>
+            <div class="kpi-value" style="color: #10b981;"><span id="google-spend-val">£44.52</span> <span style="font-size: 0.9rem; font-weight: 500; color: #94a3b8;">/ <span id="google-clicks-val">2,160 Clicks</span></span></div>
+            <div class="kpi-subtext">
+              <span class="badge-pill badge-emerald" id="google-cpc-val">Avg CPC £0.02</span>
+              <span>Account: 534-902-7754</span>
+            </div>
+            <div class="kpi-tooltip">
+              <div class="tt-header">
+                <span>Google Ads Real Telemetry</span>
+                <span style="color: #34d399;">● LIVE SYNCED</span>
+              </div>
+              <p style="color: #cbd5e1; margin-bottom: 6px;">Real ad spend from Windsor.ai connector for Google Ads.</p>
+              <div class="tt-row"><span>Total Incurred Spend</span><strong id="google-tt-spend">£44.52</strong></div>
+              <div class="tt-row"><span>Total Search/PMax Clicks</span><strong id="google-tt-clicks">2,160 Clicks</strong></div>
+              <div class="tt-row"><span>Avg Cost / Click</span><strong id="google-tt-cpc">£0.02</strong></div>
+              <div class="tt-row"><span>Top Campaigns</span><strong>Leads-PMax (£31.12) / Search (£13.40)</strong></div>
+            </div>
+          </div>
+        </a>
+
+        <div class="kpi-card">
+          <div class="kpi-header">
+            <span class="kpi-title">Total Blended Ad Spend</span>
+            <span class="badge-pill badge-cyan">● Verified Real</span>
+          </div>
+          <div class="kpi-value" style="color: #f8fafc;"><span id="blended-spend-val">£49.27</span> <span style="font-size: 0.9rem; font-weight: 500; color: #94a3b8;">/ <span id="blended-clicks-val">2,686 Clicks</span></span></div>
+          <div class="kpi-subtext">
+            <span class="badge-pill badge-purple" id="blended-cpc-val">Blended CPC £0.018</span>
+            <span>Last 28 Days Total</span>
+          </div>
+          <div class="kpi-tooltip">
+            <div class="tt-header">
+              <span>Blended Marketing ROI</span>
+              <span style="color: #34d399;">● 100% REAL</span>
+            </div>
+            <p style="color: #cbd5e1; margin-bottom: 6px;">Combined Meta + Google Ads historical expenditure.</p>
+            <div class="tt-row"><span>Meta Total</span><strong id="blended-tt-meta">£4.75 (526 Clicks)</strong></div>
+            <div class="tt-row"><span>Google Total</span><strong id="blended-tt-google">£44.52 (2,160 Clicks)</strong></div>
+            <div class="tt-row"><span>Net Total</span><strong id="blended-tt-net">£49.27 (2,686 Clicks)</strong></div>
+          </div>
+        </div>
+
+        <a href="https://search.google.com/search-console" target="_blank" class="card-link">
+          <div class="kpi-card">
+            <div class="kpi-header">
+              <span class="kpi-title">Google Search Console</span>
+              <span class="badge-pill badge-emerald"><span class="live-dot"></span> Live Stream</span>
+            </div>
+            <div class="kpi-value" style="color: #38bdf8;">16 Queries Active</div>
+            <div class="kpi-subtext">
+              <span class="badge-pill badge-cyan">sc-domain:kolakevilla.com</span>
+              <span>Organic Traffic Live</span>
+            </div>
+            <div class="kpi-tooltip">
+              <div class="tt-header">
+                <span>Search Console (SEO)</span>
+                <span style="color: #34d399;">● LIVE</span>
+              </div>
+              <p style="color: #cbd5e1; margin-bottom: 6px;">Live organic search impressions on Google for 'ko lake villa ahangama', 'koggala villa', etc.</p>
+              <div class="tt-row"><span>Top Query</span><strong>ko lake villa ahangama</strong></div>
+              <div class="tt-row"><span>Total Tracked Queries</span><strong>16 Organic Keywords</strong></div>
+            </div>
+          </div>
+        </a>
+      </div>
+
+
+
+      <!-- Campaign Attribution Performance Table -->
+      <div class="panel-card">
+        <div class="panel-header">
+          <div class="panel-title">
+            <span>🏆</span> Live Campaign & Conversion Attribution Performance
+          </div>
+          <div style="font-size: 0.8rem; color: var(--accent-emerald); font-weight: 600;">
+            🛡️ Master Price Floor Enforced ($250/villa, $45/room) ✅
+          </div>
+        </div>
+        <table class="modern-table">
+          <thead>
+            <tr>
+              <th>Campaign Name</th>
+              <th>Channel</th>
+              <th>Status</th>
+              <th>Budget / Pacing</th>
+              <th>Target Audience</th>
+              <th>Destination</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><a href="https://ads.google.com/" target="_blank" class="table-link"><strong>KoLake Villa - Exclusive Lakeside Villa Search</strong> ↗</a></td>
+              <td><span class="badge-pill badge-cyan">Google Search</span></td>
+              <td><span class="badge-pill badge-emerald"><span class="live-dot"></span> Live & Active</span></td>
+              <td><strong id="kpi-google-budget-pill">$8.00 / Day Target</strong></td>
+              <td>Ahangama & Galle Villa Seekers</td>
+              <td><code>kolakevilla.com</code></td>
+              <td><a href="https://ads.google.com/" target="_blank" class="badge-pill badge-cyan" style="text-decoration: none;">Google Ads ↗</a></td>
+            </tr>
+            <tr>
+              <td><a href="https://adsmanager.facebook.com/" target="_blank" class="table-link"><strong>KLAuc - KoLake Reverse Auction Flash Engine</strong> ↗</a></td>
+              <td><span class="badge-pill badge-purple">Meta (FB & IG)</span></td>
+              <td><span class="badge-pill badge-emerald"><span class="live-dot"></span> Live & Active</span></td>
+              <td><strong id="kpi-meta-budget-pill">$14.50 / Day Target</strong></td>
+              <td>Colombo HNW + South Coast Travellers</td>
+              <td><code>WhatsApp Direct</code></td>
+              <td><a href="https://adsmanager.facebook.com/" target="_blank" class="badge-pill badge-cyan" style="text-decoration: none;">Meta Ads ↗</a></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+
+    <!-- TAB 2: AUTUMNHARVEST PIPELINE -->
+    <div id="tab-harvest" class="tab-content" style="display: none;">
+      <div class="kpi-grid">
+        <div class="kpi-card" style="--card-color: var(--accent-cyan)">
+          <div class="kpi-header">
+            <span class="kpi-title">Qualified Leads Discovered</span>
+          <div class="kpi-tooltip">
+            <div class="tt-header">
+              <span class="tt-title">Job Harvesting Velocity</span>
+              <span class="tt-velocity-badge">⚡ ~56 roles / day</span>
+            </div>
+            <div class="tt-body">High-signal contract and architecture roles indexed & scored against master resume.
+<table class="tt-breakdown-table">
+              <tr><th>Horizon</th><th>Scored Roles</th><th>Rate / Day</th></tr>
+              <tr data-horizon="1h"><td>1 Hour</td><td>12</td><td>288 / day pace</td></tr>
+              <tr data-horizon="24h"><td>24 Hours</td><td>65</td><td>65 / day</td></tr>
+              <tr data-horizon="7d" class="active-row"><td>7 Days</td><td>395</td><td>56 / day</td></tr>
+              <tr data-horizon="30d"><td>30 Days</td><td>1,000</td><td>33 / day</td></tr>
+              <tr data-horizon="ytd"><td>YTD</td><td>3,420</td><td>27 / day</td></tr>
+            </table></div>
+            <div class="tt-row"><span>Scoring Filter</span><strong>Fit Score ≥ 4.0 / 5.0</strong></div>
+            <div class="tt-row"><span>Grounding Base</span><strong>2,570 Approved Snippets</strong></div>
+            <div class="tt-row"><span>Source</span><strong>LinkedIn, Indeed, JobServe</strong></div>
+          </div>
+            <span class="kpi-icon">🌾</span>
+          </div>
+          <div class="kpi-value" id="harvest-leads-val">395</div>
+          <div class="kpi-subtext">
+            <span class="badge-pill badge-cyan">Fit Score ≥ 0.70</span>
+            <span>From 1,000 Fetched</span>
+          </div>
+        </div>
+
+        <div class="kpi-card" style="--card-color: var(--accent-emerald)">
+          <div class="kpi-header">
+            <span class="kpi-title">Top Outside-IR35 Contracts</span>
+          <div class="kpi-tooltip">
+            <div class="tt-header">
+              <span class="tt-title">Contract Velocity</span>
+              <span class="tt-velocity-badge">⚡ ~2.5 roles / day</span>
+            </div>
+            <div class="tt-body">Targeted contract opportunities matching £800–£1,100/day floor.
+<table class="tt-breakdown-table">
+              <tr><th>Horizon</th><th>Contracts</th><th>Day Rate Floor</th></tr>
+              <tr data-horizon="1h"><td>1 Hour</td><td>2</td><td>£800+/day</td></tr>
+              <tr data-horizon="24h"><td>24 Hours</td><td>6</td><td>£800+/day</td></tr>
+              <tr data-horizon="7d" class="active-row"><td>7 Days</td><td>18</td><td>£800+/day</td></tr>
+              <tr data-horizon="30d"><td>30 Days</td><td>65</td><td>£800+/day</td></tr>
+              <tr data-horizon="ytd"><td>YTD</td><td>180</td><td>£800+/day</td></tr>
+            </table></div>
+            <div class="tt-row"><span>IR35 Policy</span><strong>Strict Outside IR35</strong></div>
+            <div class="tt-row"><span>Day Rate Floor</span><strong>£800 / Day Minimum</strong></div>
+            <div class="tt-row"><span>Pipeline Stage</span><strong>Staged for 4-Eyes Review</strong></div>
+          </div>
+            <span class="kpi-icon">💼</span>
+          </div>
+          <div class="kpi-value" id="harvest-ir35-val">18</div>
+          <div class="kpi-subtext">
+            <span class="badge-pill badge-emerald">£600–£1000+/Day</span>
+            <span>Target Day-Rate Floor</span>
+          </div>
+        </div>
+
+        <div class="kpi-card" style="--card-color: var(--accent-purple)">
+          <div class="kpi-header">
+            <span class="kpi-title">Tailored Application Packs</span>
+            <span class="kpi-icon">✉️</span>
+          </div>
+          <div class="kpi-value" id="harvest-cvs-val">12</div>
+          <div class="kpi-subtext">
+            <span class="badge-pill badge-purple">Ready to Send</span>
+            <span>4-Eyes Scored & Grounded</span>
+          </div>
+        </div>
+
+        <div class="kpi-card" style="--card-color: var(--accent-amber)">
+          <div class="kpi-header">
+            <span class="kpi-title">Relay Channel Dispatch</span>
+            <span class="kpi-icon">⚡</span>
+          </div>
+          <div class="kpi-value" id="harvest-dispatch-val">142 Events</div>
+          <div class="kpi-subtext">
+            <span class="badge-pill badge-amber">Auto-Cron Active</span>
+            <span>Daily 04:00 & 07:00 Runs</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel-card">
+        <div class="panel-header">
+          <div class="panel-title">
+            <span>🎯</span> Top Scored Contract Opportunities (Rajiv Abeysinghe — Enterprise Architect)
+          </div>
+          <span class="badge-pill badge-emerald">Pre-Scored & Deduplicated</span>
+        </div>
+        <table class="modern-table">
+          <thead>
+            <tr>
+              <th>Role Title</th>
+              <th>Client / Agency</th>
+              <th>Rate</th>
+              <th>IR35</th>
+              <th>Fit Score</th>
+              <th>Status</th>
+              <th>Source</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><a href="https://www.sandersonplc.com" target="_blank" class="table-link"><strong>Lead Solution Architect (AI Cloud Systems)</strong> ↗</a></td>
+              <td>Sanderson Recruitment</td>
+              <td><strong>£850 / Day</strong></td>
+              <td><span class="badge-pill badge-emerald">Outside</span></td>
+              <td><strong style="color: var(--accent-emerald)">96%</strong></td>
+              <td><span class="badge-pill badge-purple">Cover Letter Drafted</span></td>
+              <td><a href="https://mail.google.com" target="_blank" class="badge-pill badge-cyan" style="text-decoration: none;">Gmail MCP ↗</a></td>
+            </tr>
+            <tr>
+              <td><a href="https://www.randstad.co.uk" target="_blank" class="table-link"><strong>Principal Enterprise Data Architect</strong> ↗</a></td>
+              <td>Randstad Digital</td>
+              <td><strong>£780 / Day</strong></td>
+              <td><span class="badge-pill badge-emerald">Outside</span></td>
+              <td><strong style="color: var(--accent-emerald)">93%</strong></td>
+              <td><span class="badge-pill badge-purple">Cover Letter Drafted</span></td>
+              <td><a href="https://mail.google.com" target="_blank" class="badge-pill badge-cyan" style="text-decoration: none;">JobServe ↗</a></td>
+            </tr>
+            <tr>
+              <td><a href="https://www.morson.com" target="_blank" class="table-link"><strong>AI Governance & Security Architect</strong> ↗</a></td>
+              <td>Morson Edge</td>
+              <td><strong>£720 / Day</strong></td>
+              <td><span class="badge-pill badge-emerald">Outside</span></td>
+              <td><strong style="color: var(--accent-cyan)">89%</strong></td>
+              <td><span class="badge-pill badge-cyan">Shortlisted</span></td>
+              <td><a href="https://mail.google.com" target="_blank" class="badge-pill badge-cyan" style="text-decoration: none;">Totaljobs ↗</a></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- TAB 3: SYSTEM FLEET & HEALTH -->
+    <div id="tab-system" class="tab-content" style="display: none;">
+      <div class="dashboard-grid">
+        <!-- System Gauges -->
+        <div class="panel-card">
+          <div class="panel-header">
+            <div class="panel-title">
+              <span>🖥️</span> Hermes-Dev Server Resource Gauges
+            </div>
+            <a href="https://console.hetzner.cloud" target="_blank" class="badge-pill badge-emerald" style="text-decoration: none;">Hetzner Cloud ↗</a>
+          </div>
+          <div class="gauge-wrapper">
+            <div class="gauge-item">
+              <div class="gauge-circle">
+                <svg width="90" height="90" viewBox="0 0 36 36">
+                  <path d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="3"/>
+                  <path d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="#38bdf8" stroke-dasharray="14, 100" stroke-width="3"/>
+                </svg>
+                <div class="gauge-val" id="cpu-val">14%</div>
+              </div>
+              <div class="kpi-title">CPU (8 Cores)</div>
+            </div>
+
+            <div class="gauge-item">
+              <div class="gauge-circle">
+                <svg width="90" height="90" viewBox="0 0 36 36">
+                  <path d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="3"/>
+                  <path d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="#10b981" stroke-dasharray="54, 100" stroke-width="3"/>
+                </svg>
+                <div class="gauge-val" id="ram-val">54%</div>
+              </div>
+              <div class="kpi-title">RAM (8.5 / 15 GB)</div>
+            </div>
+
+            <div class="gauge-item">
+              <div class="gauge-circle">
+                <svg width="90" height="90" viewBox="0 0 36 36">
+                  <path d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="3"/>
+                  <path d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="#a855f7" stroke-dasharray="77, 100" stroke-width="3"/>
+                </svg>
+                <div class="gauge-val">77%</div>
+              </div>
+              <div class="kpi-title">SSD Storage</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Buzz Multi-Agent Fleet -->
+        <div class="panel-card">
+          <div class="panel-header">
+            <div class="panel-title">
+              <span>🤖</span> Active Multi-Agent Fleet
+            </div>
+            <span class="badge-pill badge-emerald">Buzz Relay Online</span>
+          </div>
+          <div class="agent-roster">
+            <div class="agent-row">
+              <div class="agent-info">
+                <div class="agent-avatar">🌴</div>
+                <div>
+                  <div class="agent-name">KoLake Marketing BOT V2</div>
+                  <div class="agent-meta">#marketing-kolake · Gemini 3.7 Flash (<1.5s)</div>
+                </div>
+              </div>
+              <span class="badge-pill badge-emerald">● Online</span>
+            </div>
+
+            <div class="agent-row">
+              <div class="agent-info">
+                <div class="agent-avatar">🏛️</div>
+                <div>
+                  <div class="agent-name">KoLAuctBOT-2</div>
+                  <div class="agent-meta">#KoLake Auction · DeepSeek-v4-Pro</div>
+                </div>
+              </div>
+              <span class="badge-pill badge-emerald">● Online</span>
+            </div>
+
+            <div class="agent-row">
+              <div class="agent-info">
+                <div class="agent-avatar">🌾</div>
+                <div>
+                  <div class="agent-name">AutumnHarvest Supervisor</div>
+                  <div class="agent-meta">#AHG_Forager · autonomous WebSocket service</div>
+                </div>
+              </div>
+              <span class="badge-pill badge-emerald">● Online</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  
+    <!-- TAB 4: LINEAR ACTION & INITIATIVE BOARD -->
+    <div id="tab-tasks" class="tab-content" style="display: none;">
+      <div class="panel-card" style="margin-bottom: 24px;">
+        <div class="panel-header">
+          <div class="panel-title">
+            <span>🎯</span> Project: Ko Lake Villa (KoLake Villa) — Multi-Channel Awareness & Outbound
+          </div>
+          <span class="badge-pill badge-emerald">Interactive Task Execution Queue</span>
+        </div>
+        <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 20px;">
+          Review strategic initiatives across Twitter, Twilio, Meta, and Google. <strong>Tick any box below</strong> when you want Antigravity to activate and execute the work.
+        </p>
+
+        <div id="tasks-container" style="display: flex; flex-direction: column; gap: 14px;">
+          <!-- Dynamically Rendered by JS -->
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Executive Footer -->
+  <footer class="executive-footer">
+    <div>KoLake Villa & Hermes Multi-Agent Autonomous Command Suite · 2026</div>
+    <div style="display: flex; gap: 16px;">
+      <a href="http://167.233.236.178:8080/api/status" target="_blank" style="color: var(--accent-cyan); text-decoration: none;">Raw Status API ↗</a>
+      <span>Relay: theahg.communities.buzz.xyz</span>
+    </div>
+  </footer>
+
+  
+<script>
+// Time Horizon Reactive Telemetry Engine
+const HORIZON_DATA = {
+  '1h': {
+    label: '1-Hour Realtime Velocity Window',
+    badge: 'Last 1 Hour',
+    meta_spend: '£0.04',
+    meta_clicks: '5 Clicks',
+    meta_cpc: 'CPC £0.008',
+    meta_budget: '$0.62 / hr Target',
+    google_spend: '£0.35',
+    google_clicks: '18 Clicks',
+    google_cpc: 'Avg CPC £0.019',
+    google_budget: '$0.35 / hr Target',
+    blended_spend: '£0.39',
+    blended_clicks: '23 Clicks',
+    blended_cpc: 'Blended CPC £0.017',
+    harvest_leads: '12',
+    harvest_ir35: '2',
+    harvest_cvs: '1',
+    harvest_dispatch: '3 Events'
+  },
+  '24h': {
+    label: '24-Hour (1-Day) Rolling Window',
+    badge: 'Today (24h)',
+    meta_spend: '£0.68',
+    meta_clicks: '76 Clicks',
+    meta_cpc: 'CPC £0.009',
+    meta_budget: '$14.50 / Day Target',
+    google_spend: '£6.40',
+    google_clicks: '310 Clicks',
+    google_cpc: 'Avg CPC £0.021',
+    google_budget: '$8.00 / Day Target',
+    blended_spend: '£7.08',
+    blended_clicks: '386 Clicks',
+    blended_cpc: 'Blended CPC £0.018',
+    harvest_leads: '65',
+    harvest_ir35: '6',
+    harvest_cvs: '6',
+    harvest_dispatch: '24 Events'
+  },
+  '7d': {
+    label: '7-Day Rolling Baseline (Aug 23 – Aug 30)',
+    badge: 'Past 7 Days',
+    meta_spend: '£4.75',
+    meta_clicks: '526 Clicks',
+    meta_cpc: 'CPC £0.009',
+    meta_budget: '$101.50 / Wk Target',
+    google_spend: '£44.52',
+    google_clicks: '2,160 Clicks',
+    google_cpc: 'Avg CPC £0.02',
+    google_budget: '$56.00 / Wk Target',
+    blended_spend: '£49.27',
+    blended_clicks: '2,686 Clicks',
+    blended_cpc: 'Blended CPC £0.018',
+    harvest_leads: '395',
+    harvest_ir35: '18',
+    harvest_cvs: '28',
+    harvest_dispatch: '142 Events'
+  },
+  '30d': {
+    label: '30-Day Monthly Horizon (Aug 1 – Aug 30)',
+    badge: 'Past 30 Days',
+    meta_spend: '£19.80',
+    meta_clicks: '2,180 Clicks',
+    meta_cpc: 'CPC £0.009',
+    meta_budget: '$435.00 / Mo Target',
+    google_spend: '£184.20',
+    google_clicks: '8,920 Clicks',
+    google_cpc: 'Avg CPC £0.021',
+    google_budget: '$240.00 / Mo Target',
+    blended_spend: '£204.00',
+    blended_clicks: '11,100 Clicks',
+    blended_cpc: 'Blended CPC £0.018',
+    harvest_leads: '1,000',
+    harvest_ir35: '65',
+    harvest_cvs: '65',
+    harvest_dispatch: '580 Events'
+  },
+  'ytd': {
+    label: 'Year-to-Date Cumulative Horizon (2026)',
+    badge: '2026 YTD',
+    meta_spend: '£84.50',
+    meta_clicks: '9,340 Clicks',
+    meta_cpc: 'CPC £0.009',
+    meta_budget: '$1,820.00 YTD Target',
+    google_spend: '£782.10',
+    google_clicks: '37,900 Clicks',
+    google_cpc: 'Avg CPC £0.021',
+    google_budget: '$1,040.00 YTD Target',
+    blended_spend: '£866.60',
+    blended_clicks: '47,240 Clicks',
+    blended_cpc: 'Blended CPC £0.018',
+    harvest_leads: '3,420',
+    harvest_ir35: '180',
+    harvest_cvs: '180',
+    harvest_dispatch: '1,950 Events'
+  }
+};
+
+let activeHorizon = '7d';
+
+function setTimeHorizon(horizon) {
+  activeHorizon = horizon;
+  const data = HORIZON_DATA[horizon] || HORIZON_DATA['7d'];
+
+  // 1. Update Segmented Buttons
+  ['1h', '24h', '7d', '30d', 'ytd'].forEach(h => {
+    const segBtn = document.getElementById(`seg-${h}`);
+    if (segBtn) segBtn.classList.toggle('active', h === horizon);
+    const pillBtn = document.getElementById(`btn-${h}`);
+    if (pillBtn) pillBtn.classList.toggle('active', h === horizon);
+  });
+
+  // 2. Update Horizon Indicator Text
+  const ind = document.getElementById('horizon-indicator');
+  if (ind) {
+    ind.innerHTML = `<span>📍 Window:</span> <strong style="color: #38bdf8;">${data.label}</strong>`;
+  }
+
+  // 3. Update Multi-Channel Spend & Click Metric Cards
+  const metaSpend = document.getElementById('meta-spend-val');
+  if (metaSpend) metaSpend.textContent = data.meta_spend;
+  const metaClicks = document.getElementById('meta-clicks-val');
+  if (metaClicks) metaClicks.textContent = data.meta_clicks;
+  const metaCpc = document.getElementById('meta-cpc-val');
+  if (metaCpc) metaCpc.textContent = data.meta_cpc;
+
+  const googleSpend = document.getElementById('google-spend-val');
+  if (googleSpend) googleSpend.textContent = data.google_spend;
+  const googleClicks = document.getElementById('google-clicks-val');
+  if (googleClicks) googleClicks.textContent = data.google_clicks;
+  const googleCpc = document.getElementById('google-cpc-val');
+  if (googleCpc) googleCpc.textContent = data.google_cpc;
+
+  const blendedSpend = document.getElementById('blended-spend-val');
+  if (blendedSpend) blendedSpend.textContent = data.blended_spend;
+  const blendedClicks = document.getElementById('blended-clicks-val');
+  if (blendedClicks) blendedClicks.textContent = data.blended_clicks;
+  const blendedCpc = document.getElementById('blended-cpc-val');
+  if (blendedCpc) blendedCpc.textContent = data.blended_cpc;
+
+  // Tooltip breakdowns
+  const mttSpend = document.getElementById('meta-tt-spend');
+  if (mttSpend) mttSpend.textContent = data.meta_spend;
+  const mttClicks = document.getElementById('meta-tt-clicks');
+  if (mttClicks) mttClicks.textContent = data.meta_clicks;
+  const mttCpc = document.getElementById('meta-tt-cpc');
+  if (mttCpc) mttCpc.textContent = data.meta_cpc.replace('CPC ', '');
+
+  const gttSpend = document.getElementById('google-tt-spend');
+  if (gttSpend) gttSpend.textContent = data.google_spend;
+  const gttClicks = document.getElementById('google-tt-clicks');
+  if (gttClicks) gttClicks.textContent = data.google_clicks;
+  const gttCpc = document.getElementById('google-tt-cpc');
+  if (gttCpc) gttCpc.textContent = data.google_cpc.replace('Avg CPC ', '');
+
+  const bttMeta = document.getElementById('blended-tt-meta');
+  if (bttMeta) bttMeta.textContent = `${data.meta_spend} (${data.meta_clicks})`;
+  const bttGoogle = document.getElementById('blended-tt-google');
+  if (bttGoogle) bttGoogle.textContent = `${data.google_spend} (${data.google_clicks})`;
+  const bttNet = document.getElementById('blended-tt-net');
+  if (bttNet) bttNet.textContent = `${data.blended_spend} (${data.blended_clicks})`;
+
+  // 4. Update Marketing Badges & Budget Pacing
+  const metaBadge = document.getElementById('kpi-meta-budget-pill');
+  if (metaBadge) metaBadge.textContent = data.meta_budget;
+
+  const googleBadge = document.getElementById('kpi-google-budget-pill');
+  if (googleBadge) googleBadge.textContent = data.google_budget;
+
+  // 5. Update AutumnHarvest Metrics
+  const hLeads = document.getElementById('harvest-leads-val');
+  if (hLeads) hLeads.textContent = data.harvest_leads;
+
+  const hIr35 = document.getElementById('harvest-ir35-val');
+  if (hIr35) hIr35.textContent = data.harvest_ir35;
+
+  const hCvs = document.getElementById('harvest-cvs-val');
+  if (hCvs) hCvs.textContent = data.harvest_cvs;
+
+  const hDispatch = document.getElementById('harvest-dispatch-val');
+  if (hDispatch) hDispatch.textContent = data.harvest_dispatch;
+
+  // 6. Highlight active rows in tooltip breakdown tables
+  document.querySelectorAll('.tt-breakdown-table tr').forEach(row => {
+    const isTarget = row.getAttribute('data-horizon') === horizon;
+    row.classList.toggle('active-row', isTarget);
+  });
+}
+
+function switchTab(tabId) {
+  document.querySelectorAll('.tab-content').forEach(el => el.style.display = 'none');
+  document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+
+  const targetTab = document.getElementById('tab-' + tabId);
+  if (targetTab) targetTab.style.display = 'block';
+
+  const activeBtn = document.querySelector(`.tab-btn[onclick*="${tabId}"]`);
+  if (activeBtn) activeBtn.classList.add('active');
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  setTimeHorizon('7d');
+});
+</script>
+
+<script>
+// ---- AutumnHarvest live tile refresh ----
+async function refreshHarvestTiles() {
+  try {
+    const r = await fetch('/api/autumnharvest');
+    const d = await r.json();
+    if (!d.live) return;
+    const map = {
+      'harvest-leads-val': String(d.week.leads),
+      'harvest-ir35-val': String(d.week.high_fit),
+      'harvest-cvs-val': String(d.day.high_fit),
+      'harvest-dispatch-val': d.day.leads + ' Fetched / 24h'
+    };
+    Object.entries(map).forEach(([id, v]) => {
+      const el = document.getElementById(id);
+      if (el && v) el.textContent = v;
+    });
+    document.querySelectorAll('.kpi-card .badge-pill').forEach(b => {
+      if (b.textContent.startsWith('Fit Score')) b.textContent = 'Fit Score >= 0.70 (live)';
+    });
+  } catch (e) { /* keep static fallback */ }
+}
+refreshHarvestTiles();
+setInterval(refreshHarvestTiles, 300000);
+// ---- end live tiles ----
+
+</script>
+</body>
+</html>

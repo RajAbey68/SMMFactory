@@ -60,9 +60,10 @@ When they tap the ad and land in WhatsApp, the chat bot immediately presents an 
 
 ### Ad Set 2: South Coast In-Country Travelers & Expats (High Quality Filter)
 * **Geo-Targeting:** Galle, Ahangama, Weligama, Mirissa, Matara
+* **Location Rule:** **"People traveling in this location"** *(MANDATORY: Filters out local non-tourist village residents)*
 * **Targeting:** International tourists currently traveling in Sri Lanka, Digital Nomads, High-End Surfers
 * **Language Filter:** English only
-* **Device Filter:** Apple iOS (iPhone) only
+* **Device Filter:** Apple iOS (iPhone) / Flagship Android only
 * **Price Anchor Overlay (On Creative):** *"From $45/room or $180 full villa · 300 Mbps Wi-Fi & Pool"*
 * **Primary Text:**  
   Upgrade your south coast stay. Skip crowded hostels and noisy guesthouses. Snag private ensuite rooms from $45/night or the full 7-bedroom lakeside villa from $180/night on live flash reverse auction.
