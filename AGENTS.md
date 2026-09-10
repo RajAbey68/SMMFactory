@@ -37,3 +37,11 @@ To prevent the "one-chat trap" and context drift, SMMFactory organizes agents in
 | **QA Test Architect** | `Truth Test Engine` (`tests/truth-tests.mjs`, `scripts/quality-gate.sh`) | Deterministic unit, schema, and integration truth testing | **Zero Tolerance:** 100% test pass rate required. |
 | **Red Team Auditor** | `Security Scrubber` (`tools/security-scrubber.mjs`) | Prompt injection defense, secret redaction, tamper detection | Zero high-entropy secret leakage (`sk-`, `EAA`). |
 | **Release Orchestrator** | `OpenClaw & Review Engine` (`review-engine/`, `deploy-campaign.mjs`) | Four-Eyes approval gate, multi-platform dispatch | **Axiom 1:** Cryptographic stakeholder sign-off required. |
+
+## 🛠️ Aider
+
+- **Installed:** `/opt/homebrew/bin/aider` (`0.86.2`)
+- **Config:** `~/.aider.conf.yml`
+- **Per-repo config:** not required; global config applies to all clones
+- **Usage:** run from repo root; non-interactive mode uses `--yes --no-auto-commits`
+- **Docs:** https://aider.chat/docs/usage/watch.html for IDE/editor workflow

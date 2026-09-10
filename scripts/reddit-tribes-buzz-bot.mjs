@@ -7,7 +7,8 @@
  * Fast Model Policy: google/gemini-2.5-flash (<1.5s sub-second responses)
  */
 
-import { WebSocket } from 'ws';
+// Native WebSocket in Node 26
+const WebSocketClient = globalThis.WebSocket;
 
 const BUZZ_RELAY = process.env.BUZZ_RELAY_URL || 'wss://theahg.communities.buzz.xyz';
 const CHANNEL = '#marketing-kolake';
