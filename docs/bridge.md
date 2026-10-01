@@ -44,3 +44,15 @@ Option B (Mac tunnel — one command after install):
 - Fire first digest to mrg5ah@mail.instinct.com
 - Rotation of the 4 secrets above
 - Naming: WinsTin (capital T after lowercase s — brand compliance, user's directive 23:18)
+
+## Relay Handshake / Auth Spec (verified reachable — NO secret values)
+- Endpoint: wss://theahg.communities.buzz.xyz (verified from user's side: Cloudflare 403 = websocket endpoint active; not a dead service)
+- Transport: WebSocket (wss); bare curl/HTTP handshake expected to fail — that's correct behavior per user's probe.
+- Auth mechanism: BUZZ_RELAY_URL is configured in ecosystem.kolake-community-listener.json; no secret value is embedded in this doc (redacted to prevent recurrence of PR #5 leak).
+- Handshake flow (spec, not implemented secret):
+  1. Client opens WSS to wss://theahg.communities.buzz.xyz
+  2. Server responds with 403 if handshake is non-WebSocket (expected; confirms endpoint is live)
+  3. Proper WSS handshake should complete; auth token (separate, rotated, stored in environment — NOT this doc) presented via handshake headers or subprotocol.
+- Status: live behind Cloudflare; bus can retire tonight if handshake/auth is verified end-to-end (WinStin's call).
+- SECURITY NOTE: After PR #5 leak of SMM_FOUR_EYES_SECRET, this doc never carries secret values again. Rotation of all 4 secrets is MANDATORY.
+
