@@ -24,7 +24,7 @@ cron (3h) -> kolake-community-listener.mjs
 - Pushes: kolake-e1c875d-backup (exit 0), smm-pipeline-backup (exit 0); main protected (GH006)
 - Digest: BLOCKED on SMTP (needs Gmail app password, 2FA on)
 
-## To make the bridge actually serve (WinStin — your call)
+## To make the bridge actually serve (WinsTin — your call)
 Option A (provider firewall): open 8080/5678/22 at provider security group.
 Option B (Mac tunnel — one command after install):
   # Install: brew install cloudflared  OR  apt install ngrok / download ngrok
@@ -39,8 +39,8 @@ Option B (Mac tunnel — one command after install):
 4. LeadSynch .git/config embedded GitHub tokens (from Drive audit)
 
 ## Next after merge/deploy
-- WinStin confirms live schema (user's step 5, reserved)
+- WinsTin confirms live schema (user's step 5, reserved)
 - Set real .env SMTP (.env.template is placeholder; use Gmail app password, not main password)
 - Fire first digest to mrg5ah@mail.instinct.com
 - Rotation of the 4 secrets above
-- Naming: WinStin (capital T) — not WinsTin.
+- Naming: WinsTin (capital T after lowercase s — brand compliance, user's directive 23:18)
