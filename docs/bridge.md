@@ -35,7 +35,7 @@ Option B (Mac tunnel — one command after install):
 ## Secret rotation list (pending — do not fabricate)
 1. TWILIO_AUTH_TOKEN (.env line 69)
 2. TWILIO_API_KEY_SECRET (.env line 72)
-3. SMM_FOUR_EYES_SECRET (.env line 77, key=smm_vault_prod_secure_four_eyes_key_2026)
+3. SMM_FOUR_EYES_SECRET (.env line 77 — value REDACTED; rotation MANDATORY — exposed in clear text in PR #5)
 4. LeadSynch .git/config embedded GitHub tokens (from Drive audit)
 
 ## Next after merge/deploy
