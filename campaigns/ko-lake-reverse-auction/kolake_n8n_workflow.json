@@ -1,0 +1,122 @@
+{
+  "id": "kolake-dispatcher",
+  "name": "KoLake Reverse Auction & WhatsApp CTWA Gateway",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "kolake-marketing",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [0, 0],
+      "webhookId": "kolake-marketing-webhook",
+      "id": "webhook-node",
+      "name": "Webhook"
+    },
+    {
+      "parameters": {
+        "jsCode": "const raw = $input.first().json;\nconst payload = raw.body || raw;\n\n// Structured CTWA Welcome Flow Options\nconst ctwaWelcomePayload = {\n  welcome_message: \"Welcome to Ko Lake Villa! 🌊 Thank you for inquiring via our Reverse Auction. Please choose an option below:\",\n  quick_options: [\n    { id: 1, title: \"Entire Villa Buyout\", desc: \"7 En-Suite Bedrooms (up to 24 guests, from $250/night)\" },\n    { id: 2, title: \"Last-Minute Room\", desc: \"AC En-Suite Bedroom by the lake (from $45/night)\" },\n    { id: 3, title: \"Direct Reverse Auction Bid\", desc: \"Name your travel dates and proposed rate\" }\n  ],\n  canonical_website: \"https://www.kolakevilla.com\",\n  prefilled_deep_link: \"https://wa.me/94711730345?text=\" + encodeURIComponent(\"Hi Ko Lake Villa! I saw your reverse auction offer. I'd like to check rates for [Dates] for [X] guests.\"),\n  official_cta: \"For more information about our unique accommodations and to explore the amenities of Ko Lake Villa, please visit our website at www.kolakevilla.com. Book your stay today and experience the tranquility of lakeside living!\"\n};\n\nconst startingBid = payload.pricing?.starting_bid || 420;\n\nreturn [{\n  json: {\n    status: 'RECEIVED_AND_PROCESSED',\n    event: payload.event || 'DEPLOY_REVERSE_AUCTION',\n    campaign: payload.campaign_slug || 'ko-lake-reverse-auction',\n    whatsapp_recipient: '+94 71 173 0345',\n    pricing: {\n      starting_bid_usd: startingBid,\n      whole_villa_floor_usd: 250,\n      same_day_emergency_floor_usd: 180,\n      single_room_floor_usd: 45\n    },\n    ctwa_conversion_flow: ctwaWelcomePayload,\n    meta_status: payload.meta_ads?.status || 'ACTIVE',\n    meta_campaign_id: '120248229307270630',\n    dispatched_at: new Date().toISOString()\n  }\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [250, 0],
+      "id": "code-node",
+      "name": "Process Dispatch & CTWA Flow"
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ JSON.stringify($json) }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [500, -100],
+      "id": "respond-node",
+      "name": "Instant HTTP 200 Response"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://172.17.0.1:7070/api/buzz/send",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "channel",
+              "value": "#KoLake Auction"
+            },
+            {
+              "name": "targetAgent",
+              "value": "grok-buzz-agent"
+            },
+            {
+              "name": "action",
+              "value": "AUCTION_BID_SUBMITTED"
+            },
+            {
+              "name": "message",
+              "value": "={{ 'Auction inquiry received: ' + $json.pricing.starting_bid_usd + ' USD' }}"
+            },
+            {
+              "name": "params",
+              "value": "={{ { bid_usd: $json.pricing.starting_bid_usd, campaign: $json.campaign } }}"
+            }
+          ]
+        },
+        "options": {},
+        "continueOnFail": true
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [500, 100],
+      "id": "buzz-dispatch-node",
+      "name": "Async Buzz Dispatch"
+    }
+  ],
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Process Dispatch & CTWA Flow",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Process Dispatch & CTWA Flow": {
+      "main": [
+        [
+          {
+            "node": "Instant HTTP 200 Response",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Async Buzz Dispatch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  }
+}

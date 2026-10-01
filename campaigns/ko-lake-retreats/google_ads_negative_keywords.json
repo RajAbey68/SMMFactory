@@ -1,0 +1,148 @@
+{
+  "account_id": "534-902-7754",
+  "timestamp": "2026-09-04T05:45:17.276Z",
+  "total_candidates": 23,
+  "estimated_spend_waste_monthly_usd": 54.8,
+  "recommended_action": "SYNC_TO_GOOGLE_ADS_NEGATIVE_LIST",
+  "negative_keywords": [
+    {
+      "query": "cheap hostel ahangama",
+      "reason": "Irrelevant intent keyword: \"cheap\"",
+      "match_type": "BROAD",
+      "spend_saved_usd": 5.6
+    },
+    {
+      "query": "cheap backpackers galle",
+      "reason": "Irrelevant intent keyword: \"cheap\"",
+      "match_type": "BROAD",
+      "spend_saved_usd": 6.2
+    },
+    {
+      "query": "free camping koggala lake",
+      "reason": "Irrelevant intent keyword: \"free\"",
+      "match_type": "BROAD",
+      "spend_saved_usd": 2.4
+    },
+    {
+      "query": "hostel dorm rooms sri lanka",
+      "reason": "Irrelevant intent keyword: \"hostel\"",
+      "match_type": "BROAD",
+      "spend_saved_usd": 4.9
+    },
+    {
+      "query": "bus schedule colombo to galle",
+      "reason": "High spend bleed ($3.8) with 0 conversions",
+      "match_type": "EXACT",
+      "spend_saved_usd": 3.8
+    },
+    {
+      "query": "ahangama weather today map",
+      "reason": "Irrelevant intent keyword: \"map\"",
+      "match_type": "BROAD",
+      "spend_saved_usd": 4.2
+    },
+    {
+      "query": "cheap room rent monthly galle",
+      "reason": "Irrelevant intent keyword: \"cheap\"",
+      "match_type": "BROAD",
+      "spend_saved_usd": 3.7
+    },
+    {
+      "query": "villa jobs vacancy waiter ahangama",
+      "reason": "Irrelevant intent keyword: \"jobs\"",
+      "match_type": "BROAD",
+      "spend_saved_usd": 2.8
+    },
+    {
+      "query": "booking.com login owner",
+      "reason": "Irrelevant intent keyword: \"owner\"",
+      "match_type": "BROAD",
+      "spend_saved_usd": 1.9
+    },
+    {
+      "query": "koggala lake boat safari cheap rate",
+      "reason": "Irrelevant intent keyword: \"cheap\"",
+      "match_type": "BROAD",
+      "spend_saved_usd": 4.3
+    },
+    {
+      "query": "cheap",
+      "reason": "Mandatory floor protection ($250 villa / $45 room) against low-intent token \"cheap\"",
+      "match_type": "BROAD",
+      "spend_saved_usd": 0
+    },
+    {
+      "query": "hostel",
+      "reason": "Mandatory floor protection ($250 villa / $45 room) against low-intent token \"hostel\"",
+      "match_type": "BROAD",
+      "spend_saved_usd": 0
+    },
+    {
+      "query": "dorm",
+      "reason": "Mandatory floor protection ($250 villa / $45 room) against low-intent token \"dorm\"",
+      "match_type": "BROAD",
+      "spend_saved_usd": 0
+    },
+    {
+      "query": "backpackers",
+      "reason": "Mandatory floor protection ($250 villa / $45 room) against low-intent token \"backpackers\"",
+      "match_type": "BROAD",
+      "spend_saved_usd": 0
+    },
+    {
+      "query": "free",
+      "reason": "Mandatory floor protection ($250 villa / $45 room) against low-intent token \"free\"",
+      "match_type": "BROAD",
+      "spend_saved_usd": 0
+    },
+    {
+      "query": "vacancy",
+      "reason": "Mandatory floor protection ($250 villa / $45 room) against low-intent token \"vacancy\"",
+      "match_type": "BROAD",
+      "spend_saved_usd": 0
+    },
+    {
+      "query": "jobs",
+      "reason": "Mandatory floor protection ($250 villa / $45 room) against low-intent token \"jobs\"",
+      "match_type": "BROAD",
+      "spend_saved_usd": 0
+    },
+    {
+      "query": "weather",
+      "reason": "Mandatory floor protection ($250 villa / $45 room) against low-intent token \"weather\"",
+      "match_type": "BROAD",
+      "spend_saved_usd": 0
+    },
+    {
+      "query": "bus",
+      "reason": "Mandatory floor protection ($250 villa / $45 room) against low-intent token \"bus\"",
+      "match_type": "BROAD",
+      "spend_saved_usd": 0
+    },
+    {
+      "query": "train",
+      "reason": "Mandatory floor protection ($250 villa / $45 room) against low-intent token \"train\"",
+      "match_type": "BROAD",
+      "spend_saved_usd": 0
+    },
+    {
+      "query": "directions",
+      "reason": "Mandatory floor protection ($250 villa / $45 room) against low-intent token \"directions\"",
+      "match_type": "BROAD",
+      "spend_saved_usd": 0
+    },
+    {
+      "query": "salary",
+      "reason": "Mandatory floor protection ($250 villa / $45 room) against low-intent token \"salary\"",
+      "match_type": "BROAD",
+      "spend_saved_usd": 0
+    },
+    {
+      "query": "surf camp budget",
+      "reason": "Mandatory floor protection ($250 villa / $45 room) against low-intent token \"surf camp budget\"",
+      "match_type": "BROAD",
+      "spend_saved_usd": 0
+    }
+  ],
+  "status": "DEPLOYED_TO_CAMPAIGN_SPEC"
+}

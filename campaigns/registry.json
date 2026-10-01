@@ -2,7 +2,6 @@
   "$schema": "https://smmfactory.dev/schemas/campaign-registry.json",
   "version": "2.0.0",
   "description": "Master index of all SMMFactory campaigns. Each campaign follows a standard lifecycle.",
-
   "lifecycle": {
     "description": "Best-practice campaign phases from ideation to completion. Every campaign must progress through these in order.",
     "phases": [
@@ -10,64 +9,93 @@
         "id": "ideation",
         "name": "💡 Ideation",
         "description": "Define the brief, concept, target audience, and success criteria. Answer: What are we doing and why?",
-        "deliverables": ["campaign_brief.md"],
+        "deliverables": [
+          "campaign_brief.md"
+        ],
         "gate": "Brief approved by stakeholder"
       },
       {
         "id": "research",
         "name": "🔍 Research",
         "description": "Market intelligence, competitor analysis, audience insights, keyword/hook discovery. SEMrush adds SEO + PPC keyword and competitor data.",
-        "deliverables": ["market_dna.json", "competitor_intel/", "seo_intel.json"],
+        "deliverables": [
+          "market_dna.json",
+          "competitor_intel/",
+          "seo_intel.json"
+        ],
         "gate": "Research reviewed, insights actionable",
-        "agents": ["spyder", "semrush"]
+        "agents": [
+          "spyder",
+          "semrush"
+        ]
       },
       {
         "id": "planning",
         "name": "📋 Planning",
         "description": "Strategy document, budget allocation, channel mix, timeline, and action calendar.",
-        "deliverables": ["Campaign_Summary.md", "action_calendar.md"],
+        "deliverables": [
+          "Campaign_Summary.md",
+          "action_calendar.md"
+        ],
         "gate": "Strategy and budget approved"
       },
       {
         "id": "creative",
         "name": "🎨 Creative",
         "description": "Asset production — ad copy, visuals, landing pages, video, content calendar.",
-        "deliverables": ["creative/*_dna.json", "landing-page/", "ad_sets/"],
+        "deliverables": [
+          "creative/*_dna.json",
+          "landing-page/",
+          "ad_sets/"
+        ],
         "gate": "All assets produced and match brand DNA",
-        "agents": ["pomelli", "stitch"]
+        "agents": [
+          "pomelli",
+          "stitch"
+        ]
       },
       {
         "id": "review",
         "name": "✅ Review",
         "description": "Four-eyes gate — human + automated verification before anything goes live.",
-        "deliverables": ["four_eyes_checklist.md"],
+        "deliverables": [
+          "four_eyes_checklist.md"
+        ],
         "gate": "All checklist items passed, stakeholder sign-off"
       },
       {
         "id": "launch",
         "name": "🚀 Launch",
         "description": "Activate channels — deploy ads, publish content, send broadcasts, go live.",
-        "deliverables": ["launch_log.md"],
+        "deliverables": [
+          "launch_log.md"
+        ],
         "gate": "All channels live, tracking confirmed",
-        "agents": ["openclaw"]
+        "agents": [
+          "openclaw"
+        ]
       },
       {
         "id": "optimize",
         "name": "📈 Optimize",
         "description": "Monitor performance, A/B test, reallocate budget, pause underperformers, double down on winners.",
-        "deliverables": ["performance_log.md"],
+        "deliverables": [
+          "performance_log.md"
+        ],
         "gate": "Campaign hitting KPI targets or adjusted"
       },
       {
         "id": "close",
         "name": "🏁 Close",
         "description": "Wind down spend, compile results, write retrospective, extract learnings for next campaign.",
-        "deliverables": ["retrospective.md", "final_report.md"],
+        "deliverables": [
+          "retrospective.md",
+          "final_report.md"
+        ],
         "gate": "Retrospective completed, learnings documented"
       }
     ]
   },
-
   "campaigns": [
     {
       "slug": "ko-lake-retreats",
@@ -86,9 +114,18 @@
         "optimize": "🔴 in progress — monitoring initial traction",
         "close": "⬜ not started — target April 17"
       },
-      "window": { "start": "2026-04-18", "end": "2026-06-30" },
+      "window": {
+        "start": "2026-04-18",
+        "end": "2026-06-30"
+      },
       "property": "Ko Lake Villa",
-      "agents": ["spyder", "semrush", "pomelli", "stitch", "openclaw"],
+      "agents": [
+        "spyder",
+        "semrush",
+        "pomelli",
+        "stitch",
+        "openclaw"
+      ],
       "path": "./campaigns/ko-lake-retreats/"
     },
     {
@@ -108,7 +145,10 @@
         "optimize": "🔴 in progress — tracking connections and engagement",
         "close": "⬜ not started — target April 7"
       },
-      "window": { "start": "2026-03-25", "end": "2026-04-07" },
+      "window": {
+        "start": "2026-03-25",
+        "end": "2026-04-07"
+      },
       "property": null,
       "agents": [],
       "path": "./campaigns/ai-career/"
@@ -118,24 +158,187 @@
       "ref": "SKYHV",
       "name": "Sky High Villas — Heli-Tours Push",
       "type": "paid-media",
-      "status": "active",
-      "current_phase": "research",
+      "status": "live",
+      "current_phase": "optimize",
       "window": {
         "start": "2026-05-01",
         "end": "2026-06-15"
       },
       "path": "./campaigns/sky-high-villas/",
-      "progress": 15,
-      "owner": "Spyder",
-      "tags": ["luxury", "heli-tours", "adventure"]
+      "progress": 85,
+      "owner": "OpenClaw",
+      "phase_progress": {
+        "ideation": "✅ complete",
+        "research": "✅ complete — market_dna.json + SHA-256 digest lock",
+        "planning": "✅ complete — Campaign_Summary.md",
+        "creative": "✅ complete — 4 ad variants + responsive landing page",
+        "review": "✅ complete — Four-Eyes cryptographic signature verified",
+        "launch": "✅ complete — deployment_log.json dispatched to Meta/Google/OpenAI",
+        "optimize": "🔴 active — daily budget optimization & BuzzBar surveillance",
+        "close": "⬜ not started — target June 15"
+      },
+      "tags": [
+        "luxury",
+        "heli-tours",
+        "adventure"
+      ]
+    },
+    {
+      "slug": "ko-lake-reverse-auction",
+      "ref": "KLAuc",
+      "name": "Ko Lake Villa — Reverse Auction",
+      "type": "paid_media",
+      "status": "live",
+      "current_phase": "optimize",
+      "window": {
+        "start": "2026-05-01",
+        "end": "2026-12-31"
+      },
+      "property": "Ko Lake Villa",
+      "meta_config": {
+        "name": "KoLake Villa Reverse Auction Flash Engine",
+        "slug": "ko-lake-reverse-auction",
+        "description": "Urgency-driven reverse auction direct booking engine with Four-Eyes automated circuit breakers and dynamic price drops.",
+        "status": "live",
+        "phase": "launch",
+        "owner": "OpenClaw",
+        "start_date": "2026-08-28",
+        "channels": [
+          "meta",
+          "google",
+          "whatsapp"
+        ],
+        "meta_campaign_id": "120248229307270630",
+        "meta_adset_ids": [
+          "120248229309360630",
+          "120248229310270630",
+          "120248229311040630"
+        ],
+        "ad_account_id": "act_10151305992816228",
+        "kpis": {
+          "cpl_target_usd": 12,
+          "standard_buyout_floor_usd": 250,
+          "same_day_emergency_floor_usd": 180,
+          "room_floor_usd": 45,
+          "min_roas": 4.5
+        }
+      },
+      "agents": [
+        "pomelli",
+        "stitch",
+        "openclaw"
+      ],
+      "path": "./campaigns/ko-lake-reverse-auction/",
+      "phase_progress": {
+        "launch": "✅ complete",
+        "optimize": "🔴 active"
+      },
+      "metrics": {
+        "status": "awaiting_live_telemetry",
+        "note": "Metrics await Meta system-user + Google Ads developer tokens — no numbers are invented on this board."
+      }
+    },
+    {
+      "slug": "asimov-ai",
+      "ref": "ASIMV",
+      "name": "Asimov AI — Autonomous Agent Engineering",
+      "type": "enterprise_ai",
+      "status": "active",
+      "current_phase": "ideation",
+      "window": {
+        "start": "2026-04-01",
+        "end": "2026-12-31"
+      },
+      "property": null,
+      "organization": "Asimov AI Research (asimov-ai.org)",
+      "agents": [
+        "spyder",
+        "pomelli",
+        "openclaw"
+      ],
+      "path": "./campaigns/asimov-ai/",
+      "phase_progress": {
+        "ideation": "✅ complete — mission brief and multi-agent positioning defined",
+        "research": "🔴 in progress — enterprise AI keyword & competitor harvesting",
+        "planning": "✅ complete — Campaign_Summary.md + action_calendar.md",
+        "creative": "⬜ not started",
+        "review": "⬜ not started",
+        "launch": "⬜ not started",
+        "optimize": "⬜ not started",
+        "close": "⬜ not started"
+      }
+    },
+    {
+      "slug": "ai-integ",
+      "ref": "AIINT",
+      "name": "AI Integration — Enterprise Systems Modernization",
+      "type": "enterprise_ai",
+      "status": "active",
+      "current_phase": "ideation",
+      "window": {
+        "start": "2026-04-01",
+        "end": "2026-12-31"
+      },
+      "property": null,
+      "organization": "AI Integration Solutions (ai-integ.com)",
+      "agents": [
+        "semrush",
+        "pomelli",
+        "openclaw"
+      ],
+      "path": "./campaigns/ai-integ/",
+      "phase_progress": {
+        "ideation": "✅ complete — enterprise integration service brief defined",
+        "research": "🔴 in progress — legacy system migration intent discovery",
+        "planning": "✅ complete — Campaign_Summary.md + action_calendar.md",
+        "creative": "⬜ not started",
+        "review": "⬜ not started",
+        "launch": "⬜ not started",
+        "optimize": "⬜ not started",
+        "close": "⬜ not started"
+      }
+    },
+    {
+      "slug": "ko-lake-reddit-tribes",
+      "ref": "KLRdt",
+      "name": "Ko Lake Villa — Reddit & Community Tribes Engine",
+      "type": "community_paid_and_organic",
+      "status": "active",
+      "current_phase": "planning",
+      "window": {
+        "start": "2026-09-06",
+        "end": "2027-04-30"
+      },
+      "property": "Ko Lake Villa",
+      "budget": {
+        "flight_1_pre_christmas_usd": 1350,
+        "flight_2_peak_spring_usd": 2000,
+        "daily_rate_usd": 15.00
+      },
+      "agents": [
+        "grokbot",
+        "buzzbot",
+        "openclaw"
+      ],
+      "path": "./campaigns/ko-lake-reddit-tribes/",
+      "phase_progress": {
+        "ideation": "✅ complete",
+        "research": "✅ complete — TravelSphere Reddit travel booking study data ingested",
+        "planning": "✅ complete — Campaign_Summary.md + paid budget allocation",
+        "creative": "🟡 in progress — Reddit ad variant copy & community responses",
+        "review": "⬜ pending",
+        "launch": "⬜ pending",
+        "optimize": "⬜ pending",
+        "close": "⬜ pending"
+      }
     }
   ],
-
   "conventions": {
     "addressing": "Use the campaign slug or ref code when giving instructions. Example: 'for KLEst: update the ad copy'",
     "structure": "Each campaign folder contains: Campaign_Summary.md, action_calendar.md, creative/, research/ (if applicable)",
     "ambiguity": "If no slug is specified and context is unclear, the agent MUST ask which campaign before proceeding.",
     "new_campaign": "Every new campaign starts at 'ideation' phase. Create a campaign_brief.md using the template from strategy_foundations.md.",
-    "strategy_foundations": "./research/strategy_foundations.md — Hormozi (Value Equation, Grand Slam Offer, Core Four) + Priestley (5 Ps, Oversubscribed, 7-11-4, Scorecard). Every campaign MUST be evaluated against these frameworks."
+    "strategy_foundations": "./research/strategy_foundations.md — Hormozi (Value Equation, Grand Slam Offer, Core Four) + Priestley (5 Ps, Oversubscribed, 7-11-4, Scorecard). Every campaign MUST be evaluated against these frameworks.",
+    "qualification_rules": "All paid media campaigns MUST enforce: 1) Plain English copy standard for consumer ads ('Rent Entire 7-Bedroom Villa'); accepted exceptions for retreats, surfing, yoga, wellness, corporate offsites, and DMCs ('Exclusive Buyout', 'Yoga Deck', 'Team Workation', 'DMC Incentive'), 2) Hardware tier gate (Apple iOS & Flagship Android), 3) Language filter (Exclude Sinhala/Tamil for in-country ads; allow English, Spanish, Portuguese, Arabic, Hebrew, French, German, Russian, Italian, Mandarin, Cantonese, Malay), 4) Meta Higher-Intent Instant Form / Bot Gate requiring booking date and party size selection, 5) Exclude Meta Audience Network."
   }
 }

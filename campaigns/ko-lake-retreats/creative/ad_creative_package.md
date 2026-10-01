@@ -73,7 +73,7 @@ Message us on WhatsApp →
 
 **Primary Text:**
 ```
-Why families choose Ko Lake Villa over a hotel:
+Why families choose Ko Lake Villa over crowded accommodations:
 
 ✅ 7 private ensuite rooms — no strangers, just your people
 ✅ 60ft infinity pool overlooking Koggala Lake
@@ -87,7 +87,7 @@ Dates filling up for Easter & Avurudu.
 WhatsApp us for the direct-booking rate →
 ```
 
-**Headline:** More Than a Hotel — A Private Villa Experience
+**Headline:** A Sanctuary of Serenity — A Private Villa Experience
 **Description:** 24 guests, private pool, full staff. Direct rate available.
 **CTA Button:** Send WhatsApp Message
 
@@ -106,7 +106,7 @@ WhatsApp us for the direct-booking rate →
 ```
 Coming home for Easter or Avurudu?
 
-Don't book 5 hotel rooms. Book ONE villa.
+Don't book 5 separate rooms. Book ONE villa.
 
 Ko Lake Villa sleeps 24 across 7 private bedrooms.
 Infinity pool. Dedicated chef. Staff included.
@@ -129,7 +129,7 @@ WhatsApp us — we reply in minutes →
 ```
 Planning a Sri Lanka trip for the family?
 
-Stop coordinating 6 hotel bookings.
+Stop coordinating 6 separate bookings.
 
 One villa. One WhatsApp. Done.
 
@@ -208,7 +208,7 @@ Lock in your dates before they're gone →
 |---|---|
 | 1 | Private 7-Bedroom Villa on Koggala Lake. Pool, Chef, Staff — Book Direct Now |
 | 2 | Easter & Avurudu at Ko Lake Villa. Space for 24 Guests. Free Airport Pickup |
-| 3 | Stop Booking 5 Hotel Rooms. One Luxury Villa for Your Whole Family |
+| 3 | Stop Booking 5 Separate Rooms. One Luxury Villa for Your Whole Family |
 | 4 | 60ft Infinity Pool. Koggala Lake. Dedicated Chef. Your Private Easter Escape |
 | 5 | Family Villa in Ahangama — 7 Ensuite Rooms, Chef, Pool. WhatsApp for Rate |
 
@@ -220,7 +220,7 @@ Lock in your dates before they're gone →
 | 2 | 7 ensuite AC bedrooms on Koggala Lake. Infinity pool, private jetty, beach access. Book today. | 90 |
 | 3 | Private villa for families & groups. Dedicated chef, BBQ, boat safari. WhatsApp for best rate. | 90 |
 | 4 | Avurudu by the lake. Private villa, full staff, chef-prepared meals. Direct bookings only. | 86 |
-| 5 | Skip the hotel. One villa, one booking, your whole family. Free airport pickup. | 78 |
+| 5 | Skip crowded accommodations. One villa, one booking, your whole family. Free airport pickup. | 78 |
 
 ### Keywords (submit as broad match — let PMax handle matching)
 

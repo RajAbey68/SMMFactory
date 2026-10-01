@@ -1,0 +1,29 @@
+{
+  "campaign": "sky-high-villas",
+  "timestamp": "2026-09-03T01:45:25.578Z",
+  "dry_run": true,
+  "manifest_digest": "dc7ab970c968298ad697fc3f7e84d32bf695bb3ff226594e676ff379e81e80d6",
+  "channels_deployed": {
+    "meta": {
+      "status": "DRY_RUN_VALIDATED",
+      "ads_count": 4,
+      "timestamp": "2026-09-03T01:45:25.579Z"
+    },
+    "google": {
+      "status": "DRY_RUN_VALIDATED",
+      "ads_count": 4,
+      "timestamp": "2026-09-03T01:45:25.579Z"
+    },
+    "chatgpt": {
+      "status": "DRY_RUN_VALIDATED",
+      "ads_count": 4,
+      "timestamp": "2026-09-03T01:45:25.579Z"
+    }
+  },
+  "buzz_event": {
+    "channel": "#marketing-kolake",
+    "event_type": "CAMPAIGN_DEPLOYED",
+    "campaign": "sky-high-villas",
+    "status": "SIMULATED"
+  }
+}
