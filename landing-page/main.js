@@ -100,22 +100,51 @@
       data.utm_medium = params.get('utm_medium') || '';
       data.utm_campaign = params.get('utm_campaign') || '';
 
+      // Fire Meta Pixel conversion event
+      if (typeof fbq === 'function') {
+        fbq('track', 'Lead', {
+          content_name: 'Villa Inquiry',
+          value: 180.00,
+          currency: 'USD'
+        });
+      }
+
       // Visual feedback
-      btn.textContent = '✓ Inquiry Sent!';
+      btn.textContent = '✓ Opening WhatsApp...';
       btn.style.background = '#2E7D32';
       btn.style.color = '#fff';
       btn.disabled = true;
 
-      // Log for now (replace with actual endpoint later)
-      console.log('[Ko Lake Villa] Booking inquiry:', data);
+      // Construct pre-filled WhatsApp message
+      const textMessage = `Hi KoLake Team! I want to book unbooked dates. Details:\n` +
+                          `• Name: ${data.name}\n` +
+                          `• Check-in: ${data.checkin}\n` +
+                          `• Check-out: ${data.checkout}\n` +
+                          `• Guests: ${data.guests}\n` +
+                          `• Booking: ${data.type}\n` +
+                          `• Special Request: ${data.message || 'None'}`;
+      
+      const waUrl = `https://wa.me/94711730345?text=${encodeURIComponent(textMessage)}`;
 
+      // Redirect to WhatsApp after brief delay to allow tracking to execute
       setTimeout(() => {
+        window.location.href = waUrl;
         btn.textContent = origText;
         btn.style.background = '';
         btn.style.color = '';
         btn.disabled = false;
-      }, 4000);
+      }, 1000);
     });
+  }
+
+  /* ── UTM DYNAMIC COPY MATCH ─────────────────────────── */
+  const heroBadge = document.querySelector('.hero-badge');
+  if (heroBadge) {
+    const params = new URLSearchParams(window.location.search);
+    const source = params.get('utm_source');
+    if (source === 'google' || source === 'meta') {
+      heroBadge.textContent = '⚡ Direct WhatsApp Deal Active: Rates From $180/Night';
+    }
   }
 
   /* ── STATS: Animate on hero visible ─────────────────── */

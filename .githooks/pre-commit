@@ -24,5 +24,12 @@ for dir in research creative landing-page campaigns; do
 done
 echo "   ✅ Structure OK"
 
+echo "🛡️ Scanning staged files for high-entropy secrets and API tokens..."
+if git diff --cached --name-only | xargs grep -E "(sk-[a-zA-Z0-9]{20,}|EAAB[a-zA-Z0-9]{20,}|98de1ee25d627e8dfe40a1f26384009f40a5)" > /dev/null 2>&1; then
+  echo "❌ High-entropy secret or committed token detected in staged files — commit blocked"
+  exit 1
+fi
+echo "   ✅ Secret scan passed"
+
 echo ""
 echo "✅ Pre-commit passed"

@@ -1,0 +1,111 @@
+{
+  "event": "DEPLOY_REVERSE_AUCTION",
+  "campaign_ref": "KLAuc",
+  "campaign_slug": "ko-lake-reverse-auction",
+  "channel_bus": "#kolake-marketing",
+  "property": {
+    "name": "KoLake Villa",
+    "location": "Koggala / Ahangama, Sri Lanka",
+    "whatsapp_recipient": "94711730345",
+    "currency": "USD"
+  },
+  "pricing": {
+    "rack_rate": 850,
+    "starting_bid": 420,
+    "floor_price": 250,
+    "hourly_drop_amount": 30,
+    "drop_interval_hours": 2
+  },
+  "meta_ads": {
+    "status": "ACTIVE",
+    "objective": "OUTCOME_LEADS",
+    "lead_gate_type": "INSTANT_FORM_HIGHER_INTENT",
+    "destination": "WHATSAPP",
+    "whatsapp_phone": "+94711730345",
+    "daily_budget_usd": 25.00,
+    "qualification_gate": {
+      "mandatory_fields": ["full_name", "phone_number", "email"],
+      "mandatory_question": "When are you planning to travel?",
+      "options": [
+        "Tonight / Next 24 Hours ($250 Emergency Flash)",
+        "This Coming Weekend ($420 Flash Rate)",
+        "Next Week / Future Dates"
+      ]
+    },
+    "ad_sets": [
+      {
+        "name": "KLAuc - Colombo Weekend Escapists",
+        "geo": { "cities": ["Colombo"], "radius_km": 25 },
+        "devices": ["iOS", "Flagship_Android"],
+        "primary_text": "Finished work in Colombo by 4 PM? Be poolside in Ahangama by 6:30 PM. Private 7-room luxury lakefront villa with 60ft pool and in-house cooks. Unbooked dates now on live reverse auction from $250/night — rates drop until booked.",
+        "headline": "📉 From $250/Night — Private Villa Flash Drop",
+        "cta": "GET_RATES_ON_WHATSAPP"
+      },
+      {
+        "name": "KLAuc - South Coast Nomads & Tourists",
+        "geo": { "cities": ["Galle", "Ahangama", "Weligama", "Mirissa"] },
+        "devices": ["iOS"],
+        "language": "en",
+        "primary_text": "Upgrade your south coast stay. Skip crowded hostels and noisy guesthouses. Snag private ensuite rooms from $45/night or the full 7-bedroom lakefront villa from $250/night on live flash reverse auction.",
+        "headline": "🌴 From $45/Room · Lakefront Luxury",
+        "cta": "GET_RATES_ON_WHATSAPP"
+      },
+      {
+        "name": "KLAuc - India High-Net-Worth Travelers",
+        "geo": { "cities": ["Bengaluru", "Mumbai", "Chennai", "Delhi NCR", "Kochi"] },
+        "devices": ["iOS"],
+        "language": "en",
+        "behaviors": ["Returned from traveling abroad"],
+        "primary_text": "Direct flights from Bangalore, Mumbai & Chennai put you poolside in Ahangama in hours. Private 7-room lakefront villa with 60ft infinity pool, full staff, and authentic Sri Lankan dining. Unbooked dates on live flash auction from $250/night.",
+        "headline": "🇱🇰 Private Lakefront Villa — From $250/Night",
+        "cta": "GET_RATES_ON_WHATSAPP"
+      }
+    ]
+  },
+  "google_ads": {
+    "status": "ACTIVE",
+    "campaign_type": "SEARCH_WITH_LEAD_FORM",
+    "daily_budget_usd": 10.00,
+    "qualification_gate": {
+      "mandatory_fields": ["full_name", "phone_number", "email"],
+      "mandatory_question": "When are you traveling?",
+      "options": [
+        "Tonight / Next 24 Hours (Emergency Rate $250)",
+        "This Coming Weekend",
+        "Within the next 7 days",
+        "Future Dates"
+      ]
+    },
+    "keywords": [
+      "[kolake villa]",
+      "[kolake villa ahangama]",
+      "[ko lake villa]",
+      "[ko lake villa ahangama]",
+      "[villa ahangama]",
+      "[villa kabalana]",
+      "[surf stay ahangama]",
+      "[kabalana surf stay]",
+      "[villa galle]"
+    ],
+    "rsa": {
+      "headlines": [
+        "From $250/Night · KoLake Flash",
+        "5-Star Superhost Private Villa",
+        "Private 7-Bed Lakefront Villa",
+        "60ft Infinity Pool & Staff",
+        "Live Reverse Auction Deal",
+        "Lock Dates in 60s on WhatsApp",
+        "350 Yards to Ahangama Surf",
+        "Direct Booking Price Guarantee"
+      ],
+      "descriptions": [
+        "60ft infinity pool & lakefront luxury in Ahangama. Rates drop until booked. Reserve now.",
+        "Why pay rack rate? Lock exclusive last-minute villa dates via WhatsApp in 60 seconds."
+      ]
+    }
+  },
+  "whatsapp_broadcast": {
+    "trigger_now": true,
+    "template_message": "🚨 *KoLake Villa Reverse Auction — Weekend Slot Just Opened!*\nPrivate 7-Room Lakefront Villa · 60ft Infinity Pool · Full Staff & In-House Cooks.\n\n📉 *Current Live Rate: $420 / night* (Standard $850)\n⏱️ _Price drops $30 every 2 hours until claimed._\n\n👉 *Tap to freeze this rate now:* https://wa.me/94711730345?text=LOCK%20WEEKEND%20AUCTION"
+  }
+}

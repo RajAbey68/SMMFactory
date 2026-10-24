@@ -26,6 +26,18 @@
         "ADSPYDER_TRACKED_DOMAINS": "kolakevilla.com",
         "ADSPYDER_NETWORKS": "google,meta,youtube,tiktok"
       }
+    },
+    "windsor": {
+      "serverUrl": "https://mcp.windsor.ai/",
+      "headers": {
+        "Authorization": "Bearer ${WINDSOR_API_KEY}",
+        "Content-Type": "application/json",
+        "Accept": "application/json, text/event-stream"
+      }
+    },
+    "warp-tools": {
+      "command": "warp",
+      "args": ["open"]
     }
   }
 }

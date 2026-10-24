@@ -42,15 +42,31 @@
   ],
   "pricing": {
     "currency": "USD",
-    "note": "Per-room and entire-villa rates available"
+    "entire_villa_baseline": "$350 - $450/night (Low/Mid) / $550 - $750+/night (Peak Oct-Dec)",
+    "rooms_baseline": "$75 - $110/night (Low/Mid) / $100 - $160/night (Peak Oct-Dec)",
+    "direct_booking_discount": "15-30% vs Airbnb/Booking.com",
+    "midweek_discount": "10% off Mon-Thu stays"
   },
+  "target_keywords": [
+    "kolake villa",
+    "kolake villa ahangama",
+    "ko lake villa",
+    "ko lake villa ahangama",
+    "villa ahangama",
+    "villa kabalana",
+    "surf stay ahangama",
+    "kabalana surf stay",
+    "villa galle",
+    "large family holiday ahangama",
+    "digital nomad ahangama"
+  ],
   "hooks": [
-    "Luxury group villa Sri Lanka",
-    "Easter villa rentals",
+    "Villa Ahangama flash booking",
+    "Group villa Ahangama buyout",
+    "Private luxury estate Sri Lanka",
     "Large family holiday Ahangama",
-    "Yoga retreat venue Sri Lanka",
-    "Surf stay Ahangama",
-    "Digital nomad Koggala"
+    "Surf stay Ahangama 350y to beach",
+    "Digital nomad lakefront retreat"
   ],
   "competitor_insights": [],
   "performance_data": {

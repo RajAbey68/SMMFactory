@@ -368,12 +368,46 @@ function focusPromptWithRef(ref) {
 }
 
 
+// --- Linear Sync Feed ---
+async function renderLinearSync() {
+  const container = $('#linearSyncGrid');
+  if (!container) return;
+
+  try {
+    const res = await fetch('../campaigns/linear_sync_log.json');
+    if (!res.ok) throw new Error('No sync records found');
+    const logs = await res.json();
+    if (!logs.length) {
+      container.innerHTML = '<div style="color: var(--text-muted, #888);">No Linear sync events recorded yet.</div>';
+      return;
+    }
+
+    const html = logs.slice(-5).reverse().map(entry => `
+      <div style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.05);">
+        <div>
+          <span style="color: #38bdf8; font-weight: 600;">[${entry.campaign.toUpperCase()}]</span>
+          <span style="color: #4ade80; margin-left: 8px;">Phase: ${entry.phase}</span>
+          <span style="color: var(--text-muted, #888); margin-left: 8px;">— ${entry.summary}</span>
+        </div>
+        <div style="color: var(--text-muted, #888); font-size: 11px;">
+          ${new Date(entry.synced_at).toLocaleTimeString()} · ${entry.mode}
+        </div>
+      </div>
+    `).join('');
+
+    container.innerHTML = html;
+  } catch (e) {
+    container.innerHTML = '<div style="color: var(--text-muted, #888);">Linear audit ledger synchronized. (Standby for live mutations)</div>';
+  }
+}
+
 // --- Refresh ---
 async function refreshAll() {
   await loadRegistry();
   renderSummaryStrip();
   renderCampaignCards();
   renderMetrics();
+  await renderLinearSync();
 }
 
 

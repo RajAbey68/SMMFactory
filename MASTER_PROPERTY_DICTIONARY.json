@@ -1,0 +1,54 @@
+{
+  "property_identity": {
+    "official_name": "Ko Lake Villa",
+    "property_type": "Lakeside Villa",
+    "prohibited_terms": ["estate", "resort", "hotel"],
+    "tagline": "Experience the tranquility of lakeside living",
+    "website": "https://www.kolakevilla.com",
+    "display_url": "www.kolakevilla.com"
+  },
+  "room_inventory": {
+    "total_ac_ensuite_bedrooms": 7,
+    "room_breakdown": {
+      "family_suites": {
+        "count": 2,
+        "capacity_per_suite": "5-6 guests",
+        "description": "Large multi-guest suites with air conditioning and private en-suite bathrooms."
+      },
+      "triple_rooms": {
+        "capacity": "3 guests",
+        "description": "Spacious AC en-suite rooms with triple bed layout."
+      },
+      "double_rooms": {
+        "capacity": "2 guests",
+        "description": "Comfortable AC en-suite rooms with plush double bed layout."
+      }
+    }
+  },
+  "pricing_axioms": {
+    "full_villa_7bed_starting_rate_usd": 250,
+    "full_villa_extended_stay_discounts": "Tiered discounts available for longer stays",
+    "last_minute_room_starting_rate_usd": 45,
+    "last_minute_room_policy": "Call to check availability"
+  },
+  "qualification_rules": {
+    "in_country_language_rule": {
+      "allowed_languages": ["English", "Spanish", "Portuguese", "Arabic", "Hebrew", "French", "German", "Russian", "Italian", "Mandarin", "Cantonese", "Malay"],
+      "excluded_languages": ["Sinhala", "Tamil"],
+      "purpose": "Blocks local non-bookers, tuk drivers, and laborers while allowing bona fide non-English HNW guests from Israel, Gulf States, Europe, Latin America, Spain, Portugal, and SE Asia (Singapore, HK, Malaysia)."
+    },
+    "origin_market_language_rule": "Allow native languages (Arabic in Gulf, Hebrew in Israel, French/German/English in EU) paired with Top 10% Household Income and Luxury Travel behavior.",
+    "plain_english_copy_rule": "Use clear, warm, plain English for all consumer-facing copy (e.g. 'Rent Entire 7-Bedroom Villa'). Exceptions are accepted industry terms for retreats, surfing, yoga, wellness, corporate offsites, and DMC incentive travel (e.g. 'Exclusive Villa Buyout', 'Yoga Deck', 'Team Workation', 'DMC Incentive').",
+    "corporate_dmc_targets": [
+      "Corporate Offsites & Team Retreats (Sales, Executive, Partner, Client)",
+      "Incentive Travel DMCs (Destination Management Companies) & Corporate Rewards Agencies",
+      "Yoga, Wellness, Tai-Chi & Creative Retreat Facilitators (Arts, Acting, Public Speaking, Photography, Writing)",
+      "Surf Groups & Basecamps",
+      "Family Reunions, Weddings & Milestone Celebrations (Anniversaries, Birthdays, Gatherings)"
+    ],
+    "hardware_gate": "Mandatory Apple iOS or Flagship Android (Samsung S-series/Pixel). Exclude budget Android handsets.",
+    "lead_gate": "Higher Intent Meta Instant Form or Bot Gate requiring travel dates and group size selection before WhatsApp opens.",
+    "placements": "Exclude Meta Audience Network to prevent accidental clicks in mobile games."
+  },
+  "canonical_call_to_action": "For more information about our unique accommodations and to explore the amenities of Ko Lake Villa, please visit our website at www.kolakevilla.com. Book your stay today and experience the tranquility of lakeside living!"
+}

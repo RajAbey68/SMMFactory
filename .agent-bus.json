@@ -1,0 +1,59 @@
+{
+  "version": 1,
+  "project": "SMMFactory",
+  "channel": "#marketing-kolake",
+  "channel_id": "kl-mkt-8821",
+  "relay": "wss://theahg.communities.buzz.xyz",
+  "scope": "kolake-villa-growth",
+  "updated_at": 1788039450,
+  "dashboard_url": "https://kolake-analytics.vercel.app",
+  "target_domain": "KoLakeVilla.com",
+  "tools": {
+    "aider": {
+      "installed": true,
+      "path": "/opt/homebrew/bin/aider",
+      "version": "0.86.2",
+      "global_config": "~/.aider.conf.yml",
+      "per_repo_config_required": false,
+      "usage": "Run from repo root. Non-interactive: --yes --no-auto-commits",
+      "docs": "https://aider.chat/docs/usage/watch.html"
+    }
+  },
+  "channels": {
+    "marketing_kolake": {
+      "name": "#marketing-kolake",
+      "id": "kl-mkt-8821",
+      "scope": "kolake-villa-growth",
+      "target_domain": "KoLakeVilla.com",
+      "dashboard_url": "https://kolake-analytics.vercel.app",
+      "sources": ["meta-ads", "google-analytics-4", "n8n-klauc"]
+    },
+    "smmfactory": {
+      "name": "#smmfactory",
+      "id": "1f213b26",
+      "scope": "global-sdlc"
+    },
+    "linear_events": {
+      "name": "#linear-events",
+      "id": "lin-evt-9901",
+      "scope": "cross-agent-pm"
+    }
+  },
+  "roles": {
+    "kolake_villa_bot": "KoLakeVillaBot",
+    "marketing_bot": "KoLakeVillaBot",
+    "analytics_surveillance_bot": "KoLakeVillaBot (Meta + GA4)",
+    "telegram_bot": "KoLakeVillaBot (@KoLakeVillaBot)",
+    "orchestrator_bot": "Antigravity",
+    "conversion_optimizer_bot": "Claude",
+    "ad_delivery_bot": "Windsor.ai",
+    "guest_chat_bot": "Twilio (WhatsApp)",
+    "workflow_bot": "n8n (Hermes-Dev)",
+    "linear_bridge": "BuzzBar (Hermes-Dev :7070)"
+  },
+  "governance": {
+    "four_eyes_required": true,
+    "price_floor_enforced": true,
+    "lowest_permissible_rate": 180
+  }
+}

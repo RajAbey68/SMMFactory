@@ -1,0 +1,34 @@
+{
+  "project_id": "PRJ-COLEY-GRILLER",
+  "name": "Ko Lake Villa Awareness & Outbound Multi-Channel Engine",
+  "domain": "KoLakeVilla.com",
+  "channels": {
+    "twitter": {
+      "handle": "@KoLakeVilla",
+      "status": "AWAITING_ACCOUNT_CREATION",
+      "focus": "Visual threads, sunset pool showcases, luxury wellness retreat buyouts, South Coast Sri Lanka getaway hooks"
+    },
+    "meta_ads": {
+      "status": "ACTIVE_INFRASTRUCTURE",
+      "focus": "Reverse auction flash engine ($180 floor), South Coast weekend escapes"
+    },
+    "google_ads": {
+      "status": "CONFIGURED_IN_WINDSOR",
+      "focus": "High-intent search capture (private pool villa buyout galle)"
+    },
+    "twilio_whatsapp": {
+      "status": "CONFIGURED_IN_N8N",
+      "focus": "Instant booking rate lock codes & guest itinerary concierge"
+    },
+    "windsor_ai": {
+      "status": "WIRED_KEY_ACTIVE",
+      "focus": "Unified blended ROAS and multi-touch cross-channel attribution"
+    }
+  },
+  "guardrails": {
+    "price_floor_villa_usd": 180,
+    "price_floor_room_usd": 45,
+    "max_cpc_threshold_usd": 0.35,
+    "min_ctr_threshold_percent": 1.8
+  }
+}

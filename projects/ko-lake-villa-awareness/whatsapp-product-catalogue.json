@@ -1,0 +1,47 @@
+{
+  "business_name": "Ko Lake Villa",
+  "website": "https://www.kolakevilla.com",
+  "catalog_items": [
+    {
+      "id": "KLV-VILLA-7BED",
+      "title": "Entire 7-Bedroom Lakeside Villa Buyout",
+      "price_usd": 250,
+      "price_label": "Starts at $250 / night (discounts for longer stays)",
+      "description": "Exclusive private buyout of Ko Lake Villa. Features all 7 AC en-suite bedrooms (including 2 family suites sleeping 5-6, triple rooms, and double rooms), private lakeside pool, and full villa amenities.",
+      "cta_url": "https://www.kolakevilla.com"
+    },
+    {
+      "id": "KLV-SUITE-FAM",
+      "title": "Large Family Suite (Sleeps 5 to 6)",
+      "price_usd": 95,
+      "price_label": "$95 / night",
+      "description": "Spacious family suite featuring air conditioning, private en-suite bathroom, and comfortable sleeping arrangements for 5 to 6 guests.",
+      "cta_url": "https://www.kolakevilla.com"
+    },
+    {
+      "id": "KLV-ROOM-TRIPLE",
+      "title": "Triple AC En-Suite Room (Sleeps 3)",
+      "price_usd": 65,
+      "price_label": "$65 / night",
+      "description": "Comfortable lakeside accommodation with triple bed setup, individual air conditioning, and private en-suite bathroom.",
+      "cta_url": "https://www.kolakevilla.com"
+    },
+    {
+      "id": "KLV-ROOM-DOUBLE",
+      "title": "Double AC En-Suite Room (Sleeps 2)",
+      "price_usd": 55,
+      "price_label": "$55 / night",
+      "description": "Relaxing AC en-suite room for couples and solo travelers with tranquil garden and lake breezes.",
+      "cta_url": "https://www.kolakevilla.com"
+    },
+    {
+      "id": "KLV-LAST-MINUTE",
+      "title": "Last-Minute Room Special",
+      "price_usd": 45,
+      "price_label": "From $45 / night (Call to check)",
+      "description": "Exclusive last-minute individual room rate. Call or message us directly to check today's live availability.",
+      "cta_url": "https://www.kolakevilla.com"
+    }
+  ],
+  "standard_closing": "For more information about our unique accommodations and to explore the amenities of Ko Lake Villa, please visit our website at www.kolakevilla.com. Book your stay today and experience the tranquility of lakeside living!"
+}

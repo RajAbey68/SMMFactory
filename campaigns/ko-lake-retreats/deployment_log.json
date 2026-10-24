@@ -1,0 +1,56 @@
+{
+  "campaign": "ko-lake-retreats",
+  "timestamp": "2026-09-04T09:43:10.077Z",
+  "dry_run": true,
+  "manifest_digest": "1ae69230a517091e6e7b7801f930befe7d087f4a0df18927624f8c49cc0b7c03",
+  "channels_deployed": {
+    "meta": {
+      "status": "DRY_RUN_VALIDATED",
+      "adapter_execution": {
+        "client_mode": "SIMULATED_CONTRACT",
+        "campaign_id": "meta_camp_1788514990078",
+        "adset_id": "meta_adset_1788514990078",
+        "ad_id": "meta_ad_1788514990078"
+      },
+      "ads_count": 4,
+      "timestamp": "2026-09-04T09:43:10.078Z"
+    },
+    "google": {
+      "status": "DRY_RUN_VALIDATED",
+      "adapter_execution": {
+        "client_mode": "SIMULATED_CONTRACT"
+      },
+      "ads_count": 4,
+      "timestamp": "2026-09-04T09:43:10.079Z"
+    },
+    "chatgpt": {
+      "status": "DRY_RUN_VALIDATED",
+      "adapter_execution": {
+        "note": "Direct fallback simulated"
+      },
+      "ads_count": 4,
+      "timestamp": "2026-09-04T09:43:10.080Z"
+    }
+  },
+  "buzz_event": {
+    "channel": "#marketing-kolake",
+    "relay": "wss://theahg.communities.buzz.xyz",
+    "event_type": "CAMPAIGN_DEPLOYED",
+    "campaign": "ko-lake-retreats",
+    "status": "SIMULATED"
+  },
+  "linear_sync": {
+    "id": "lin_sync_1788514990134",
+    "campaign": "ko-lake-retreats",
+    "phase": "launch",
+    "team": "SMM",
+    "status": "COMPLETED",
+    "summary": "Successfully deployed campaign ko-lake-retreats across meta, google, chatgpt. Four-Eyes sign-off verified.",
+    "artifacts": [
+      "/Users/rajabey/code/SMMFactory/campaigns/ko-lake-retreats/creative/ad_variants.json",
+      "/Users/rajabey/code/SMMFactory/campaigns/ko-lake-retreats/deployment_log.json"
+    ],
+    "synced_at": "2026-09-04T09:43:10.134Z",
+    "mode": "LOCAL_AUDIT_LOG"
+  }
+}
